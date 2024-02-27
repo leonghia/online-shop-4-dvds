@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './users/user.entity';
-import { ProductsModule } from './products/products.module';
-import { Product } from './products/product.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
-    UsersModule,
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRoot({
       type: "postgres",
@@ -19,10 +15,10 @@ import { Product } from './products/product.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Product],
+      entities: [],
       synchronize: true, // auto migration
     }),
-    ProductsModule
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
