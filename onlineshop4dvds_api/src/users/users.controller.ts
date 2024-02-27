@@ -5,11 +5,11 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
 
-    constructor(private usersService: UsersService) {}
+    public constructor(private usersService: UsersService) {}
 
     @UseInterceptors(SerializeInterceptor)
     @Get("/:id")
-    async get(@Param("id") id: string) {
+    public async get(@Param("id") id: string) {
         
     }
 }

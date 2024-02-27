@@ -5,6 +5,11 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity';
+import { UsersController } from './users/users.controller';
+import { AuthController } from './auth/auth.controller';
+import { UsersService } from './users/users.service';
+import { AuthService } from './auth/auth.service';
 
 @Module({
   imports: [
@@ -16,13 +21,13 @@ import { UsersModule } from './users/users.module';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [],
+      entities: [User],
       synchronize: true, // auto migration
     }),
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, UsersController, AuthController],
+  providers: [AppService, UsersService, AuthService],
 })
 export class AppModule {}

@@ -14,9 +14,6 @@ export class User {
     @Column()
     passwordHash: string;
 
-    @Column()
-    passwordSalt: string;
-
     @Column("boolean", {default: false})
     isEmailActive: boolean = false;
 

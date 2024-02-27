@@ -7,7 +7,6 @@ import { UserGetDto } from "../users/dtos/user-get.dto";
 export class SerializeInterceptor implements NestInterceptor {
 
     intercept(context: ExecutionContext, next: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
-        
         return next.handle().pipe(
             map((data: any) => {
                 // Run something before the response is sent out
