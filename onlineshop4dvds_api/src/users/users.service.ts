@@ -13,6 +13,6 @@ export class UsersService {
     }
 
     public findByEmail(email: string): Promise<User | null> {
-        return this.userRepository.findOneBy({email});
+        return this.userRepository.findOneBy({normalizedEmail: email.toUpperCase()});
     }
 }

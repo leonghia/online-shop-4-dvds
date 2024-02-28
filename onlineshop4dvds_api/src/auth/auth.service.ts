@@ -18,15 +18,18 @@ export class AuthService {
         const userToCreate = new User();
         userToCreate.email = userRegisterDto.email;
         userToCreate.fullName = userRegisterDto.fullName;
+        userToCreate.normalizedEmail = userRegisterDto.email.toUpperCase();
         userToCreate.passwordHash = hash;
         const userCreated = await this.usersService.create(userToCreate);
         // Return the newly created user
         return userCreated;
     }
 
-    public async validateUser(email: string, password: string): Promise<boolean> {
-        const hash = (await this.usersService.findByEmail(email))?.passwordHash;
-        return hash && await bcrypt.compare(password, hash);
+    public async validate(email: string, password: string): Promise<User | null> {
+        const user = await this.usersService.findByEmail(email);
+        if (user && await bcrypt.compare(password, user.passwordHash))
+            return user;
+        return null;
     }
 
     public login() {

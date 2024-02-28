@@ -10,6 +10,9 @@ export class User {
 
     @Column()
     email: string;
+
+    @Column()
+    normalizedEmail: string;
     
     @Column()
     passwordHash: string;
