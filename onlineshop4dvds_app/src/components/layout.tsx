@@ -10,10 +10,7 @@ export default function Layout({ children }: PropsWithChildren) {
             enableSystem
             disableTransitionOnChange
         >
-            <div className="p-10">
-                <div className="flex justify-end">
-                    <ModeToggle />
-                </div>
+            <div className="p-8 min-h-screen flex flex-col justify-center">
                 <main>{children}</main>
             </div>
         </ThemeProvider>
