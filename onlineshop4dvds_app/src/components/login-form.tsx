@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "./ui/checkbox";
+import { LockKeyhole, Mail } from "lucide-react";
 
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
 const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
@@ -51,10 +52,14 @@ export default function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input placeholder="nguyenvana@gmail.com" {...field} />
-                            </FormControl>
-
+                            <div className="relative">
+                                <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                    <Mail className="w-4 h-4" />
+                                </div>
+                                <FormControl>
+                                    <Input className="pe-0 ps-10" placeholder="nguyenvana@gmail.com" {...field} />
+                                </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -65,10 +70,14 @@ export default function LoginForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Mật khẩu</FormLabel>
-                            <FormControl>
-                                <Input placeholder="*******" {...field} />
-                            </FormControl>
-
+                            <div className="relative">
+                                <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                    <LockKeyhole className="w-4 h-4" />
+                                </div>
+                                <FormControl>
+                                    <Input className="pe-0 ps-10" type="password" placeholder="*******" {...field} />
+                                </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -88,7 +97,7 @@ export default function LoginForm() {
                             <div className="space-y-1 leading-none">
                                 <FormLabel>
                                     Lưu thông tin
-                                </FormLabel>                            
+                                </FormLabel>
                             </div>
                         </FormItem>
                     )}

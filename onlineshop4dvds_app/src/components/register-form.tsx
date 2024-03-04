@@ -14,6 +14,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { User, Mail, LockKeyhole } from 'lucide-react';
 
 const fullNameErrorMessage = "Họ tên phải chứa từ 3 - 64 kí tự";
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
@@ -21,7 +22,7 @@ const emailErrorMessage = "Vui lòng nhập đúng định dạng email"
 
 const formSchema = z.object({
     fullName: z.string().min(3, { message: fullNameErrorMessage }).max(64, { message: fullNameErrorMessage }),
-    email: z.string().email({message: emailErrorMessage}),
+    email: z.string().email({ message: emailErrorMessage }),
     password: z.string().min(6, { message: passwordErrorMessage }).max(64, { message: passwordErrorMessage })
 });
 
@@ -50,10 +51,14 @@ export default function RegisterForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Họ tên</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Nguyễn Văn A" {...field} />
-                            </FormControl>
-
+                            <div className="relative">
+                                <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                    <User className="w-4 h-4" />
+                                </div>
+                                <FormControl>
+                                    <Input className="pe-0 ps-10" placeholder="Nguyễn Văn A" {...field} />
+                                </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -64,10 +69,14 @@ export default function RegisterForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Email</FormLabel>
-                            <FormControl>
-                                <Input placeholder="nguyenvana@gmail.com" {...field} />
-                            </FormControl>
-
+                            <div className="relative">
+                                <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                    <Mail className="w-4 h-4" />
+                                </div>
+                                <FormControl>
+                                    <Input className="pe-0 ps-10" placeholder="nguyenvana@gmail.com" {...field} />
+                                </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
@@ -78,10 +87,14 @@ export default function RegisterForm() {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Mật khẩu</FormLabel>
-                            <FormControl>
-                                <Input placeholder="*******" {...field} />
-                            </FormControl>
-
+                            <div className="relative">
+                                <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
+                                    <LockKeyhole className="w-4 h-4" />
+                                </div>
+                                <FormControl>
+                                    <Input className="pe-0 ps-10" type="password" placeholder="*******" {...field} />
+                                </FormControl>
+                            </div>
                             <FormMessage />
                         </FormItem>
                     )}
