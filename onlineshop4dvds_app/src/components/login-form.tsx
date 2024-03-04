@@ -15,22 +15,19 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-const fullNameErrorMessage = "Họ tên phải chứa từ 3 - 64 kí tự";
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
-const emailErrorMessage = "Vui lòng nhập đúng định dạng email"
+const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
 
 const formSchema = z.object({
-    fullName: z.string().min(3, { message: fullNameErrorMessage }).max(64, { message: fullNameErrorMessage }),
     email: z.string().email({message: emailErrorMessage}),
     password: z.string().min(6, { message: passwordErrorMessage }).max(64, { message: passwordErrorMessage })
 });
 
-export default function RegisterForm() {
+export default function LoginForm() {
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fullName: "",
             email: "",
             password: "",
         },
@@ -43,21 +40,7 @@ export default function RegisterForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Họ tên</FormLabel>
-                            <FormControl>
-                                <Input placeholder="Nguyễn Văn A" {...field} />
-                            </FormControl>
-
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">               
                 <FormField
                     control={form.control}
                     name="email"
@@ -86,9 +69,8 @@ export default function RegisterForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="w-full">Đăng kí</Button>
+                <Button type="submit" className="w-full">Đăng nhập</Button>
             </form>
         </Form>
     );
 }
-
