@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ThemeProvider } from "./theme-provider";
 import ModeToggle from "./mode-toggle";
 
-export default function AuthLayout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <ThemeProvider
             attribute="class"

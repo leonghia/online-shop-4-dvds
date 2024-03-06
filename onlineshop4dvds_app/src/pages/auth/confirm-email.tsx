@@ -1,28 +1,33 @@
 import { API_URL } from "@/config";
-import { useSearchParams } from "next/navigation";
 import ConfirmEmailPayload from "../../models/confirm-email-payload";
-import AuthLayout from "@/components/auth-layout";
+import Layout from "@/components/layout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Check } from "lucide-react";
+import { GetServerSidePropsContext } from "next";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ConfirmEmail({ status }: { status: boolean }) {
     // Render data
     if (status) {
         return (
-            <AuthLayout>
-                <Alert className="w-full max-w-md">
+            <Layout>
+                <Alert className="w-full max-w-md space-y-2">
                     <Check className="h-4 w-4" />
-                    <AlertTitle>Xác nhận thành công!</AlertTitle>
-                    <AlertDescription>
-                        Bạn đã xác nhận email thành công. Bây giờ bạn có thể bắt đầu đăng nhập vào OnlineShop4DVDS.
+                    <AlertTitle>Xác nhận email thành công!</AlertTitle>
+                    <AlertDescription className="space-y-4">
+                        <p>Bây giờ bạn có thể bắt đầu đăng nhập vào OnlineShop4DVDS.</p>
+                        <div className="flex justify-end">
+                            <Link href="/auth/login"><Button>Đăng nhập</Button></Link>
+                        </div>
                     </AlertDescription>
                 </Alert>
-            </AuthLayout>
+            </Layout>
         );
     }
 
     return (
-        <AuthLayout>
+        <Layout>
             <Alert variant="destructive" className="w-full max-w-md">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Lỗi</AlertTitle>
@@ -30,19 +35,18 @@ export default function ConfirmEmail({ status }: { status: boolean }) {
                     Rất tiếc. Link xác nhận này đã không còn khả dụng.
                 </AlertDescription>
             </Alert>
-        </AuthLayout>
+        </Layout>
     );
 }
 
 // This gets called on every request
-export async function getServerSideProps() {
+export async function getServerSideProps(context: GetServerSidePropsContext) {
     let status: boolean;
 
-    // Fetch data from external API
-    const searchParams = useSearchParams();
-    const email = searchParams.get("email");
-    const token = searchParams.get("token");
+    const email = context.query.email as string;
+    const token = context.query.token as string;
 
+    // Fetch data from external API
     if (!email || !token) {
         return { props: { status: false } };
     }
@@ -51,7 +55,7 @@ export async function getServerSideProps() {
 
     try {
         const res = await fetch(`${API_URL}/auth/confirm-email`, {
-            method: "POST",
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -60,9 +64,9 @@ export async function getServerSideProps() {
 
         if (!res.ok) {
             status = false;
+        } else {
+            status = true;
         }
-
-        status = true;
 
     } catch (err) {
         status = false;

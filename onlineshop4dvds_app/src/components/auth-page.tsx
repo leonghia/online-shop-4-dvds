@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { AuthForm, AuthFormType } from "./auth-form";
-import AuthLayout from "./auth-layout";
+import Layout from "./layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
@@ -38,11 +38,11 @@ export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Fu
     }
 
     return (
-        <AuthLayout>
+        <Layout>
             <Card className="w-full max-w-md">
                 {header}
                 {form}       
             </Card>
-        </AuthLayout>
+        </Layout>
     );
 }

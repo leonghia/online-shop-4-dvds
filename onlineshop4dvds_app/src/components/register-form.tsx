@@ -70,7 +70,10 @@ export default function RegisterForm({onDone}: {onDone: Function}) {
             onDone();
             
         } catch (err: any) {
-            setErrors(problemDetails?.message.map(m => `• ${m}`) || [`• ${serverErrorMessage}`]);
+            if (problemDetails?.message)
+                setErrors(problemDetails.message.map(m => `• ${m}`));
+            else 
+                setErrors([`• ${serverErrorMessage}`]);
         } finally {
             setIsLoading(false);
         }

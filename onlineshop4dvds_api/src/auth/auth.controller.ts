@@ -1,4 +1,4 @@
-import { BadRequestException, Body, ConflictException, Controller, HttpCode, NotFoundException, Post, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, ConflictException, Controller, HttpCode, NotFoundException, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthService } from './auth.service';
 import { UserRegisterDto } from '../users/dtos/user-register.dto';
@@ -48,21 +48,30 @@ export class AuthController {
     public async login(@Request() req) {
         return await this.authService.login(req.user);
     }
-
-    @HttpCode(200)
-    @Post("confirm-email")
+    
+    @Put("confirm-email")
     public async confirmEmail(@Body() confirmEmail: ConfirmEmail) {
-        if (!confirmEmail || !confirmEmail.email || !confirmEmail.emailToken)
+
+        console.log(confirmEmail);
+
+        if (!confirmEmail || !confirmEmail.email || !confirmEmail.token)
             throw new BadRequestException();
 
         const user = await this.usersService.findByEmail(confirmEmail.email);
+
+        console.log(user);
+
         if (!user)
             throw new NotFoundException();
 
-        if (user.emailToken !== confirmEmail.emailToken)
+        console.log(user);
+
+        if (user.emailToken !== confirmEmail.token)
             throw new ConflictException();
 
-        this.usersService.update(user.id, {
+        console.log(user);
+
+        await this.usersService.update(user.id, {
             emailToken: null,
             isEmailActive: true
         });
