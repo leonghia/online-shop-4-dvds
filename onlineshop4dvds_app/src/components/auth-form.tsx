@@ -10,14 +10,14 @@ export enum AuthFormType {
     Register
 }
 
-export function AuthForm({ type }: { type: AuthFormType }) {
+export function AuthForm({ type, onDone }: { type: AuthFormType, onDone: Function }) {
     let form: ReactNode;
     switch (type) {
         case AuthFormType.Login:
-            form = <LoginForm></LoginForm>;
+            form = <LoginForm onDone={onDone}></LoginForm>;
             break;
         case AuthFormType.Register:
-            form = <RegisterForm></RegisterForm>;
+            form = <RegisterForm onDone={onDone}></RegisterForm>;
             break;
         default:
             throw new Error("Invalid form type");

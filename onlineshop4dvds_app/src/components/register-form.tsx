@@ -1,9 +1,9 @@
 "use client"
 
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { User, Mail, LockKeyhole } from 'lucide-react';
+import { ProblemDetails } from "@/models/problem-details";
+import { API_URL, serverErrorMessage } from "@/config";
+import AlertDestructive from "./alert-destructive";
+import { Loader2 } from "lucide-react";
 
 const fullNameErrorMessage = "Họ tên phải chứa từ 3 - 64 kí tự";
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
@@ -26,7 +30,10 @@ const formSchema = z.object({
     password: z.string().min(6, { message: passwordErrorMessage }).max(64, { message: passwordErrorMessage })
 });
 
-export default function RegisterForm() {
+export default function RegisterForm({onDone}: {onDone: Function}) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errors, setErrors] = useState<string[] | null>(null);
+
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -38,12 +45,40 @@ export default function RegisterForm() {
     });
 
     // 2. Define a submit handler
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true);
+        setErrors(null);
+
+        let problemDetails;
+
+        try {
+            const res = await fetch(`${API_URL}/auth/register`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(values)
+            });
+
+        
+            if (!res.ok) {
+                problemDetails = await res.json() as ProblemDetails;
+                setErrors(problemDetails?.message.map(m => `• ${m}`) || [`• ${serverErrorMessage}`]);
+                return;
+            }
+
+            onDone();
+            
+        } catch (err: any) {
+            setErrors(problemDetails?.message.map(m => `• ${m}`) || [`• ${serverErrorMessage}`]);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
         <Form {...form}>
+            {errors && <AlertDestructive title="Error" description={errors} /> }
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <FormField
                     control={form.control}
@@ -99,7 +134,10 @@ export default function RegisterForm() {
                         </FormItem>
                     )}
                 />
-                <Button type="submit" className="w-full">Đăng kí</Button>
+                <Button disabled={isLoading} type="submit" className="w-full">
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Đăng kí
+                </Button>
             </form>
         </Form>
     );

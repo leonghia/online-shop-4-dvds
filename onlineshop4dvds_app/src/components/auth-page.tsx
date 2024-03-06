@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-export default function AuthPage({type}: {type: AuthFormType}) {
+export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Function}) {
     
     let header: ReactNode;
     let form: ReactNode;
@@ -19,7 +19,7 @@ export default function AuthPage({type}: {type: AuthFormType}) {
                 </CardHeader>);
             form = (
                 <CardContent>
-                    <AuthForm type={AuthFormType.Register} />
+                    <AuthForm type={AuthFormType.Register} onDone={onDone} />
                 </CardContent>);
             break;
         case AuthFormType.Login:
@@ -30,7 +30,7 @@ export default function AuthPage({type}: {type: AuthFormType}) {
                 </CardHeader>);
             form = (
                 <CardContent>
-                    <AuthForm type={AuthFormType.Login} />
+                    <AuthForm type={AuthFormType.Login} onDone={onDone} />
                 </CardContent>);
             break;
         default:

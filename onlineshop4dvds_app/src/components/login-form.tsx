@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "./ui/checkbox";
 import { LockKeyhole, Mail } from "lucide-react";
+import Link from "next/link";
 
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
 const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
@@ -27,7 +28,7 @@ const formSchema = z.object({
     remember: z.boolean().default(false).optional(),
 });
 
-export default function LoginForm() {
+export default function LoginForm({onDone}: {onDone: Function}) {
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -83,25 +84,38 @@ export default function LoginForm() {
                     )}
                 />
 
-                <FormField
-                    control={form.control}
-                    name="remember"
-                    render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 pl-1">
-                            <FormControl>
-                                <Checkbox
-                                    checked={field.value}
-                                    onCheckedChange={field.onChange}
-                                />
-                            </FormControl>
-                            <div className="space-y-1 leading-none">
-                                <FormLabel>
-                                    Lưu thông tin
-                                </FormLabel>
-                            </div>
-                        </FormItem>
-                    )}
-                />
+                <div className="flex justify-between">
+                    <FormField
+                        control={form.control}
+                        name="remember"
+                        render={({ field }) => (
+                            <FormItem>
+                                <div className="flex items-start space-x-3 space-y-0 pl-1">
+                                    <FormControl>
+                                        <Checkbox
+                                            checked={field.value}
+                                            onCheckedChange={field.onChange}
+                                        />
+                                    </FormControl>
+                                    <div className="space-y-1 leading-none">
+                                        <FormLabel>
+                                            Lưu thông tin
+                                        </FormLabel>
+                                    </div>
+                                </div>
+                                
+                            </FormItem>
+                        )}
+                    />
+
+                    <div className="flex items-start">
+                        <Link href="/auth/forget-password">
+                            <Button variant="link" className="p-0 w-auto h-auto">Quên mật khẩu?</Button>
+                        </Link>
+                    </div>
+                </div>
+
+                
 
                 <Button type="submit" className="w-full">Đăng nhập</Button>
             </form>
