@@ -15,4 +15,8 @@ export class UsersService {
     public findByEmail(email: string): Promise<User | null> {
         return this.userRepository.findOneBy({normalizedEmail: email.toUpperCase()});
     }
+
+    public async update (id: number, options: {}): Promise<void> {
+        await this.userRepository.update(id, options);
+    }
 }
