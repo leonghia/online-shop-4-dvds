@@ -12,10 +12,18 @@ export class CategoriesService {
         return await this.categoryRepository.save(categoryToCreate);
     }
 
-    public async findRange(): Promise<Category[]> {
-        return await this.categoryRepository.find({
-            take: 10,
-        });
+    public async findRange({type}: {type: number}): Promise<Category[]> {
+        if (type)
+            return await this.categoryRepository.find({
+                take: 10,
+                where: {
+                    type
+                },
+            });
+        else
+            return await this.categoryRepository.find({
+                take: 10,
+            });
     }
 
     public async findById(id: number): Promise<Category | null> {

@@ -15,7 +15,7 @@ export default function Sidebar({ className }: { className: string }) {
             <Link href="/dashboard/categories">
               <Button variant="secondary" className="w-full justify-start">
                 <Shapes className="w-4 h-4 mr-2" />
-                Danh mục
+                Thể loại
               </Button>
             </Link>
             <Button variant="ghost" className="w-full justify-start">

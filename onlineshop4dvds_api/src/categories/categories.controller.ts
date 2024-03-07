@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Put, Query } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CategoryCreateDto } from './dtos/category-create.dto';
 import { Category } from './category.entity';
@@ -11,8 +11,8 @@ export class CategoriesController {
     public constructor(private categoriesService: CategoriesService) {}
 
     @Get()
-    public async getRange() {
-        const categories = await this.categoriesService.findRange();
+    public async getRange(@Query("type") type: number) {
+        const categories = await this.categoriesService.findRange({type});
         const categoriesToReturn = categories.map(c => {
             const categoryToReturn = new CategoryGetDto();
             categoryToReturn.id = c.id;
