@@ -1,8 +1,25 @@
 import MusicCategoriesTable from "./music-categories-table";
-import { Button } from "./ui/button";
-import { PlusCircle } from "lucide-react";
+
+import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
+import { Category } from "@/models/category";
+import { API_URL } from "@/config";
+import AddMusicCategoryDialog from "./add-music-category-dialog";
+
 
 export default function MusicCategories() {
+    const [musicCategories, setMusicCategories] = useState<Category[] | null>(null);
+    const [flip, setFlip] = useState(false);
+
+    const handleDataChange = () => {
+        setFlip(!flip);
+    }
+
+    useEffect(() => {
+        fetch(`${API_URL}/categories?type=0`)
+            .then(res => res.json())
+            .then((data: Category[]) => setMusicCategories(data))
+            .catch(err => console.error(err));
+    }, [flip]);
 
     return (
         <div>
@@ -16,13 +33,10 @@ export default function MusicCategories() {
                     </p>
                 </div>
                 <div className="ml-auto mr-4">
-                    <Button>
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Thêm thể loại
-                    </Button>
+                    <AddMusicCategoryDialog onAddSuccessfully={handleDataChange} />
                 </div>
             </div>
-            <MusicCategoriesTable />
+            <MusicCategoriesTable musicCategories={musicCategories} onDeleteSuccessfully={handleDataChange} onEditSuccessfully={handleDataChange} />
         </div>
     );
 }

@@ -8,21 +8,27 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { Pencil, Trash2 } from "lucide-react";
-import { useState, useEffect } from "react";
 import { Category } from "@/models/category";
 import { API_URL } from "@/config";
+import EditMusicCategoryDialog from "./edit-music-category-dialog";
 
-export default function MusicCategoriesTable() {
-    const [musicCategories, setMusicCategories] = useState<Category[] | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+export default function MusicCategoriesTable({musicCategories, onDeleteSuccessfully, onEditSuccessfully}: {musicCategories: Category[] | null, onDeleteSuccessfully: Function, onEditSuccessfully: Function}) {
+    
+    const handleDelete = async (id: number) => {
+        try {
+          const res = await fetch(`${API_URL}/categories/${id}`, {
+            method: "DELETE"
+          });
 
-    useEffect(() => {
-        fetch(`${API_URL}/categories?type=0`)
-            .then(res => res.json())
-            .then((data: Category[]) => setMusicCategories(data))
-            .catch(err => console.error(err))
-            .finally(() => setIsLoading(false));
-    }, []);
+          if (!res.ok) {
+            // Display error message
+          } else {
+            onDeleteSuccessfully();
+          }
+        } catch (err) {
+            console.error(err);
+        } 
+    } 
 
     return (
         <Table>
@@ -44,10 +50,10 @@ export default function MusicCategoriesTable() {
                             <TableCell>2</TableCell>
                             <TableCell>1</TableCell>
                             <TableCell>
-                                <Button variant="outline" size="icon" title="Sửa"><Pencil className="w-4 h-4" /></Button>
+                                <EditMusicCategoryDialog onEditSuccessfully={onEditSuccessfully} id={c.id} currentName={c.name} />
                             </TableCell>
                             <TableCell>
-                                <Button variant="outline" size="icon" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
+                                <Button onClick={() => handleDelete(c.id)} variant="outline" size="icon" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
                             </TableCell>
                         </TableRow>)
                 })}
