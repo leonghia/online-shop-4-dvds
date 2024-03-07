@@ -19,7 +19,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
             const problemDetails = new ProblemDetails();
             problemDetails.error = "Unauthorized";
             problemDetails.statusCode = 401;
-            problemDetails.message = ["Invalid email or password"];
+            problemDetails.message = ["Email hoặc mật khẩu không chính xác"];
             throw new UnauthorizedException(problemDetails);
         }
 

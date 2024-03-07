@@ -52,24 +52,16 @@ export class AuthController {
     @Put("confirm-email")
     public async confirmEmail(@Body() confirmEmail: ConfirmEmail) {
 
-        console.log(confirmEmail);
-
         if (!confirmEmail || !confirmEmail.email || !confirmEmail.token)
             throw new BadRequestException();
 
         const user = await this.usersService.findByEmail(confirmEmail.email);
 
-        console.log(user);
-
         if (!user)
             throw new NotFoundException();
 
-        console.log(user);
-
         if (user.emailToken !== confirmEmail.token)
             throw new ConflictException();
-
-        console.log(user);
 
         await this.usersService.update(user.id, {
             emailToken: null,

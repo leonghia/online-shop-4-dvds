@@ -3,12 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -16,8 +14,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "./ui/checkbox";
-import { LockKeyhole, Mail } from "lucide-react";
+import { Loader2, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { ProblemDetails } from "@/models/problem-details";
+import { useRouter } from "next/router";
+import { API_URL, serverErrorMessage } from "@/config";
+import AlertDestructive from "./alert-destructive";
 
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
 const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
@@ -29,6 +32,10 @@ const formSchema = z.object({
 });
 
 export default function LoginForm({onDone}: {onDone: Function}) {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [errorMessage, setErrorMesage] = useState<string[] | null>(null);
+    const router = useRouter();
+
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -40,12 +47,38 @@ export default function LoginForm({onDone}: {onDone: Function}) {
     });
 
     // 2. Define a submit handler
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true);
+        setErrorMesage(null);
+
+        try {
+            const res = await fetch(`${API_URL}/auth/login`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({email: values.email, password: values.password}),
+            });
+
+            if (!res.ok) {
+                const problemDetails = await res.json() as ProblemDetails;
+                setErrorMesage(problemDetails.message);
+            } else {
+                const data = await res.json();
+                if (values.remember) localStorage.setItem("accessToken", data.accessToken);
+                else sessionStorage.setItem("accessToken", data.accessToken);
+                console.log("dang nhap thanh cong");
+            }
+        } catch (err) {
+            setErrorMesage([serverErrorMessage]);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
         <Form {...form}>
+            {errorMessage && <AlertDestructive title="Lỗi" description={errorMessage}></AlertDestructive>}
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
                 <FormField
                     control={form.control}
@@ -117,7 +150,10 @@ export default function LoginForm({onDone}: {onDone: Function}) {
 
                 
 
-                <Button type="submit" className="w-full">Đăng nhập</Button>
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Đăng nhập
+                </Button>
             </form>
         </Form>
     );
