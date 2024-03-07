@@ -21,6 +21,9 @@ import { ProblemDetails } from "@/models/problem-details";
 import { useRouter } from "next/router";
 import { API_URL, serverErrorMessage } from "@/config";
 import AlertDestructive from "./alert-destructive";
+import { saveToken } from "@/utils/token";
+import { jwtDecode } from "jwt-decode";
+import { JwtPayload } from "@/models/jwt-payload";
 
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
 const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
@@ -31,7 +34,7 @@ const formSchema = z.object({
     remember: z.boolean().default(false).optional(),
 });
 
-export default function LoginForm({onDone}: {onDone: Function}) {
+export default function LoginForm() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMesage] = useState<string[] | null>(null);
     const router = useRouter();
@@ -65,9 +68,11 @@ export default function LoginForm({onDone}: {onDone: Function}) {
                 setErrorMesage(problemDetails.message);
             } else {
                 const data = await res.json();
-                if (values.remember) localStorage.setItem("accessToken", data.accessToken);
-                else sessionStorage.setItem("accessToken", data.accessToken);
-                console.log("dang nhap thanh cong");
+                const accessToken = data.accessToken;
+                saveToken(accessToken, values.remember || false);
+                const payload = jwtDecode(accessToken) as JwtPayload;
+                if (payload.roles.includes("Admin")) router.push("/dashboard");
+                else router.push("/");
             }
         } catch (err) {
             setErrorMesage([serverErrorMessage]);

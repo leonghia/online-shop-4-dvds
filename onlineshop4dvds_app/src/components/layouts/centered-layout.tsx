@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
-import { ThemeProvider } from "./theme-provider";
-import ModeToggle from "./mode-toggle";
+import { ThemeProvider } from "../theme-provider";
+import ModeToggle from "../mode-toggle";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function CenteredLayout({ children }: { children: ReactNode }) {
     return (
         <ThemeProvider
             attribute="class"

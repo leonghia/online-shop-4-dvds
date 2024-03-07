@@ -10,11 +10,11 @@ export enum AuthFormType {
     Register
 }
 
-export function AuthForm({ type, onDone }: { type: AuthFormType, onDone: Function }) {
+export function AuthForm({ type, onDone }: { type: AuthFormType, onDone: Function | null }) {
     let form: ReactNode;
     switch (type) {
         case AuthFormType.Login:
-            form = <LoginForm onDone={onDone}></LoginForm>;
+            form = <LoginForm></LoginForm>;
             break;
         case AuthFormType.Register:
             form = <RegisterForm onDone={onDone}></RegisterForm>;

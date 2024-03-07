@@ -1,11 +1,10 @@
 import { ReactNode } from "react";
 import { AuthForm, AuthFormType } from "./auth-form";
-import Layout from "./layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import Link from "next/link";
 
-export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Function}) {
+export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Function | null}) {
     
     let header: ReactNode;
     let form: ReactNode;
@@ -38,11 +37,11 @@ export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Fu
     }
 
     return (
-        <Layout>
+        
             <Card className="w-full max-w-md">
                 {header}
                 {form}       
             </Card>
-        </Layout>
+        
     );
 }
