@@ -6,9 +6,10 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
-  imports: [UsersModule, PassportModule, JwtModule.register({
+  imports: [UsersModule, MailModule, PassportModule, JwtModule.register({
     secret: "SECRET",
     signOptions: { expiresIn: "86400s" }
   })],

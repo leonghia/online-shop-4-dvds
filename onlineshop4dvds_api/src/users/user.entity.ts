@@ -20,6 +20,9 @@ export class User {
     @Column("boolean", {default: false})
     isEmailActive: boolean = false;
 
+    @Column({nullable: true})
+    emailToken: string;
+
     @Column("boolean", {default: false})
     isAdmin: boolean = false;
 }

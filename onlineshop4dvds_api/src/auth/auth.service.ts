@@ -4,8 +4,8 @@ import { UserRegisterDto } from 'src/users/dtos/user-register.dto';
 import * as bcrypt from "bcrypt";
 import { User } from '../users/user.entity';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoginDto } from '../users/dtos/user-login.dto';
 import { JwtPayload } from 'src/models/jwt-payload.model';
+import {randomBytes} from "crypto";
 
 @Injectable()
 export class AuthService {
@@ -22,6 +22,7 @@ export class AuthService {
         userToCreate.email = userRegisterDto.email;
         userToCreate.fullName = userRegisterDto.fullName;
         userToCreate.normalizedEmail = userRegisterDto.email.toUpperCase();
+        userToCreate.emailToken = randomBytes(64).toString("hex");
         userToCreate.passwordHash = hash;
         const userCreated = await this.usersService.create(userToCreate);
         // Return the newly created user

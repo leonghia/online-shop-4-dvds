@@ -16,7 +16,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         const user = await this.authService.validate(username, password);
 
         if (!user) {
-            const problemDetails = new ProblemDetails(401, [{name: "credentials", reason: "Invalid email or password."}]);
+            const problemDetails = new ProblemDetails();
+            problemDetails.error = "Unauthorized";
+            problemDetails.statusCode = 401;
+            problemDetails.message = ["Email hoặc mật khẩu không chính xác"];
             throw new UnauthorizedException(problemDetails);
         }
 

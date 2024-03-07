@@ -8,11 +8,15 @@ export class UsersService {
 
     public constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
 
-    public create(userToCreate: User): Promise<User> {
-        return this.userRepository.save(userToCreate);
+    public async create(userToCreate: User): Promise<User> {
+        return await this.userRepository.save(userToCreate);
     }
 
-    public findByEmail(email: string): Promise<User | null> {
-        return this.userRepository.findOneBy({normalizedEmail: email.toUpperCase()});
+    public async findByEmail(email: string): Promise<User | null> {
+        return await this.userRepository.findOneBy({normalizedEmail: email.toUpperCase()});
+    }
+
+    public async update (id: number, options: {}): Promise<void> {
+        await this.userRepository.update(id, options);
     }
 }
