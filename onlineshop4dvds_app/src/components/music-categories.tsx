@@ -1,19 +1,12 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+import MusicCategoriesTable from "./music-categories-table";
 import { Button } from "./ui/button";
-import { PlusCircle, Pencil, Trash2 } from "lucide-react";
+import { PlusCircle } from "lucide-react";
 
 export default function MusicCategories() {
+
     return (
         <div>
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center mb-10">
                 <div className="space-y-3">
                     <h2 className="text-2xl font-semibold tracking-tight">
                         Thể loại âm nhạc
@@ -29,32 +22,7 @@ export default function MusicCategories() {
                     </Button>
                 </div>
             </div>
-            <Table className="mt-10">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead className="w-[100px]">ID</TableHead>
-                        <TableHead>Thể loại</TableHead>
-                        <TableHead>Số lượng bài hát</TableHead>
-                        <TableHead>Số lượng albums</TableHead>
-                        <TableHead colSpan={2}></TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow>
-                        <TableCell className="font-medium">1</TableCell>
-                        <TableCell>Pop</TableCell>
-                        <TableCell>2</TableCell>
-                        <TableCell>1</TableCell>
-                        <TableCell>
-                            <Button variant="outline" size="icon" title="Sửa"><Pencil className="w-4 h-4" /></Button>
-                        </TableCell>
-                        <TableCell>
-                            <Button variant="outline" size="icon" title="Xóa"><Trash2 className="w-4 h-4" /></Button>
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
-
+            <MusicCategoriesTable />
         </div>
     );
 }
