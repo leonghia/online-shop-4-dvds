@@ -22,7 +22,7 @@ export class ArtistsController {
             artistToReturn.id = a.id;
             artistToReturn.nationality = a.nationality;
             return artistToReturn;
-        });
+        })
 
         return artistsToReturn;
     }
