@@ -13,6 +13,7 @@ export class AlbumCreateDto {
     @IsNumber(undefined, {each: true})
     genres: number[];
 
-    @IsNumber(undefined, {each: true})
-    artists: number[];
+    @IsNumber()
+    @Min(1)
+    artistId: number;
 }

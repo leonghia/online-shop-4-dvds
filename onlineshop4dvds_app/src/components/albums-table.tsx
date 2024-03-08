@@ -18,7 +18,7 @@ export default function AlbumsTable({albums, onDelete}: {albums: Album[] | null,
                     <TableHead className="w-[100px]">No.</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Released</TableHead>
-                    <TableHead>Artist(s)</TableHead>
+                    <TableHead>Artist</TableHead>
                     <TableHead>Genre(s)</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
@@ -30,7 +30,7 @@ export default function AlbumsTable({albums, onDelete}: {albums: Album[] | null,
                             <TableCell className="font-medium">{i + 1}</TableCell>
                             <TableCell>{album.title}</TableCell>
                             <TableCell>{new Date(album.released).toLocaleDateString("vi-VN")}</TableCell>
-                            <TableCell>{album.artists.join(", ")}</TableCell>
+                            <TableCell>{album.artist}</TableCell>
                             <TableCell>{album.genres.join(", ")}</TableCell>
                             <TableCell>
                                 

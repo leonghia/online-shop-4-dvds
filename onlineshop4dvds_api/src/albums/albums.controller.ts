@@ -15,7 +15,7 @@ export class AlbumsController {
         const albums = await this.albumsService.findRange();
         const albumsToReturn = albums.map(album => {
             const albumToReturn = new AlbumGetDto();
-            albumToReturn.artists = album.artists.map(artist => artist.fullName);
+            albumToReturn.artist = album.artist.fullName;
             albumToReturn.genres = album.genres.map(genre => genre.name);
             albumToReturn.id = album.id;
             albumToReturn.released = album.released;
@@ -30,7 +30,7 @@ export class AlbumsController {
         const album = await this.albumsService.findById(id);
         if (!album) throw new NotFoundException();
         const albumToReturn = new AlbumGetDto();
-        albumToReturn.artists = album.artists.map(artist => artist.fullName);
+        albumToReturn.artist = album.artist.fullName;
         albumToReturn.genres = album.genres.map(genre => genre.name);
         albumToReturn.id = album.id;
         albumToReturn.released = album.released;
@@ -42,12 +42,12 @@ export class AlbumsController {
     public async create(@Body() albumCreateDto: AlbumCreateDto) {
         const albumToCreate = new Album();
         albumToCreate.genres = await this.categoriesService.findRange({type: undefined, ids: albumCreateDto.genres });
-        albumToCreate.artists = await this.artistsService.findRange({ids: albumCreateDto.artists});
+        albumToCreate.artist = await this.artistsService.findById(albumCreateDto.artistId, false);
         albumToCreate.released = albumCreateDto.released;
         albumToCreate.title = albumCreateDto.title;
         const albumCreated = await this.albumsService.create(albumToCreate);
         const albumToReturn = new AlbumGetDto();
-        albumToReturn.artists = albumCreated.artists.map(artist => artist.fullName);
+        albumToReturn.artist = albumCreated.artist.fullName;
         albumToReturn.genres = albumCreated.genres.map(genre => genre.name);
         albumToReturn.id = albumCreated.id;
         albumToReturn.released = albumCreated.released;

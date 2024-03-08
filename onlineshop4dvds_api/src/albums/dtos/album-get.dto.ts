@@ -3,5 +3,5 @@ export class AlbumGetDto {
     public title: string;
     public released: Date;
     public genres: string[];
-    public artists: string[];
+    public artist: string;
 }

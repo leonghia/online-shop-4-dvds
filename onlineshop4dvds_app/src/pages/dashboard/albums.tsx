@@ -1,3 +1,4 @@
+import AddAlbumDialog from "@/components/add-album-dialog";
 import AlbumsTable from "@/components/albums-table";
 import AdminLayout from "@/components/layouts/admin-layout";
 import { API_URL } from "@/config";
@@ -38,7 +39,7 @@ export default function Albums() {
                         </p>
                     </div>
                     <div className="ml-auto mr-4">
-                        
+                        <AddAlbumDialog />
                     </div>
                 </div>
                 <AlbumsTable onDelete={handleDelete} albums={albums} />

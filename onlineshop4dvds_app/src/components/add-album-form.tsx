@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button"
+import { Button } from "./ui/button";
 import {
     Form,
     FormControl,
@@ -12,31 +12,43 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { useEffect, useState } from "react";
+import { Genre } from "@/models/genre";
+import { API_URL } from "@/config";
+import { GenreType } from "@/utils/genre-type";
+import { Artist } from "@/models/artist";
+import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { Checkbox } from "./ui/checkbox";
+import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
 import { Calendar } from "./ui/calendar";
-import { ArtistCreate } from "@/models/artist";
-import { Checkbox } from "./ui/checkbox";
-import { Genre } from "@/models/genre";
-import { useEffect, useState } from "react";
-import { API_URL } from "@/config";
-import { GenreType } from "@/utils/genre-type";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
 
 const formSchema = z.object({
-    fullName: z.string().min(1).max(64),
-    nationality: z.string().min(1).max(64),
-    dob: z.date({
-        required_error: "A date of birth is required",
-    }),
+    title: z.string().min(1).max(64),
+    released: z.date({ required_error: "A released date is required" }),
     genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
+    artistId: z.number({ required_error: "Please select an artist" }),
 });
 
-export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+
+
+export default function AddAlbumForm() {
     const [genres, setGenres] = useState<Genre[] | null>(null);
+    const [artists, setArtists] = useState<Artist[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+
+    const temp: Artist[] = [
+        {
+            id: 1,
+            fullName: "Tyalor",
+            dob: "1989",
+            nationality: "US",
+            genres: ["pop"]
+        }
+    ];
 
     useEffect(() => {
         fetch(`${API_URL}/categories?type=${GenreType.Music}`)
@@ -45,36 +57,25 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
             .catch(err => console.error(err));
     }, []);
 
+    useEffect(() => {
+        fetch(`${API_URL}/artists`)
+            .then(res => res.json())
+            .then((data: Artist[]) => setArtists(data))
+            .catch(err => console.error(err));
+    }, []);
+
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fullName: "",
-            nationality: ""
-        },
+            title: "",
+        }
     });
 
     // 2. Define a submit handler
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        setIsLoading(true);
-        const artistCreate = new ArtistCreate(values.fullName, values.dob.toISOString(), values.nationality, values.genres);
-        fetch(`${API_URL}/artists`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(artistCreate),
-        })
-        .then(res => {
-            if (!res.ok) {
-
-            } else {
-                onAddSuccessfully();
-            }
-        })
-        .catch(err => console.error(err))
-        .finally(() => setIsLoading(false));
-    }
+        console.log(values);
+    };
 
     // 3. Build your form
     return (
@@ -82,10 +83,10 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                 <FormField
                     control={form.control}
-                    name="fullName"
+                    name="title"
                     render={({ field }) => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Full name</FormLabel>
+                            <FormLabel className="text-right">Title</FormLabel>
                             <div className="col-span-3 space-y-2">
                                 <FormControl>
                                     <Input {...field} />
@@ -97,10 +98,70 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                 />
                 <FormField
                     control={form.control}
-                    name="dob"
+                    name="artistId"
                     render={({ field }) => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Date of birth</FormLabel>
+                            <FormLabel className="text-right">Artist</FormLabel>
+                            <div className="col-span-3 space-y-2">
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant="outline"
+                                                role="combobox"
+                                                className={cn(
+                                                    "w-full justify-between",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {field.value
+                                                    ? artists?.find(
+                                                        (artist) => artist.id === field.value
+                                                    )?.fullName
+                                                    : "Select an artist"}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Search artist name..." />
+                                            <CommandEmpty>No artist found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {artists?.map((artist) => (
+                                                <CommandItem
+                                                    value={artist.fullName}
+                                                    key={artist.id}
+                                                    onSelect={() => {
+                                                        form.setValue("artistId", artist.id)
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            artist.id === field.value
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {artist.fullName}
+                                                </CommandItem>
+                                            ))}
+                                            </CommandGroup>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </div>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="released"
+                    render={({ field }) => (
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                            <FormLabel className="text-right">Released</FormLabel>
                             <div className="col-span-3 space-y-2">
                                 <Popover>
                                     <PopoverTrigger asChild>
@@ -141,21 +202,6 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                 />
                 <FormField
                     control={form.control}
-                    name="nationality"
-                    render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Nationality</FormLabel>
-                            <div className="col-span-3 space-y-2">
-                                <FormControl>
-                                    <Input {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </div>
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
                     name="genres"
                     render={() => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
@@ -170,12 +216,12 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                                             return (
                                                 <FormItem
                                                     key={genre.id}
-                                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                                    className="flex flex-row items-start space-x-2 space-y-0"
                                                 >
                                                     <FormControl>
                                                         <Checkbox
                                                             checked={field.value?.includes(genre.id)}
-                                                            onCheckedChange={(checked) => {                                                           
+                                                            onCheckedChange={(checked) => {
                                                                 return checked
                                                                     ? field.onChange([...field.value || [], genre.id])
                                                                     : field.onChange(

@@ -10,14 +10,14 @@ export class AlbumsService {
     public async findRange(): Promise<Album[]> {
         return await this.albumRepository.find({
             take: 10,
-            relations: {genres: true, artists: true}
+            relations: {genres: true, artist: true}
         });
     }
 
     public async findById(id: number): Promise<Album | null> {
         return await this.albumRepository.findOne({
             where: {id},
-            relations: {genres: true, artists: true}
+            relations: {genres: true, artist: true}
         });
     }
 
