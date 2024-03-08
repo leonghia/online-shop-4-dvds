@@ -1,6 +1,5 @@
 import MusicCategoriesTable from "./music-categories-table";
-
-import { useState, useEffect, MouseEvent, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import { Category } from "@/models/category";
 import { API_URL } from "@/config";
 import AddMusicCategoryDialog from "./add-music-category-dialog";

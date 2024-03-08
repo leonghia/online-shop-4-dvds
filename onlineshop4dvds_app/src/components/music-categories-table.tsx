@@ -7,7 +7,7 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { Category } from "@/models/category";
 import { API_URL } from "@/config";
 import EditMusicCategoryDialog from "./edit-music-category-dialog";
