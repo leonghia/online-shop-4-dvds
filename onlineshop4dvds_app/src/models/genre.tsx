@@ -1,9 +1,9 @@
-export interface Category {
+export interface Genre {
     id: number;
     name: string;
 }
 
-export class CategoryCreate {
+export class GenreCreate {
     public type: number;
     public name: string;
 
@@ -13,7 +13,7 @@ export class CategoryCreate {
     }
 }
 
-export class CategoryUpdate {
+export class GenreUpdate {
     public name: string;
 
     public constructor(name: string) {

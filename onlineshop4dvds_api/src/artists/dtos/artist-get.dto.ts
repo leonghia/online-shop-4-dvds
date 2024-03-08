@@ -3,5 +3,5 @@ export class ArtistGetDto {
     fullName: string;
     dob: Date;
     nationality: string;
-    categories: string[];
+    genres: string[];
 }

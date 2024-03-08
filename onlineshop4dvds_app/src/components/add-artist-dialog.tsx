@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import AddArtistForm from "./add-artist-form";
 
-export default function AddArtistDialog() {
+export default function AddArtistDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     
 
     return (
@@ -25,7 +25,7 @@ export default function AddArtistDialog() {
                     <DialogTitle>Add artist</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <AddArtistForm />
+                    <AddArtistForm onAddSuccessfully={onAddSuccessfully} />
                 </div>
             </DialogContent>
         </Dialog>

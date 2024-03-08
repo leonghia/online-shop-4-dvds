@@ -12,60 +12,60 @@ export default function Sidebar({ className }: { className: string }) {
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
           <h2 className="mb-2 px-4 text-md font-bold tracking-tight">
-            Quản lý
+            Manage
           </h2>
           <div className="space-y-1">
             <Link href="/dashboard/categories">
               <Button variant={pathname === "/dashboard/categories" ? "secondary" : "ghost"} className="w-full justify-start">
                 <Shapes className="w-4 h-4 mr-2" />
-                Thể loại
+                Genres
               </Button>
             </Link>
             <Link href="/dashboard/artists">
               <Button variant={pathname === "/dashboard/artists" ? "secondary" : "ghost"} className="w-full justify-start">
                 <User className="w-4 h-4 mr-2" />
-                Nghệ sĩ
+                Artists
               </Button>
             </Link>
             <Button variant="ghost" className="w-full justify-start">
               <Disc3 className="w-4 h-4 mr-2" />
-              Album
+              Albums
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Music2 className="w-4 h-4 mr-2" />
-              Bài hát
+              Songs
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Film className="w-4 h-4 mr-2" />
-              Phim ảnh
+              Movies
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Gamepad2 className="w-4 h-4 mr-2" />
-              Trò chơi
+              Games
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Users className="w-4 h-4 mr-2" />
-              Người dùng
+              Users
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Mail className="w-4 h-4 mr-2" />
-              Thư góp ý
+              Feedbacks
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Factory className="w-4 h-4 mr-2" />
-              Nhà cung cấp
+              Suppliers
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <FileText className="w-4 h-4 mr-2" />
-              Đơn hàng
+              Orders
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <BarChart className="w-4 h-4 mr-2" />
-              Báo cáo
+              Reports
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Newspaper className="w-4 h-4 mr-2" />
-              Tin tức
+              News
             </Button>
             <Button variant="ghost" className="w-full justify-start">
               <Star className="w-4 h-4 mr-2" />

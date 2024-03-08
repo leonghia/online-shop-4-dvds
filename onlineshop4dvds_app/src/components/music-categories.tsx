@@ -1,13 +1,13 @@
 import MusicCategoriesTable from "./music-categories-table";
 import { useState, useEffect } from "react";
-import { Category } from "@/models/category";
+import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import AddMusicCategoryDialog from "./add-music-category-dialog";
-import { CategoryType } from "@/utils/category-type";
+import { GenreType } from "@/utils/genre-type";
 
 
 export default function MusicCategories() {
-    const [musicCategories, setMusicCategories] = useState<Category[] | null>(null);
+    const [musicCategories, setMusicCategories] = useState<Genre[] | null>(null);
     const [flip, setFlip] = useState(false);
 
     const handleDataChange = () => {
@@ -15,9 +15,9 @@ export default function MusicCategories() {
     }
 
     useEffect(() => {
-        fetch(`${API_URL}/categories?type=${CategoryType.Music}`)
+        fetch(`${API_URL}/categories?type=${GenreType.Music}`)
             .then(res => res.json())
-            .then((data: Category[]) => setMusicCategories(data))
+            .then((data: Genre[]) => setMusicCategories(data))
             .catch(err => console.error(err));
     }, [flip]);
 
@@ -26,10 +26,10 @@ export default function MusicCategories() {
             <div className="flex justify-between items-center mb-10">
                 <div className="space-y-3">
                     <h2 className="text-2xl font-semibold tracking-tight">
-                        Thể loại âm nhạc
+                        Manage music genres
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                        Thêm sửa xóa các thể loại bài hát và album.
+                        Create, edit or delete music categories in your website.
                     </p>
                 </div>
                 <div className="ml-auto mr-4">

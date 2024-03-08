@@ -14,5 +14,5 @@ export class ArtistCreateDto {
     nationality: string;
 
     @IsNumber(undefined, {each: true})
-    categories: number[];
+    genres: number[];
 }

@@ -16,7 +16,7 @@ export class ArtistsController {
         const artists = await this.artistsService.findRange();
         const artistsToReturn = artists.map(a => {
             const artistToReturn = new ArtistGetDto();
-            artistToReturn.categories = a.categories.map(c => c.name);
+            artistToReturn.genres = a.categories.map(c => c.name);
             artistToReturn.dob = a.dob;
             artistToReturn.fullName = a.fullName;
             artistToReturn.id = a.id;
@@ -32,7 +32,7 @@ export class ArtistsController {
         const artist = await this.artistsService.findById(id, true);
         if (!artist) throw new NotFoundException();
         const artistToReturn = new ArtistGetDto();
-        artistToReturn.categories = artist.categories.map(cat => cat.name);
+        artistToReturn.genres = artist.categories.map(cat => cat.name);
         artistToReturn.dob = artist.dob;
         artistToReturn.fullName = artist.fullName;
         artistToReturn.id = artist.id;
@@ -46,7 +46,7 @@ export class ArtistsController {
         artistToCreate.fullName = artistCreateDto.fullName;
         artistToCreate.dob = artistCreateDto.dob;
         artistToCreate.nationality = artistCreateDto.nationality;
-        artistToCreate.categories = await this.categoriesService.findRange({type: undefined, ids: artistCreateDto.categories});
+        artistToCreate.categories = await this.categoriesService.findRange({type: undefined, ids: artistCreateDto.genres});
         return await this.artistsService.create(artistToCreate);
     }
 

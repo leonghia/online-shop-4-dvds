@@ -1,7 +1,36 @@
 import AddArtistDialog from "@/components/add-artist-dialog";
+import ArtistsTable from "@/components/artists-table";
 import AdminLayout from "@/components/layouts/admin-layout";
+import { API_URL } from "@/config";
+import { Artist } from "@/models/artist";
+import { useEffect, useState } from "react";
 
 export default function Artists() {
+    const [artists, setArtists] = useState<Artist[] | null>(null);
+    const [flip, setFlip] = useState(false);
+
+    useEffect(() => {
+        fetch(`${API_URL}/artists`)
+            .then(res => res.json())
+            .then((data: Artist[]) => setArtists(data))
+            .catch(err => console.error(err));
+    }, [flip]);
+
+    const handleDateChange = () => setFlip(!flip);
+
+    const handleDelete = (artistId: number) => {
+        fetch(`${API_URL}/artists/${artistId}`, {
+            method: "DELETE",
+        })
+        .then(res => {
+            if (!res.ok) {
+                // show error message
+            } else {
+                handleDateChange();
+            }
+        });
+    }
+
     return (
         <AdminLayout>
             <div>
@@ -15,10 +44,10 @@ export default function Artists() {
                         </p>
                     </div>
                     <div className="ml-auto mr-4">
-                        <AddArtistDialog />
+                        <AddArtistDialog  onAddSuccessfully={handleDateChange} />
                     </div>
                 </div>
-                
+                <ArtistsTable onDelete={handleDelete} artists={artists} />
             </div>
         </AdminLayout>
     );

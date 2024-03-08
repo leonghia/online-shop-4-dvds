@@ -1,19 +1,19 @@
 import MoviesCategoriesTable from "./movies-categories-table";
 import { useState, useEffect } from "react";
-import { Category } from "@/models/category";
+import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
-import { CategoryType } from "@/utils/category-type";
+import { GenreType } from "@/utils/genre-type";
 import { Button } from "./ui/button";
 import { PlusCircle } from "lucide-react";
 import GamesCategoriesTable from "./games-categories-table";
 
 export default function GamesCategories() {
-    const [gamesCategories, setGamesCategories] = useState<Category[] | null>(null);
+    const [gamesCategories, setGamesCategories] = useState<Genre[] | null>(null);
 
     useEffect(() => {
-        fetch(`${API_URL}/categories?type=${CategoryType.Game}`)
+        fetch(`${API_URL}/categories?type=${GenreType.Game}`)
             .then(res => res.json())
-            .then((data: Category[]) => setGamesCategories(data))
+            .then((data: Genre[]) => setGamesCategories(data))
             .catch(err => console.error(err));
     }, []);
 
@@ -22,16 +22,16 @@ export default function GamesCategories() {
             <div className="flex justify-between items-center mb-10">
                 <div className="space-y-3">
                     <h2 className="text-2xl font-semibold tracking-tight">
-                        Thể loại trò chơi
+                        Manage games genres
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                        Thêm sửa xóa các thể loại trò chơi.
+                        Create, edit or delete games categories in your website.
                     </p>
                 </div>
                 <div className="ml-auto mr-4">
                     <Button>
                         <PlusCircle className="mr-2 h-4 w-4" />
-                        Thêm thể loại
+                        Add genre
                     </Button>
                 </div>
             </div>
