@@ -1,20 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Artist } from './artist.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class ArtistsService {
 
     public constructor(@InjectRepository(Artist) private artistRepository: Repository<Artist>) {}
 
-    public async findRange(): Promise<Artist[]> {
-        return await this.artistRepository.find({
-            take: 10,
-            relations: {
-                categories: true,
-            },
-        });
+    public async findRange({ids}: {ids?: number[]}): Promise<Artist[]> {
+        if (!ids)
+            return await this.artistRepository.find({
+                take: 10,
+                relations: {
+                    categories: true,
+                },
+            });
+        else
+            return await this.artistRepository.find({
+                where: {
+                    id: In(ids)
+                },
+            });
     }
 
     public async findById(id: number, includeRelations: boolean): Promise<Artist> {

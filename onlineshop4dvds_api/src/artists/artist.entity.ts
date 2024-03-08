@@ -1,3 +1,4 @@
+import { Album } from "../albums/album.entity";
 import { Category } from "../categories/category.entity";
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
 
@@ -18,4 +19,8 @@ export class Artist {
     @ManyToMany(() => Category)
     @JoinTable()
     categories: Category[];
+
+    @ManyToMany(() => Album, (album) => album.artists)
+    @JoinTable()
+    albums: Album[];
 }
