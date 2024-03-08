@@ -1,17 +1,17 @@
 import { API_URL } from "@/config";
 import ConfirmEmailPayload from "../../models/confirm-email-payload";
-import Layout from "@/components/layout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Check } from "lucide-react";
 import { GetServerSidePropsContext } from "next";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import CenteredLayout from "@/components/layouts/centered-layout";
 
 export default function ConfirmEmail({ status }: { status: boolean }) {
     // Render data
     if (status) {
         return (
-            <Layout>
+            <CenteredLayout>
                 <Alert className="w-full max-w-md space-y-2">
                     <Check className="h-4 w-4" />
                     <AlertTitle>Xác nhận email thành công!</AlertTitle>
@@ -22,12 +22,12 @@ export default function ConfirmEmail({ status }: { status: boolean }) {
                         </div>
                     </AlertDescription>
                 </Alert>
-            </Layout>
+            </CenteredLayout>
         );
     }
 
     return (
-        <Layout>
+        <CenteredLayout>
             <Alert variant="destructive" className="w-full max-w-md">
                 <AlertCircle className="h-4 w-4" />
                 <AlertTitle>Lỗi</AlertTitle>
@@ -35,7 +35,7 @@ export default function ConfirmEmail({ status }: { status: boolean }) {
                     Rất tiếc. Link xác nhận này đã không còn khả dụng.
                 </AlertDescription>
             </Alert>
-        </Layout>
+        </CenteredLayout>
     );
 }
 

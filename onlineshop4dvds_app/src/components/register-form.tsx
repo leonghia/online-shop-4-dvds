@@ -30,7 +30,7 @@ const formSchema = z.object({
     password: z.string().min(6, { message: passwordErrorMessage }).max(64, { message: passwordErrorMessage })
 });
 
-export default function RegisterForm({onDone}: {onDone: Function}) {
+export default function RegisterForm({onDone}: {onDone: Function | null}) {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errors, setErrors] = useState<string[] | null>(null);
 
@@ -67,7 +67,7 @@ export default function RegisterForm({onDone}: {onDone: Function}) {
                 return;
             }
 
-            onDone();
+            if (onDone) onDone();
             
         } catch (err: any) {
             if (problemDetails?.message)
