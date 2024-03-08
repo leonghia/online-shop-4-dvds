@@ -2,8 +2,11 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button";
 import { Shapes, User, Disc3, Music2, Film, Gamepad2, Users, Factory, Mail, FileText, BarChart, Newspaper, Star } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar({ className }: { className: string }) {
+  const pathname = usePathname();
+
   return (
     <div className={cn("pb-12", className)}>
       <div className="space-y-4 py-4">
@@ -13,15 +16,17 @@ export default function Sidebar({ className }: { className: string }) {
           </h2>
           <div className="space-y-1">
             <Link href="/dashboard/categories">
-              <Button variant="secondary" className="w-full justify-start">
+              <Button variant={pathname === "/dashboard/categories" ? "secondary" : "ghost"} className="w-full justify-start">
                 <Shapes className="w-4 h-4 mr-2" />
                 Thể loại
               </Button>
             </Link>
-            <Button variant="ghost" className="w-full justify-start">
-              <User className="w-4 h-4 mr-2" />
-              Nghệ sĩ
-            </Button>
+            <Link href="/dashboard/artists">
+              <Button variant={pathname === "/dashboard/artists" ? "secondary" : "ghost"} className="w-full justify-start">
+                <User className="w-4 h-4 mr-2" />
+                Nghệ sĩ
+              </Button>
+            </Link>
             <Button variant="ghost" className="w-full justify-start">
               <Disc3 className="w-4 h-4 mr-2" />
               Album
