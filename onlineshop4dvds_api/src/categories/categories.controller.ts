@@ -12,7 +12,7 @@ export class CategoriesController {
 
     @Get()
     public async getRange(@Query("type") type: number) {
-        const categories = await this.categoriesService.findRange({type});
+        const categories = await this.categoriesService.findRange({type, ids: undefined});
         const categoriesToReturn = categories.map(c => {
             const categoryToReturn = new CategoryGetDto();
             categoryToReturn.id = c.id;

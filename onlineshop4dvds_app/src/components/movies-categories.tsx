@@ -21,10 +21,10 @@ export default function MoviesCategories() {
             <div className="flex justify-between items-center mb-10">
                 <div className="space-y-3">
                     <h2 className="text-2xl font-semibold tracking-tight">
-                        Thể loại âm nhạc
+                        Thể loại phim ảnh
                     </h2>
                     <p className="text-sm text-muted-foreground">
-                        Thêm sửa xóa các thể loại bài hát và album.
+                        Thêm sửa xóa các thể loại bộ phim.
                     </p>
                 </div>
                 <div className="ml-auto mr-4">

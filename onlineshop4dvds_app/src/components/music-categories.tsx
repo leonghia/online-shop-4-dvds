@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Category } from "@/models/category";
 import { API_URL } from "@/config";
 import AddMusicCategoryDialog from "./add-music-category-dialog";
+import { CategoryType } from "@/utils/category-type";
 
 
 export default function MusicCategories() {
@@ -14,7 +15,7 @@ export default function MusicCategories() {
     }
 
     useEffect(() => {
-        fetch(`${API_URL}/categories?type=0`)
+        fetch(`${API_URL}/categories?type=${CategoryType.Music}`)
             .then(res => res.json())
             .then((data: Category[]) => setMusicCategories(data))
             .catch(err => console.error(err));

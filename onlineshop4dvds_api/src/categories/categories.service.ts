@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 @Injectable()
 export class CategoriesService {
@@ -12,13 +12,20 @@ export class CategoriesService {
         return await this.categoryRepository.save(categoryToCreate);
     }
 
-    public async findRange({type}: {type: number}): Promise<Category[]> {
+    public async findRange({type, ids}: {type: number, ids: number[]}): Promise<Category[]> {
         if (type)
             return await this.categoryRepository.find({
                 take: 10,
                 where: {
                     type
                 },
+            });
+        else if (ids)
+            return await this.categoryRepository.find({
+                take: 10,
+                where: {
+                    id: In(ids)
+                }
             });
         else
             return await this.categoryRepository.find({
