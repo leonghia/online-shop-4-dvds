@@ -8,16 +8,16 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { Pencil, Trash2 } from "lucide-react";
-import { Category } from "@/models/category";
+import { Genre } from "@/models/genre";
 
-export default function GamesCategoriesTable({ gamesCategories }: { gamesCategories: Category[] | null }) {
+export default function GamesCategoriesTable({ gamesCategories }: { gamesCategories: Genre[] | null }) {
     return (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-[100px]">STT</TableHead>
-                    <TableHead>Thể loại</TableHead>
-                    <TableHead>Số lượng trò chơi</TableHead>
+                    <TableHead className="w-[100px]">No.</TableHead>
+                    <TableHead>Genre</TableHead>
+                    <TableHead>Numbers of games</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>

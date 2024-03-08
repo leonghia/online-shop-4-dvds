@@ -12,7 +12,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { ChangeEvent, useState } from "react";
 import { API_URL } from "@/config";
-import { CategoryUpdate } from "@/models/category";
+import { GenreUpdate } from "@/models/genre";
 
 export default function EditMusicCategoryDialog({onEditSuccessfully, id, currentName}: {onEditSuccessfully: Function, id: number, currentName: string}) {
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function EditMusicCategoryDialog({onEditSuccessfully, id, current
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(new CategoryUpdate(name)),
+                body: JSON.stringify(new GenreUpdate(name)),
             });
 
             if (!res.ok) {

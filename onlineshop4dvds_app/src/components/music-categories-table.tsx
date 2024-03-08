@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import { Category } from "@/models/category";
+import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import EditMusicCategoryDialog from "./edit-music-category-dialog";
 
-export default function MusicCategoriesTable({musicCategories, onDeleteSuccessfully, onEditSuccessfully}: {musicCategories: Category[] | null, onDeleteSuccessfully: Function, onEditSuccessfully: Function}) {
+export default function MusicCategoriesTable({musicCategories, onDeleteSuccessfully, onEditSuccessfully}: {musicCategories: Genre[] | null, onDeleteSuccessfully: Function, onEditSuccessfully: Function}) {
     
     const handleDelete = async (id: number) => {
         try {
@@ -34,10 +34,10 @@ export default function MusicCategoriesTable({musicCategories, onDeleteSuccessfu
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-[100px]">STT</TableHead>
-                    <TableHead>Thể loại</TableHead>
-                    <TableHead>Số lượng bài hát</TableHead>
-                    <TableHead>Số lượng albums</TableHead>
+                    <TableHead className="w-[100px]">No.</TableHead>
+                    <TableHead>Genre</TableHead>
+                    <TableHead>Numbers of songs</TableHead>
+                    <TableHead>Numbers of albums</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>

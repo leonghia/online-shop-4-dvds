@@ -12,8 +12,8 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { ChangeEvent, useState } from "react";
 import { API_URL } from "@/config";
-import { CategoryCreate } from "@/models/category";
-import { CategoryType } from "@/utils/category-type";
+import { GenreCreate } from "@/models/genre";
+import { GenreType } from "@/utils/genre-type";
 
 export default function AddMusicCategoryDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     const [isLoading, setIsLoading] = useState(false);
@@ -31,7 +31,7 @@ export default function AddMusicCategoryDialog({onAddSuccessfully}: {onAddSucces
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(new CategoryCreate(CategoryType.Music, name)),
+                body: JSON.stringify(new GenreCreate(GenreType.Music, name)),
             });
 
             if (!res.ok) {
@@ -52,17 +52,17 @@ export default function AddMusicCategoryDialog({onAddSuccessfully}: {onAddSucces
             <DialogTrigger asChild>
                 <Button>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Thêm thể loại
+                    Add genre
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle>Thêm thể loại âm nhạc</DialogTitle>
+                    <DialogTitle>Add music genre</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Label htmlFor="name" className="text-right">
-                            Tên thể loại
+                            Name
                         </Label>
                         <Input
                             id="name"
@@ -75,7 +75,7 @@ export default function AddMusicCategoryDialog({onAddSuccessfully}: {onAddSucces
                 <DialogFooter>
                     <Button type="button" disabled={isLoading} onClick={handleSubmit}>
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                        Lưu
+                        Save changes
                     </Button>
                 </DialogFooter>
             </DialogContent>
