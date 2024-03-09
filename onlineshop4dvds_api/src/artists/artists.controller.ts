@@ -13,7 +13,7 @@ export class ArtistsController {
 
     @Get()
     public async getRange() {
-        const artists = await this.artistsService.findRange();
+        const artists = await this.artistsService.findRange({ids: undefined});
         const artistsToReturn = artists.map(a => {
             const artistToReturn = new ArtistGetDto();
             artistToReturn.genres = a.categories.map(c => c.name);

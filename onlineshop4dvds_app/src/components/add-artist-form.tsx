@@ -31,7 +31,7 @@ const formSchema = z.object({
     dob: z.date({
         required_error: "A date of birth is required",
     }),
-    genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least on genre", }),
+    genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
 });
 
 export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {

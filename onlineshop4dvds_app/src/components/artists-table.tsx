@@ -20,6 +20,7 @@ export default function ArtistsTable({artists, onDelete}: {artists: Artist[] | n
                     <TableHead>Full name</TableHead>
                     <TableHead>Date of birth</TableHead>
                     <TableHead>Nationality</TableHead>
+                    <TableHead>Genres</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>
@@ -31,6 +32,7 @@ export default function ArtistsTable({artists, onDelete}: {artists: Artist[] | n
                             <TableCell>{artist.fullName}</TableCell>
                             <TableCell>{new Date(artist.dob).toLocaleDateString("vi-VN")}</TableCell>
                             <TableCell>{artist.nationality}</TableCell>
+                            <TableCell>{artist.genres.join(", ")}</TableCell>
                             <TableCell>
                                 
                             </TableCell>

@@ -27,10 +27,12 @@ export default function Sidebar({ className }: { className: string }) {
                 Artists
               </Button>
             </Link>
-            <Button variant="ghost" className="w-full justify-start">
-              <Disc3 className="w-4 h-4 mr-2" />
-              Albums
-            </Button>
+            <Link href="/dashboard/albums">
+              <Button variant="ghost" className="w-full justify-start">
+                <Disc3 className="w-4 h-4 mr-2" />
+                Albums
+              </Button>
+            </Link>
             <Button variant="ghost" className="w-full justify-start">
               <Music2 className="w-4 h-4 mr-2" />
               Songs
@@ -73,7 +75,7 @@ export default function Sidebar({ className }: { className: string }) {
             </Button>
           </div>
         </div>
-        
+
       </div>
     </div>
   )

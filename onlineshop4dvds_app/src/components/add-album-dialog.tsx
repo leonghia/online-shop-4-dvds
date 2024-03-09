@@ -7,24 +7,23 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import AddArtistForm from "./add-artist-form";
+import AddAlbumForm from "./add-album-form";
 
-export default function AddArtistDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
-    
+export default function AddAlbumDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Add artist
+                    Add album
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Add artist</DialogTitle>
+                    <DialogTitle>Add album</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <AddArtistForm onAddSuccessfully={onAddSuccessfully} />
+                    <AddAlbumForm onAddSuccessfully={onAddSuccessfully} />
                 </div>
             </DialogContent>
         </Dialog>

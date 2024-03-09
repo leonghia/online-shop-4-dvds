@@ -1,5 +1,6 @@
+import { Album } from "../albums/album.entity";
 import { Category } from "../categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Artist {
@@ -18,4 +19,7 @@ export class Artist {
     @ManyToMany(() => Category)
     @JoinTable()
     categories: Category[];
+
+    @OneToMany(() => Album, (album) => album.artist, {onDelete: "CASCADE"})
+    albums: Album[];
 }

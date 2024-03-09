@@ -11,6 +11,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { Category } from './categories/category.entity';
 import { ArtistsModule } from './artists/artists.module';
 import { Artist } from './artists/artist.entity';
+import { AlbumsModule } from './albums/albums.module';
+import { Album } from './albums/album.entity';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { Artist } from './artists/artist.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist],
+      entities: [User, Category, Artist, Album],
       synchronize: true, // auto migration
     }),
     AuthModule,
@@ -30,6 +32,7 @@ import { Artist } from './artists/artist.entity';
     MailModule,
     CategoriesModule,
     ArtistsModule,
+    AlbumsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
