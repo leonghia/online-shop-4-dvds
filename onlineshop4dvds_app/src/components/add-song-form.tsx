@@ -1,9 +1,12 @@
-"use client"
-
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
+import { useState, useEffect } from "react";
+import { Genre } from "@/models/genre";
+import { Artist } from "@/models/artist";
+import { Album } from "@/models/album";
+import { API_URL } from "@/config";
+import { GenreType } from "@/utils/genre-type";
 import {
     Form,
     FormControl,
@@ -12,36 +15,33 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { useEffect, useState } from "react";
-import { Genre } from "@/models/genre";
-import { API_URL } from "@/config";
-import { GenreType } from "@/utils/genre-type";
-import { Artist } from "@/models/artist";
-import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
-import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { cn } from "@/lib/utils";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { Button } from "./ui/button";
+import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
-import { AlbumCreate } from "@/models/album";
+import { Checkbox } from "./ui/checkbox";
+import { cn } from "@/lib/utils";
+import { SongCreate } from "@/models/song";
 
 const formSchema = z.object({
     title: z.string().min(1).max(256),
-    released: z.date({ required_error: "A released date is required" }),
-    genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
-    artistId: z.number({ required_error: "Please select an artist" }),
+    artistId: z.number({required_error: "Please select an artist"}),
+    released: z.date({required_error: "A released date is required"}),
     minutes: z.coerce.number({required_error: "Please input minutes"}),
     seconds: z.coerce.number({required_error: "Please input seconds"}),
+    genresIds: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
+    albumId: z.number().optional()
 });
 
-
-
-export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+export default function AddSongForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [artists, setArtists] = useState<Artist[] | null>(null);
+    const [albums, setAlbums] = useState<Album[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [artistId, setArtistId] = useState<number | null>(null);
 
     useEffect(() => {
         fetch(`${API_URL}/categories?type=${GenreType.Music}`)
@@ -57,33 +57,40 @@ export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Fu
             .catch(err => console.error(err));
     }, []);
 
+    useEffect(() => {
+        if (!artistId)
+            return;
+        fetch(`${API_URL}/albums?artistId=${artistId}`)
+            .then(res => res.json())
+            .then((data: Album[]) => setAlbums(data))
+            .catch(err => console.error(err));
+    }, [artistId]);
+
     // 1. Define your form
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
+
         }
     });
 
     // 2. Define a submit handler
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         setIsLoading(true);
-        const albumCreate = new AlbumCreate(values.title, values.released.toISOString(), values.genres, values.artistId, values.minutes, values.seconds);
+        const songCreate = new SongCreate(values.title, values.artistId, values.released.toISOString(), values.minutes, values.seconds, values.genresIds, values.albumId || null);
         try {
-            const res = await fetch(`${API_URL}/albums`, {
+            const res = await fetch(`${API_URL}/songs`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(albumCreate),
+                body: JSON.stringify(songCreate)
             });
-            if (res.ok) {
-                onAddSuccessfully();
-            }
+            if (res.ok) onAddSuccessfully();
         } catch (err) {
             console.error(err);
         } finally {
             setIsLoading(false);
         }
-    };
+    }
 
     // 3. Build your form
     return (
@@ -141,7 +148,8 @@ export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Fu
                                                     value={artist.fullName}
                                                     key={artist.id}
                                                     onSelect={() => {
-                                                        form.setValue("artistId", artist.id)
+                                                        form.setValue("artistId", artist.id);
+                                                        setArtistId(artist.id);
                                                     }}
                                                 >
                                                     <Check
@@ -153,6 +161,67 @@ export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Fu
                                                         )}
                                                     />
                                                     {artist.fullName}
+                                                </CommandItem>
+                                            ))}
+                                            </CommandGroup>
+                                        </Command>
+                                    </PopoverContent>
+                                </Popover>
+                                <FormMessage />
+                            </div>
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    
+                    name="albumId"
+                    render={({ field }) => (
+                        <FormItem className="grid grid-cols-4 items-center gap-4">
+                            <FormLabel className="text-right">Album</FormLabel>
+                            <div className="col-span-3 space-y-2">
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <FormControl>
+                                            <Button
+                                                variant="outline"
+                                                role="combobox"
+                                                className={cn(
+                                                    "w-full justify-between",
+                                                    !field.value && "text-muted-foreground"
+                                                )}
+                                            >
+                                                {(field.value
+                                                    ? albums?.find(
+                                                        (album) => album.id === field.value
+                                                    )?.title
+                                                    : "Select an album") || "Select an album"}
+                                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                            </Button>
+                                        </FormControl>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Command>
+                                            <CommandInput placeholder="Search album name..." />
+                                            <CommandEmpty>No album found.</CommandEmpty>
+                                            <CommandGroup>
+                                                {albums?.map((album) => (
+                                                <CommandItem
+                                                    value={album.title || "Select an album"}
+                                                    key={album.id}
+                                                    onSelect={() => {
+                                                        form.setValue("albumId", album.id)
+                                                    }}
+                                                >
+                                                    <Check
+                                                        className={cn(
+                                                            "mr-2 h-4 w-4",
+                                                            album.id === field.value
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                    {album.title}
                                                 </CommandItem>
                                             ))}
                                             </CommandGroup>
@@ -210,7 +279,7 @@ export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Fu
                 />
                 <FormField
                     control={form.control}
-                    name="genres"
+                    name="genresIds"
                     render={() => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
                             <FormLabel className="text-right">Genres</FormLabel>
@@ -219,7 +288,7 @@ export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Fu
                                     <FormField
                                         key={genre.id}
                                         control={form.control}
-                                        name="genres"
+                                        name="genresIds"
                                         render={({ field }) => {
                                             return (
                                                 <FormItem

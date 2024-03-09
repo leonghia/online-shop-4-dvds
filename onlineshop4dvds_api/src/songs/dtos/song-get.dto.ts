@@ -1,9 +1,9 @@
 export class SongGetDto {
-    id: number;
-    title: string;
-    artist: string;
-    released: Date;
-    lengthInSeconds: number;
-    genres: string[];
-    album: string | null;
+    public id: number;
+    public title: string;
+    public artist: string;
+    public released: Date;
+    public lengthInSeconds: number;
+    public genres: string[];
+    public album: string | null;
 }

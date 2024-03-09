@@ -4,28 +4,28 @@ export class SongCreateDto {
     @IsString()
     @MinLength(1)
     @MaxLength(256)
-    title: string;
+    public title: string;
 
     @IsNumber()
     @Min(0)
-    artistId: number;
+    public artistId: number;
 
     @IsDateString()
-    released: Date;
+    public released: Date;
 
     @IsNumber()
     @Min(0)
-    minutes: number;
+    public minutes: number;
 
     @IsNumber()
     @Min(0)
-    seconds: number;
+    public seconds: number;
 
     @IsNumber(undefined, {each: true})
-    genresIds: number[];
+    public genresIds: number[];
 
     @IsOptional()
     @IsNumber()
     @Min(0)
-    albumId: number | undefined | null;
+    public albumId: number | undefined | null;
 }
