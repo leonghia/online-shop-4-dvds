@@ -15,21 +15,21 @@ export class CategoriesService {
     public async findRange({type, ids}: {type: number, ids: number[]}): Promise<Category[]> {
         if (type)
             return await this.categoryRepository.find({
-                take: 10,
+                
                 where: {
                     type
                 },
             });
         else if (ids)
             return await this.categoryRepository.find({
-                take: 10,
+                
                 where: {
                     id: In(ids)
                 }
             });
         else
             return await this.categoryRepository.find({
-                take: 10,
+                
             });
     }
 

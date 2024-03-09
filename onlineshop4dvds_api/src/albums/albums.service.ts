@@ -9,7 +9,7 @@ export class AlbumsService {
 
     public async findRange(): Promise<Album[]> {
         return await this.albumRepository.find({
-            take: 10,
+            
             relations: {genres: true, artist: true}
         });
     }
