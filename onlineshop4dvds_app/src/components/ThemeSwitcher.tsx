@@ -7,10 +7,10 @@ export default function ThemeSwitcher() {
 
   return (
     <div>
-      <Button className="text-yellow-500" onClick={() => setTheme('light')} isIconOnly variant="light" aria-label="Light mode">
+      <Button className="text-yellow-500" onClick={() => setTheme('light')} isIconOnly variant="light" aria-label="Light mode" title="Light mode">
         <FaSun className="w-5 h-5" />
       </Button>
-      <Button className="text-purple-500" onClick={() => setTheme('dark')} isIconOnly variant="light" aria-label="Dark mode">
+      <Button className="text-purple-500" onClick={() => setTheme('dark')} isIconOnly variant="light" aria-label="Dark mode" title="Dark mode">
         <FaMoon className="w-5 h-5" />
       </Button>
     </div>

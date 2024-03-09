@@ -108,7 +108,7 @@ export default function LoginForm() {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Mật khẩu</FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <div className="relative">
                                 <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                                     <LockKeyhole className="w-4 h-4" />
@@ -137,7 +137,7 @@ export default function LoginForm() {
                                     </FormControl>
                                     <div className="space-y-1 leading-none">
                                         <FormLabel>
-                                            Lưu thông tin
+                                            Remember me
                                         </FormLabel>
                                     </div>
                                 </div>
@@ -148,7 +148,7 @@ export default function LoginForm() {
 
                     <div className="flex items-start">
                         <Link href="/auth/forget-password">
-                            <Button variant="link" className="p-0 w-auto h-auto">Quên mật khẩu?</Button>
+                            <Button variant="link" className="p-0 w-auto h-auto">Forgot password?</Button>
                         </Link>
                     </div>
                 </div>
@@ -157,7 +157,7 @@ export default function LoginForm() {
 
                 <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Đăng nhập
+                    Login
                 </Button>
             </form>
         </Form>

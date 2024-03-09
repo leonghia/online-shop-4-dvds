@@ -26,7 +26,7 @@ export function AuthForm({ type, onDone }: { type: AuthFormType, onDone: Functio
     return (
         <div className="space-y-4">
             {form}
-            <Divider label="Hoặc đăng nhập bằng" />
+            <Divider label="Or continue with" />
             <div className="flex space-between gap-x-2">
                 <Button className="basis-1/2" variant="secondary"><Google /> Google</Button>
                 <Button className="basis-1/2" variant="secondary"><Facebook /> Facebook</Button>

@@ -88,7 +88,7 @@ export default function RegisterForm({onDone}: {onDone: Function | null}) {
                     name="fullName"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Họ tên</FormLabel>
+                            <FormLabel>Full name</FormLabel>
                             <div className="relative">
                                 <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                                     <User className="w-4 h-4" />
@@ -124,7 +124,7 @@ export default function RegisterForm({onDone}: {onDone: Function | null}) {
                     name="password"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Mật khẩu</FormLabel>
+                            <FormLabel>Password</FormLabel>
                             <div className="relative">
                                 <div className="absolute opacity-40 inset-y-0 start-0 flex items-center pointer-events-none ps-3 peer-disabled:opacity-50 peer-disabled:pointer-events-none">
                                     <LockKeyhole className="w-4 h-4" />
@@ -139,7 +139,7 @@ export default function RegisterForm({onDone}: {onDone: Function | null}) {
                 />
                 <Button disabled={isLoading} type="submit" className="w-full">
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    Đăng kí
+                    Register
                 </Button>
             </form>
         </Form>

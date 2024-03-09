@@ -13,8 +13,8 @@ export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Fu
         case AuthFormType.Register:
             header = (
                 <CardHeader className="text-center">
-                    <CardTitle className="font-extrabold">Tạo tài khoản</CardTitle>
-                    <CardDescription>Nếu bạn đã có tài khoản, hãy <Link href="/auth/login"><Button variant="link" className="p-0">đăng nhập</Button></Link> ngay</CardDescription>
+                    <CardTitle className="font-extrabold">Register</CardTitle>
+                    <CardDescription>If you already have an account, <Link href="/auth/login"><Button variant="link" className="p-0">login</Button></Link> now</CardDescription>
                 </CardHeader>);
             form = (
                 <CardContent>
@@ -24,8 +24,8 @@ export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Fu
         case AuthFormType.Login:
             header = (
                 <CardHeader className="text-center">
-                    <CardTitle className="font-extrabold">Đăng nhập</CardTitle>
-                    <CardDescription>Nếu bạn chưa có tài khoản, hãy <Link href="/auth/register"><Button variant="link" className="p-0">tạo tài khoản</Button></Link> ngay</CardDescription>
+                    <CardTitle className="font-extrabold">Login</CardTitle>
+                    <CardDescription>If you don't have an account, <Link href="/auth/register"><Button variant="link" className="p-0">register</Button></Link> now</CardDescription>
                 </CardHeader>);
             form = (
                 <CardContent>
