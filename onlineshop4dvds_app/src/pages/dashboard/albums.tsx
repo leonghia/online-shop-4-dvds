@@ -39,7 +39,7 @@ export default function Albums() {
                         </p>
                     </div>
                     <div className="ml-auto mr-4">
-                        <AddAlbumDialog />
+                        <AddAlbumDialog onAddSuccessfully={handleDateChange} />
                     </div>
                 </div>
                 <AlbumsTable onDelete={handleDelete} albums={albums} />

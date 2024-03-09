@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
+import { formatSongLength } from "@/utils/format";
 
 export default function AlbumsTable({albums, onDelete}: {albums: Album[] | null, onDelete: Function}) {
     return (
@@ -20,6 +21,7 @@ export default function AlbumsTable({albums, onDelete}: {albums: Album[] | null,
                     <TableHead>Released</TableHead>
                     <TableHead>Artist</TableHead>
                     <TableHead>Genre(s)</TableHead>
+                    <TableHead>Length</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>
@@ -32,6 +34,7 @@ export default function AlbumsTable({albums, onDelete}: {albums: Album[] | null,
                             <TableCell>{new Date(album.released).toLocaleDateString("vi-VN")}</TableCell>
                             <TableCell>{album.artist}</TableCell>
                             <TableCell>{album.genres.join(", ")}</TableCell>
+                            <TableCell>{formatSongLength(album.lengthInSeconds)}</TableCell>
                             <TableCell>
                                 
                             </TableCell>

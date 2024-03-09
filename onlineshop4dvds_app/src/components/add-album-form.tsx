@@ -25,30 +25,23 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Calendar } from "./ui/calendar";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { AlbumCreate } from "@/models/album";
 
 const formSchema = z.object({
     title: z.string().min(1).max(64),
     released: z.date({ required_error: "A released date is required" }),
     genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
     artistId: z.number({ required_error: "Please select an artist" }),
+    minutes: z.coerce.number({required_error: "Please input minutes"}),
+    seconds: z.coerce.number({required_error: "Please input seconds"}),
 });
 
 
 
-export default function AddAlbumForm() {
+export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [artists, setArtists] = useState<Artist[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    const temp: Artist[] = [
-        {
-            id: 1,
-            fullName: "Tyalor",
-            dob: "1989",
-            nationality: "US",
-            genres: ["pop"]
-        }
-    ];
 
     useEffect(() => {
         fetch(`${API_URL}/categories?type=${GenreType.Music}`)
@@ -73,8 +66,23 @@ export default function AddAlbumForm() {
     });
 
     // 2. Define a submit handler
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        setIsLoading(true);
+        const albumCreate = new AlbumCreate(values.title, values.released.toISOString(), values.genres, values.artistId, values.minutes, values.seconds);
+        try {
+            const res = await fetch(`${API_URL}/albums`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(albumCreate),
+            });
+            if (res.ok) {
+                onAddSuccessfully();
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     // 3. Build your form
@@ -245,6 +253,40 @@ export default function AddAlbumForm() {
                         </FormItem>
                     )}
                 />
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel className="text-right">Length</FormLabel>
+                    <div className="col-span-3 flex gap-x-3 items-center">
+                        <FormField
+                            control={form.control}
+                            name="minutes"
+                            render={({ field }) => (
+                                <FormItem className="basis-1/3">
+                                    <div>
+                                        <FormControl>
+                                            <Input {...field} type="number" min={0} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+                        :
+                        <FormField
+                            control={form.control}
+                            name="seconds"
+                            render={({ field }) => (
+                                <FormItem className="basis-1/3">
+                                    <div>
+                                        <FormControl>
+                                            <Input {...field} type="number" min={0} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </div>
+                                </FormItem>
+                            )}
+                        />
+                    </div>                 
+                </div>
                 <div className="flex justify-end">
                     <Button disabled={isLoading} type="submit">
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

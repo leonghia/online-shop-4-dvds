@@ -20,6 +20,7 @@ export class AlbumsController {
             albumToReturn.id = album.id;
             albumToReturn.released = album.released;
             albumToReturn.title = album.title;
+            albumToReturn.lengthInSeconds = album.lengthInSeconds;
             return albumToReturn;
         });
         return albumsToReturn;
@@ -35,6 +36,7 @@ export class AlbumsController {
         albumToReturn.id = album.id;
         albumToReturn.released = album.released;
         albumToReturn.title = album.title;
+        albumToReturn.lengthInSeconds = album.lengthInSeconds;
         return albumToReturn;
     }
 
@@ -45,6 +47,7 @@ export class AlbumsController {
         albumToCreate.artist = await this.artistsService.findById(albumCreateDto.artistId, false);
         albumToCreate.released = albumCreateDto.released;
         albumToCreate.title = albumCreateDto.title;
+        albumToCreate.lengthInSeconds = albumCreateDto.minutes * 60 + albumCreateDto.seconds;
         const albumCreated = await this.albumsService.create(albumToCreate);
         const albumToReturn = new AlbumGetDto();
         albumToReturn.artist = albumCreated.artist.fullName;
@@ -52,6 +55,7 @@ export class AlbumsController {
         albumToReturn.id = albumCreated.id;
         albumToReturn.released = albumCreated.released;
         albumToReturn.title = albumCreated.title;
+        albumToReturn.lengthInSeconds = albumCreated.lengthInSeconds;
         return albumToReturn;
     }
 

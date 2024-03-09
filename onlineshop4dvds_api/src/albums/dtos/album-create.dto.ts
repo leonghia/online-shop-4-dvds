@@ -10,6 +10,12 @@ export class AlbumCreateDto {
     @IsDateString()
     released: Date;
 
+    @IsNumber()
+    minutes: number;
+
+    @IsNumber()
+    seconds: number;
+
     @IsNumber(undefined, {each: true})
     genres: number[];
 

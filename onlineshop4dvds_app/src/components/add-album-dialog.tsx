@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import AddAlbumForm from "./add-album-form";
 
-export default function AddAlbumDialog() {
+export default function AddAlbumDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -23,7 +23,7 @@ export default function AddAlbumDialog() {
                     <DialogTitle>Add album</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <AddAlbumForm />
+                    <AddAlbumForm onAddSuccessfully={onAddSuccessfully} />
                 </div>
             </DialogContent>
         </Dialog>

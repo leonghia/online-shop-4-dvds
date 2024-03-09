@@ -13,6 +13,9 @@ export class Album {
     @Column("date")
     released: Date;
 
+    @Column({nullable: true})
+    lengthInSeconds: number;
+
     @ManyToMany(() => Category)
     @JoinTable()
     genres: Category[];
