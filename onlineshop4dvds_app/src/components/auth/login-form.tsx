@@ -19,7 +19,7 @@ export default function LoginForm() {
             <p className="text-center pb-2 text-xl font-extrabold">Log In</p>
             <form className="flex flex-col gap-4">
                 <Input type="email" label="Email" placeholder="Enter your email....." />
-                <Input type="password" label="Password" placeholder="Enter your password" />
+                <Input type="password" label="Password" placeholder="Enter your password....." />
                 <Checkbox size="sm">Remember me</Checkbox>
                 <Button color="primary" className="font-semibold">Log In</Button>
             </form>
