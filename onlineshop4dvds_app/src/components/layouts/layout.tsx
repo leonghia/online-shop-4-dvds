@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-import ThemeSwitcher from "../ThemeSwitcher";
+import { Inter } from "next/font/google";
 
-export default function UserLayout({ children }: { children: ReactNode }) {
+const inter = Inter({subsets: ["latin"]});
+
+export default function Layout({ children }: { children: ReactNode }) {
     return (
         <NextThemesProvider attribute="class" defaultTheme="dark">
-            <main className="text-foreground bg-background p-4">
+            <main className={`text-foreground bg-background p-4 ${inter.className}`}>
                 {children}
             </main>
         </NextThemesProvider>
