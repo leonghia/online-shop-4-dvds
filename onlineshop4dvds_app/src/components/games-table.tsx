@@ -8,10 +8,9 @@ import {
 } from "@/components/ui/table";
 import { Button } from "./ui/button";
 import { Trash2 } from "lucide-react";
-import { formatMovieLength } from "@/utils/format";
-import { Movie } from "@/models/movie";
+import { Game } from "@/models/game";
 
-export default function MoviesTable({movies, onDelete}: {movies: Movie[] | null, onDelete: Function}) {
+export default function GamesTable({games, onDelete}: {games: Game[] | null, onDelete: Function}) {
     return (
         <Table>
             <TableHeader>
@@ -19,25 +18,25 @@ export default function MoviesTable({movies, onDelete}: {movies: Movie[] | null,
                     <TableHead className="w-[100px]">No.</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Released year</TableHead>
+                    <TableHead>Publisher</TableHead>
                     <TableHead>Genre(s)</TableHead>
-                    <TableHead>Length</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {movies?.map((movie, i) => {
+                {games?.map((game, i) => {
                     return (
-                        <TableRow key={movie.id}>
+                        <TableRow key={game.id}>
                             <TableCell className="font-medium">{i + 1}</TableCell>
-                            <TableCell>{movie.title}</TableCell>
-                            <TableCell>{movie.releasedYear}</TableCell>
-                            <TableCell>{movie.genres.join(", ")}</TableCell>
-                            <TableCell>{formatMovieLength(movie.lengthInMinutes)}</TableCell>
+                            <TableCell>{game.title}</TableCell>
+                            <TableCell>{game.releasedYear}</TableCell>
+                            <TableCell>{game.publisher}</TableCell>
+                            <TableCell>{game.genres.join(", ")}</TableCell>
                             <TableCell>
                                 
                             </TableCell>
                             <TableCell>
-                                <Button onClick={() => onDelete(movie.id)} variant="outline" size="icon" title="Delete"><Trash2 className="w-4 h-4" /></Button>
+                                <Button onClick={() => onDelete(game.id)} variant="outline" size="icon" title="Delete"><Trash2 className="w-4 h-4" /></Button>
                             </TableCell>
                         </TableRow>)
                 })}
