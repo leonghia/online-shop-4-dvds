@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-const defaultClassName = "w-4 h-4 mr-3";
+const defaultClassName = "w-5 h-5";
 
 export function Google({className} : {className?: string}) {
     return (

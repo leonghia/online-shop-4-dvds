@@ -1,7 +1,7 @@
-import GamesCategories from "@/components/games-categories";
+import GamesCategories from "@/components/games/games-categories";
 import AdminLayout from "@/components/layouts/admin-layout";
-import MoviesCategories from "@/components/movies-categories";
-import MusicCategories from "@/components/music-categories";
+import MoviesCategories from "@/components/movies/movies-categories";
+import MusicCategories from "@/components/music/music-categories";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Categories() {

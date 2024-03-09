@@ -1,30 +1,50 @@
-import { AuthFormType } from "@/components/auth-form";
-import AuthPage from "@/components/auth-page";
-import CenteredLayout from "@/components/layouts/centered-layout";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Check } from "lucide-react";
-import { useState } from "react";
+import RegisterForm from "@/components/auth/register-form";
+import Layout from "@/components/layouts/layout";
+import { Facebook, Google } from "@/components/ui/icon";
+import { Button, Checkbox, Input, Link } from "@nextui-org/react";
 
-export default function Register() {
-    const [isRegistrationSuccessful, setIsRegistrationSuccessful] = useState(false);
 
-    if (isRegistrationSuccessful) {
-        return (
-            <CenteredLayout>
-                <Alert className="w-full max-w-md">
-                    <Check className="h-4 w-4" />
-                    <AlertTitle>Đăng kí thành công!</AlertTitle>
-                    <AlertDescription>
-                        Vui lòng kiểm tra hòm thư email để xác nhận tài khoản của bạn.
-                    </AlertDescription>
-                </Alert>
-            </CenteredLayout>
-
-        );
-    }
+export default function RegisterPage() {
     return (
-        <CenteredLayout>
-            <AuthPage type={AuthFormType.Register} onDone={() => setIsRegistrationSuccessful(true)}></AuthPage>
-        </CenteredLayout>
+        <Layout>
+            <div className="flex items-center justify-center">
+                <div
+                    className="flex h-screen w-screen items-center justify-center overflow-hidden rounded-small bg-content1 p-2 sm:p-4 lg:p-8"
+                    style={{
+                        backgroundImage:
+                            'url("https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/black-background-texture.jpeg")',
+                        backgroundSize: "cover",
+                        backgroundPosition: "center center"
+                    }}
+                >
+                    <div className="absolute left-10 top-10">
+                        <div className="flex items-center">
+                            <svg
+                                fill="none"
+                                height={40}
+                                viewBox="0 0 32 32"
+                                width={40}
+                                className="text-white"
+                            >
+                                <path
+                                    clipRule="evenodd"
+                                    d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
+                                    fill="currentColor"
+                                    fillRule="evenodd"
+                                />
+                            </svg>
+                            <p className="font-medium text-white">OnlineShop4DVDS</p>
+                        </div>
+                    </div>
+                    <div className="absolute bottom-10 left-10 hidden md:block">
+                        <p className="max-w-xl text-white/60">
+                            <span className="font-medium"></span>Welcome to OnlineShop4DVDS, your destination for timeless tunes and the latest hits on CD!<span className="font-medium"></span>
+                        </p>
+                    </div>
+                    <RegisterForm />
+                </div>
+            </div>
+
+        </Layout>
     );
 }

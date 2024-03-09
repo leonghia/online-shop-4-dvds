@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { API_URL } from "@/config";
 import { Artist } from "@/models/artist";

@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import {
     Dialog,
@@ -7,24 +7,24 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import AddAlbumForm from "./add-album-form";
-import AddSongForm from "./add-song-form";
+import AddArtistForm from "./add-artist-form";
 
-export default function AddSongDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+export default function AddArtistDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+    
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Add song
+                    Add artist
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Add song</DialogTitle>
+                    <DialogTitle>Add artist</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <AddSongForm onAddSuccessfully={onAddSuccessfully} />
+                    <AddArtistForm onAddSuccessfully={onAddSuccessfully} />
                 </div>
             </DialogContent>
         </Dialog>

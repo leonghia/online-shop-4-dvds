@@ -6,23 +6,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Pencil, Trash2 } from "lucide-react";
 import { Genre } from "@/models/genre";
 
-export default function GamesCategoriesTable({ gamesCategories }: { gamesCategories: Genre[] | null }) {
+export default function MoviesCategoriesTable({ moviesCategories }: { moviesCategories: Genre[] | null }) {
     return (
         <Table>
             <TableHeader>
                 <TableRow>
                     <TableHead className="w-[100px]">No.</TableHead>
                     <TableHead>Genre</TableHead>
-                    <TableHead>Numbers of games</TableHead>
+                    <TableHead>Numbers of movies</TableHead>
                     <TableHead colSpan={2}></TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {gamesCategories?.map((c, i) => {
+                {moviesCategories?.map((c, i) => {
                     return (
                         <TableRow key={c.id}>
                             <TableCell className="font-medium">{i + 1}</TableCell>

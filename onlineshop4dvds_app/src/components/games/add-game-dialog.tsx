@@ -1,4 +1,4 @@
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { PlusCircle } from "lucide-react";
 import {
     Dialog,
@@ -7,23 +7,23 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import AddMovieForm from "./add-movie-form";
+import AddGameForm from "./add-game-form";
 
-export default function AddMovieDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+export default function AddGameDialog({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Add movie
+                    Add game
                 </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Add movie</DialogTitle>
+                    <DialogTitle>Add game</DialogTitle>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <AddMovieForm onAddSuccessfully={onAddSuccessfully} />
+                    <AddGameForm onAddSuccessfully={onAddSuccessfully} />
                 </div>
             </DialogContent>
         </Dialog>
