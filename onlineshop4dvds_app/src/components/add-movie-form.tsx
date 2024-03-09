@@ -16,16 +16,9 @@ import { useEffect, useState } from "react";
 import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre-type";
-import { Artist } from "@/models/artist";
-import { CalendarIcon, Check, ChevronsUpDown, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { Calendar } from "./ui/calendar";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
-import { AlbumCreate } from "@/models/album";
 import { MovieCreate } from "@/models/movie";
 
 const formSchema = z.object({

@@ -1,11 +1,8 @@
 import AddMovieDialog from "@/components/add-movie-dialog";
-import AddSongDialog from "@/components/add-song-dialog";
 import AdminLayout from "@/components/layouts/admin-layout";
 import MoviesTable from "@/components/movies-table";
-import SongsTable from "@/components/songs-table";
 import { API_URL } from "@/config";
 import { Movie } from "@/models/movie";
-import { Song } from "@/models/song";
 import { useEffect, useState } from "react";
 
 export default function Movies() {
