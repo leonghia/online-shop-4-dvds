@@ -39,10 +39,12 @@ export default function Sidebar({ className }: { className: string }) {
                 Songs
               </Button>
             </Link>
-            <Button variant="ghost" className="w-full justify-start">
-              <Film className="w-4 h-4 mr-2" />
-              Movies
-            </Button>
+            <Link href="/dashboard/movies">
+              <Button variant="ghost" className="w-full justify-start">
+                <Film className="w-4 h-4 mr-2" />
+                Movies
+              </Button>
+            </Link>
             <Button variant="ghost" className="w-full justify-start">
               <Gamepad2 className="w-4 h-4 mr-2" />
               Games

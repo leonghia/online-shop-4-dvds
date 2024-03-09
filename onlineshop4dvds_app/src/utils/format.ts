@@ -9,3 +9,12 @@ export const formatSongLength = (lengthInSeconds: number): string => {
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds}`;
 }
 
+export const formatMovieLength = (minutes: number): string => {
+    // Calculate hours and remaining minutes
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    // Format the time
+    const formattedTime = hours.toString() + 'h ' + mins.toString() + 'm';
+    return formattedTime;
+}
