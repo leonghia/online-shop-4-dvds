@@ -1,5 +1,5 @@
-import AddGameDialog from "@/components/add-game-dialog";
-import GamesTable from "@/components/games-table";
+import AddGameDialog from "@/components/games/add-game-dialog";
+import GamesTable from "@/components/games/games-table";
 import AdminLayout from "@/components/layouts/admin-layout";
 import { API_URL } from "@/config";
 import { Game } from "@/models/game";

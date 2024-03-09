@@ -1,6 +1,6 @@
-import AddMovieDialog from "@/components/add-movie-dialog";
+import AddMovieDialog from "@/components/movies/add-movie-dialog";
 import AdminLayout from "@/components/layouts/admin-layout";
-import MoviesTable from "@/components/movies-table";
+import MoviesTable from "@/components/movies/movies-table";
 import { API_URL } from "@/config";
 import { Movie } from "@/models/movie";
 import { useEffect, useState } from "react";

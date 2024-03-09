@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
     Form,
     FormControl,
@@ -17,8 +17,8 @@ import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre-type";
 import { Loader2 } from "lucide-react";
-import { Checkbox } from "./ui/checkbox";
-import { Input } from "./ui/input";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
 import { MovieCreate } from "@/models/movie";
 import { GameCreate } from "@/models/game";
 

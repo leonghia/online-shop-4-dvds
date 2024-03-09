@@ -1,5 +1,5 @@
-import AddAlbumDialog from "@/components/add-album-dialog";
-import AlbumsTable from "@/components/albums-table";
+import AddAlbumDialog from "@/components/albums/add-album-dialog";
+import AlbumsTable from "@/components/albums/albums-table";
 import AdminLayout from "@/components/layouts/admin-layout";
 import { API_URL } from "@/config";
 import { Album } from "@/models/album";

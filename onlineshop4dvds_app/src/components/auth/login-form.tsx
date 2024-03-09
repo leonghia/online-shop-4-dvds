@@ -13,14 +13,14 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "./ui/checkbox";
+import { Checkbox } from "../ui/checkbox";
 import { Loader2, LockKeyhole, Mail } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { ProblemDetails } from "@/models/problem-details";
 import { useRouter } from "next/router";
 import { API_URL, serverErrorMessage } from "@/config";
-import AlertDestructive from "./alert-destructive";
+import AlertDestructive from "../alert-destructive";
 import { saveToken } from "@/utils/token";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "@/models/jwt-payload";

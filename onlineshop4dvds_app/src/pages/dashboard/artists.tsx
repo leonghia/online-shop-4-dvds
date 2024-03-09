@@ -1,5 +1,5 @@
-import AddArtistDialog from "@/components/add-artist-dialog";
-import ArtistsTable from "@/components/artists-table";
+import AddArtistDialog from "@/components/artists/add-artist-dialog";
+import ArtistsTable from "@/components/artists/artists-table";
 import AdminLayout from "@/components/layouts/admin-layout";
 import { API_URL } from "@/config";
 import { Artist } from "@/models/artist";

@@ -6,7 +6,7 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { Trash2 } from "lucide-react";
 import { Game } from "@/models/game";
 

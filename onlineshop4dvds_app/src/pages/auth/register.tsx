@@ -1,5 +1,5 @@
-import { AuthFormType } from "@/components/auth-form";
-import AuthPage from "@/components/auth-page";
+import { AuthFormType } from "@/components/auth/auth-form";
+import AuthPage from "@/components/auth/auth-page";
 import CenteredLayout from "@/components/layouts/centered-layout";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Check } from "lucide-react";

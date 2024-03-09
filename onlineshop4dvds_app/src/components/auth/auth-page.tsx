@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { AuthForm, AuthFormType } from "./auth-form";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card";
-import { Button } from "./ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Button } from "../ui/button";
 import Link from "next/link";
 
 export default function AuthPage({type, onDone}: {type: AuthFormType, onDone: Function | null}) {

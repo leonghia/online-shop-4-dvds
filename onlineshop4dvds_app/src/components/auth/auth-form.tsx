@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import RegisterForm from "./register-form";
-import Divider from "./ui/divider";
-import { Button } from "./ui/button";
-import { Facebook, Google } from "./ui/icon";
+import Divider from "../ui/divider";
+import { Button } from "../ui/button";
+import { Facebook, Google } from "../ui/icon";
 import LoginForm from "./login-form";
 
 export enum AuthFormType {

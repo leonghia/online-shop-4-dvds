@@ -1,6 +1,6 @@
-import AddSongDialog from "@/components/add-song-dialog";
+import AddSongDialog from "@/components/songs/add-song-dialog";
 import AdminLayout from "@/components/layouts/admin-layout";
-import SongsTable from "@/components/songs-table";
+import SongsTable from "@/components/songs/songs-table";
 import { API_URL } from "@/config";
 import { Song } from "@/models/song";
 import { useEffect, useState } from "react";

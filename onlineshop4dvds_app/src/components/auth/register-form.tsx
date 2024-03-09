@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { User, Mail, LockKeyhole } from 'lucide-react';
 import { ProblemDetails } from "@/models/problem-details";
 import { API_URL, serverErrorMessage } from "@/config";
-import AlertDestructive from "./alert-destructive";
+import AlertDestructive from "../alert-destructive";
 import { Loader2 } from "lucide-react";
 
 const fullNameErrorMessage = "Họ tên phải chứa từ 3 - 64 kí tự";

@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button"
+import { Button } from "../ui/button";
 import {
     Form,
     FormControl,
@@ -12,34 +12,31 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { CalendarIcon, Loader2 } from "lucide-react";
-import { Calendar } from "./ui/calendar";
-import { ArtistCreate } from "@/models/artist";
-import { Checkbox } from "./ui/checkbox";
-import { Genre } from "@/models/genre";
 import { useEffect, useState } from "react";
+import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre-type";
+import { Loader2 } from "lucide-react";
+import { Checkbox } from "../ui/checkbox";
+import { Input } from "../ui/input";
+import { MovieCreate } from "@/models/movie";
 
 const formSchema = z.object({
-    fullName: z.string().min(1).max(64),
-    nationality: z.string().min(1).max(64),
-    dob: z.date({
-        required_error: "A date of birth is required",
-    }),
-    genres: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
+    title: z.string().min(1).max(256),
+    releasedYear: z.coerce.number({required_error: "Please input released year"}),
+    genresIds: z.array(z.number()).refine(value => value.some(genre => genre), { message: "You have to select at least one genre", }),
+    minutes: z.coerce.number({required_error: "Please input minutes"}),
+    hours: z.coerce.number({required_error: "Please input hours"}),
 });
 
-export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
+
+
+export default function AddAlbumForm({onAddSuccessfully}: {onAddSuccessfully: Function}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        fetch(`${API_URL}/categories?type=${GenreType.Music}`)
+        fetch(`${API_URL}/categories?type=${GenreType.Movie}`)
             .then(res => res.json())
             .then((data: Genre[]) => setGenres(data))
             .catch(err => console.error(err));
@@ -49,32 +46,30 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            fullName: "",
-            nationality: ""
-        },
+            title: "",
+        }
     });
 
     // 2. Define a submit handler
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        
         setIsLoading(true);
-        const artistCreate = new ArtistCreate(values.fullName, values.dob.toISOString(), values.nationality, values.genres);
-        fetch(`${API_URL}/artists`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(artistCreate),
-        })
-        .then(res => {
-            if (!res.ok) {
-
-            } else {
+        const movieCreate = new MovieCreate(values.title, values.releasedYear, values.hours, values.minutes, values.genresIds);
+        try {
+            const res = await fetch(`${API_URL}/movies`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(movieCreate),
+            });
+            if (res.ok) {
                 onAddSuccessfully();
             }
-        })
-        .catch(err => console.error(err))
-        .finally(() => setIsLoading(false));
-    }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // 3. Build your form
     return (
@@ -82,10 +77,10 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                 <FormField
                     control={form.control}
-                    name="fullName"
+                    name="title"
                     render={({ field }) => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Full name</FormLabel>
+                            <FormLabel className="text-right">Title</FormLabel>
                             <div className="col-span-3 space-y-2">
                                 <FormControl>
                                     <Input {...field} />
@@ -97,57 +92,13 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                 />
                 <FormField
                     control={form.control}
-                    name="dob"
+                    name="releasedYear"
                     render={({ field }) => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Date of birth</FormLabel>
-                            <div className="col-span-3 space-y-2">
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={"outline"}
-                                                className={cn(
-                                                    "w-full pl-3 text-left font-normal",
-                                                    !field.value && "text-muted-foreground"
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(field.value, "PPP")
-                                                ) : (
-                                                    <span>Pick a date</span>
-                                                )}
-                                                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0" align="start">
-                                        <Calendar
-                                            mode="single"
-                                            selected={field.value}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date > new Date() || date < new Date("1900-01-01")
-                                            }
-                                            initialFocus
-
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormMessage />
-                            </div>
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
-                    name="nationality"
-                    render={({ field }) => (
-                        <FormItem className="grid grid-cols-4 items-center gap-4">
-                            <FormLabel className="text-right">Nationality</FormLabel>
+                            <FormLabel className="text-right">Released year</FormLabel>
                             <div className="col-span-3 space-y-2">
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input {...field} type="number" />
                                 </FormControl>
                                 <FormMessage />
                             </div>
@@ -156,7 +107,7 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                 />
                 <FormField
                     control={form.control}
-                    name="genres"
+                    name="genresIds"
                     render={() => (
                         <FormItem className="grid grid-cols-4 items-center gap-4">
                             <FormLabel className="text-right">Genres</FormLabel>
@@ -165,17 +116,17 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                                     <FormField
                                         key={genre.id}
                                         control={form.control}
-                                        name="genres"
+                                        name="genresIds"
                                         render={({ field }) => {
                                             return (
                                                 <FormItem
                                                     key={genre.id}
-                                                    className="flex flex-row items-start space-x-3 space-y-0"
+                                                    className="flex flex-row items-start space-x-2 space-y-0"
                                                 >
                                                     <FormControl>
                                                         <Checkbox
                                                             checked={field.value?.includes(genre.id)}
-                                                            onCheckedChange={(checked) => {                                                           
+                                                            onCheckedChange={(checked) => {
                                                                 return checked
                                                                     ? field.onChange([...field.value || [], genre.id])
                                                                     : field.onChange(
@@ -199,6 +150,39 @@ export default function AddArtistForm({onAddSuccessfully}: {onAddSuccessfully: F
                         </FormItem>
                     )}
                 />
+                <div className="grid grid-cols-4 items-center gap-4">
+                    <FormLabel className="text-right">Length</FormLabel>
+                    <div className="col-span-3 flex gap-x-3 items-center">
+                        <FormField
+                            control={form.control}
+                            name="hours"
+                            render={({ field }) => (
+                                <FormItem className="basis-1/3">
+                                    <div>
+                                        <FormControl>
+                                            <Input {...field} type="number" min={0} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </div>
+                                </FormItem>
+                            )}
+                        /> h
+                        <FormField
+                            control={form.control}
+                            name="minutes"
+                            render={({ field }) => (
+                                <FormItem className="basis-1/3">
+                                    <div>
+                                        <FormControl>
+                                            <Input {...field} type="number" min={0} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </div>
+                                </FormItem>
+                            )}
+                        /> m
+                    </div>                 
+                </div>
                 <div className="flex justify-end">
                     <Button disabled={isLoading} type="submit">
                         {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
