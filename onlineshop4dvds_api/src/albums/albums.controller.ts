@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
 import { AlbumGetDto } from './dtos/album-get.dto';
 import { AlbumCreateDto } from './dtos/album-create.dto';
@@ -11,8 +11,15 @@ export class AlbumsController {
     public constructor(private albumsService: AlbumsService, private categoriesService: CategoriesService, private artistsService: ArtistsService) { }
 
     @Get()
-    public async getRange() {
-        const albums = await this.albumsService.findRange();
+    public async getRange(@Query("artistId") artistId: number) {
+        let albums: Album[];
+        if (artistId) {
+            const artist = await this.artistsService.findById(artistId, false);
+            albums = await this.albumsService.findRange({artist});
+        } else {
+            albums = await this.albumsService.findRange({artist: null});
+        }
+        
         const albumsToReturn = albums.map(album => {
             const albumToReturn = new AlbumGetDto();
             albumToReturn.artist = album.artist.fullName;

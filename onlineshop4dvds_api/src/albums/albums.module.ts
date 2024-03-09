@@ -9,6 +9,7 @@ import { ArtistsModule } from 'src/artists/artists.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Album]), CategoriesModule, ArtistsModule],
   providers: [AlbumsService],
-  controllers: [AlbumsController]
+  controllers: [AlbumsController],
+  exports: [AlbumsService, TypeOrmModule]
 })
 export class AlbumsModule {}

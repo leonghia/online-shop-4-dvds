@@ -11,7 +11,7 @@ export class ArtistsService {
     public async findRange({ids}: {ids?: number[]}): Promise<Artist[]> {
         if (!ids)
             return await this.artistRepository.find({
-                take: 10,
+                
                 relations: {
                     categories: true,
                 },
