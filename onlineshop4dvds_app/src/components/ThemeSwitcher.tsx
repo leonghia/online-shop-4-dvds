@@ -1,17 +1,17 @@
 import { useTheme } from "next-themes";
 import { Button } from "@nextui-org/react";
-import { Sun, Moon } from "lucide-react";
+import { FaSun, FaMoon } from "react-icons/fa6";
 
 export default function ThemeSwitcher() {
   const { theme, setTheme } = useTheme()
 
   return (
-    <div className="space-x-2">
-      <Button onClick={() => setTheme('light')} isIconOnly color="default" variant="light" aria-label="Light mode">
-        <Sun />
+    <div>
+      <Button className="text-yellow-500" onClick={() => setTheme('light')} isIconOnly variant="light" aria-label="Light mode">
+        <FaSun className="w-5 h-5" />
       </Button>
-      <Button onClick={() => setTheme('dark')} isIconOnly color="default" variant="light" aria-label="Dark mode">
-        <Moon />
+      <Button className="text-purple-500" onClick={() => setTheme('dark')} isIconOnly variant="light" aria-label="Dark mode">
+        <FaMoon className="w-5 h-5" />
       </Button>
     </div>
   )
