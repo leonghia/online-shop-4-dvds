@@ -1,17 +1,12 @@
-import { Inter } from "next/font/google";
 import Layout from "@/components/layouts/layout";
-import Test from "./test";
-
-const inter = Inter({ subsets: ["latin"] });
+import MyNavbar from "@/components/navbar";
 
 export default function Home() {
   return (
     <Layout>
-      <main
-        className={inter.className}
-      >
-        <Test />
-      </main>
+      <div>
+        <MyNavbar />
+      </div>
     </Layout>
   );
 }

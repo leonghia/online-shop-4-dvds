@@ -1,8 +1,14 @@
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button } from "@nextui-org/react";
-import ThemeSwitcher from "./ThemeSwitcher";
+import {
+    Navbar, 
+    NavbarBrand, 
+    NavbarContent, 
+    NavbarItem,
+    Link,
+    Button
+  } from "@nextui-org/react";
 
-const AcmeLogo = () => (
-    <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
+const AcmeLogo = ({width, height}: {width:number, height:number}) => (
+    <svg fill="none" height={height} viewBox="0 0 32 32" width={width}>
         <path
             clipRule="evenodd"
             d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
@@ -12,56 +18,46 @@ const AcmeLogo = () => (
     </svg>
 );
 
-export default function CustomNavbar() {
+export default function MyNavbar() {
     return (
-        <Navbar>
-            <NavbarBrand>
-                <AcmeLogo />
-                <p className="font-bold text-inherit">ACME</p>
-            </NavbarBrand>
-            <NavbarContent className="hidden sm:flex gap-8" justify="center">
-                <NavbarItem isActive>
-                    <Link href="#" aria-current="page">
-                        Home
-                    </Link>
+        <Navbar height="54px" classNames={{
+            base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",
+            wrapper: "z-40 flex gap-4 flex-row relative flex-nowrap items-center max-w-[1024px] px-0 w-full justify-center bg-transparent",
+            content: "flex h-full flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 gap-6 rounded-full border-small border-default-200/20 bg-background/60 px-2 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50",
+            brand: "flex basis-0 flex-row flex-grow flex-nowrap justify-start bg-transparent items-center no-underline text-medium whitespace-nowrap box-border mr-2 w-[40vw] md:w-auto md:max-w-fit",
+            item: [
+                "data-[active=true]:opacity-100"
+            ]
+        }}>
+            <NavbarContent justify="center">
+                <NavbarBrand>
+                    <div className="rounded-full bg-foreground text-background">
+                        <AcmeLogo width={34} height={34} />
+                    </div>
+                </NavbarBrand>
+                <NavbarItem className="hidden md:flex opacity-60" isActive>
+                    <Link href="/" color="foreground">Home</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex opacity-50">
+                    <Link href="/music" color="foreground" >Music</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex opacity-50">
+                    <Link href="/movies" color="foreground">Movies</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex opacity-50">
+                    <Link href="/games" color="foreground">Games</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex opacity-50">
+                    <Link href="/news" color="foreground">News</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex opacity-50">
+                    <Link href="/forum" color="foreground">Forum</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Music
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Movies
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Games
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        News
-                    </Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Link color="foreground" href="#">
-                        Forum
-                    </Link>
-                </NavbarItem>
-            </NavbarContent>
-            <NavbarContent justify="end">
-                <ThemeSwitcher />
-                <NavbarItem className="hidden lg:flex">
-                    <Link href="/auth/login">Login</Link>
-                </NavbarItem>
-                <NavbarItem>
-                    <Button as={Link} color="primary" href="/auth/register" variant="flat">
-                        Sign Up
-                    </Button>
+                    <Button href="/auth/login" as={Link} color="default" variant="flat" radius="full">Login</Button>
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
+
     );
 }
