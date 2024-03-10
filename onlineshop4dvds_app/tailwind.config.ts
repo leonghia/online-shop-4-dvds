@@ -69,6 +69,14 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "scrolling-banner": {
+          "0%": {
+            transform: "translateX(0)"
+          },
+          "to": {
+            transform: "translateX(calc(-50% - var(--gap)/2))"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
