@@ -6,7 +6,7 @@ import {
     Link,
     Button
   } from "@nextui-org/react";
-import { AcmeLogo } from "./ui/icon";
+import { Acme } from "./icon";
 
 export default function MyNavbar() {
     return (
@@ -22,7 +22,7 @@ export default function MyNavbar() {
             <NavbarContent justify="center">
                 <NavbarBrand>
                     <div className="rounded-full bg-foreground text-background">
-                        <AcmeLogo width={34} height={34} />
+                        <Acme width={34} height={34} />
                     </div>
                 </NavbarBrand>
                 <NavbarItem className="hidden md:flex opacity-60" isActive>

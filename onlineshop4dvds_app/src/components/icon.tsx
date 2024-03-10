@@ -19,7 +19,7 @@ export function Google({ className }: { className?: string }) {
     );
 }
 
-export function AcmeLogo({ width, height }: { width: number, height: number }) {
+export function Acme({ width, height }: { width: number, height: number }) {
     return (
         <svg fill="none" height={height} viewBox="0 0 32 32" width={width}>
             <path

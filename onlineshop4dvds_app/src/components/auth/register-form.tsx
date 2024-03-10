@@ -1,7 +1,7 @@
 "use client"
 
 import { Button, Checkbox, Input, Link } from "@nextui-org/react";
-import { Facebook, Google } from "../ui/icon";
+import { Facebook, Google } from "../icon";
 
 export default function RegisterForm() {
 

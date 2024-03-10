@@ -2,7 +2,7 @@
 
 import { Button, Checkbox, Input, Link } from "@nextui-org/react";
 import { z } from "zod";
-import { Facebook, Google } from "../ui/icon";
+import { Facebook, Google } from "../icon";
 
 const passwordErrorMessage = "Mật khẩu phải chứa từ 6 - 64 kí tự";
 const emailErrorMessage = "Vui lòng nhập đúng định dạng email";
