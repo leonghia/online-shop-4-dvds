@@ -4,6 +4,10 @@ export interface Movie {
     releasedYear: number;
     lengthInMinutes: number;
     genres: string[];
+    price: number;
+    rating: number;
+    description: string;
+    coverUrl: string;
 }
 
 export class MovieCreate {

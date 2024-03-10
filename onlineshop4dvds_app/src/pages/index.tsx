@@ -5,7 +5,7 @@ import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
 import { Album } from "@/models/album";
 import { API_URL } from "@/config";
-import CardsImages from "@/components/cards-images";
+import MovieListWithRating from "@/components/movies/movie-list-with-ratings";
 
 export default function Home() {
   const [albums, setAlbums] = useState<Album[] | null>(null);
@@ -29,7 +29,7 @@ export default function Home() {
         <AlbumListGrid albums={albums} />
       </div>
       <div className="flex items-center justify-center p-4">
-        
+        <MovieListWithRating movies={null} />
       </div>
     </UserLayout>
   );

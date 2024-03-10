@@ -29,7 +29,7 @@ export default function AlbumCard({album}: {album: Album}) {
                 </div>
                 <p className="text-small text-default-500">{album.artist}</p>
                 <div className="flex gap-2">
-                    <Button color="default" className="w-full font-semibold">Add to cart</Button>
+                    <Button color="default" className="w-full font-medium">Add to cart</Button>
                 </div>
             </div>
         </div>

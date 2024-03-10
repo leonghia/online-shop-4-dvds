@@ -4,4 +4,8 @@ export class MovieGetDto {
     public releasedYear: number;
     public lengthInMinutes: number;
     public genres: string[];
+    public price: number;
+    public rating: number;
+    public description: string;
+    public coverUrl: string;
 }

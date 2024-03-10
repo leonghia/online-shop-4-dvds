@@ -15,6 +15,18 @@ export class Movie {
     @Column()
     public lengthInMinutes: number;
 
+    @Column("decimal", {nullable: true})
+    public price: number;
+
+    @Column("decimal", {nullable: true})
+    public rating: number;
+
+    @Column({nullable: true})
+    public description: string;
+
+    @Column({nullable: true})
+    public coverUrl: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];

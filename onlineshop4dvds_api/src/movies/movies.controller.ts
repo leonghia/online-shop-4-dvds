@@ -4,7 +4,6 @@ import { MovieGetDto } from './dtos/movie-get.dto';
 import { MovieCreateDto } from './dtos/movie-create.dto';
 import { Movie } from './movie.entity';
 import { CategoriesService } from 'src/categories/categories.service';
-import { GenreType } from 'src/utils/genre-type';
 
 @Controller('movies')
 export class MoviesController {
@@ -20,6 +19,10 @@ export class MoviesController {
             movieToReturn.lengthInMinutes = movie.lengthInMinutes;
             movieToReturn.releasedYear = movie.releasedYear;
             movieToReturn.title = movie.title;
+            movieToReturn.price = movie.price;
+            movieToReturn.rating = movie.rating;
+            movieToReturn.description = movie.description;
+            movieToReturn.coverUrl = movie.coverUrl;
             return movieToReturn;
         });
         return moviesToReturn;
@@ -35,17 +38,25 @@ export class MoviesController {
         movieToReturn.lengthInMinutes = movie.lengthInMinutes;
         movieToReturn.releasedYear = movie.releasedYear;
         movieToReturn.title = movie.title;
+        movieToReturn.price = movie.price;
+        movieToReturn.rating = movie.rating;
+        movieToReturn.description = movie.description;
+        movieToReturn.coverUrl = movie.coverUrl;
         return movieToReturn;
     }
 
     @Post()
     public async create(@Body() movieCreateDto: MovieCreateDto) {
         const movieToCreate = new Movie();
-        movieToCreate.genres = await this.categoriesService.findRange({type: undefined, ids: movieCreateDto.genresIds});
+        movieToCreate.genres = await this.categoriesService.findRange({ type: undefined, ids: movieCreateDto.genresIds });
         movieToCreate.lengthInMinutes = movieCreateDto.hours * 60 + movieCreateDto.minutes;
         movieToCreate.releasedYear = movieCreateDto.releasedYear;
         movieToCreate.title = movieCreateDto.title;
-        
+        movieToCreate.price = movieCreateDto.price;
+        movieToCreate.rating = movieCreateDto.rating;
+        movieToCreate.description = movieCreateDto.description;
+        movieToCreate.coverUrl = movieCreateDto.coverUrl;
+
         const movieCreated = await this.moviesService.create(movieToCreate);
         const movieToReturn = new MovieGetDto();
         movieToReturn.genres = movieCreated.genres.map(genre => genre.name);
@@ -53,6 +64,10 @@ export class MoviesController {
         movieToReturn.lengthInMinutes = movieCreated.lengthInMinutes;
         movieToReturn.releasedYear = movieCreated.releasedYear;
         movieToReturn.title = movieCreated.title;
+        movieToReturn.price = movieCreated.price;
+        movieToReturn.rating = movieCreated.rating;
+        movieToReturn.description = movieCreated.description;
+        movieToReturn.coverUrl = movieCreated.coverUrl;
         return movieToReturn;
     }
 
