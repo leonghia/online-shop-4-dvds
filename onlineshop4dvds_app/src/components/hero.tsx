@@ -4,8 +4,7 @@ export default function Hero() {
     return (
         <section className="flex max-w-4xl flex-col items-center py-24">
             <div className="flex flex-col text-center">
-                <h2 className="font-medium text-primary">Welcome!</h2>
-                <h1 className="text-4xl font-medium tracking-tight">Online Shop 4 DVDS</h1>
+                <h1 className="text-4xl lg:text-6xl font-extrabold tracking-tight">Online Shop 4 <span className="tracking-tight inline from-[#FF72E1] to-[#F54C7A] bg-clip-text text-transparent bg-gradient-to-b">DVDS</span></h1>
                 <Spacer y={4} />
                 <h2 className="text-large text-default-500">
                     Our mission is to provide a sanctuary for CD lovers, a place where they can discover new albums, revisit old movies, and preserve the rich heritage of physical media in the digital age.
