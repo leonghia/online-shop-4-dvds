@@ -1,11 +1,13 @@
-import Layout from "@/components/layouts/layout";
+import Hero from "@/components/hero";
 import UserLayout from "@/components/layouts/user-layout";
-import MyNavbar from "@/components/navbar";
 
 export default function Home() {
   return (
     <UserLayout>
-      <div>Home page</div>
+      <div className="flex items-center justify-center p-4">
+        <Hero />
+      </div>
+
     </UserLayout>
   );
 }
