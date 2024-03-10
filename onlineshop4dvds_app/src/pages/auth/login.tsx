@@ -1,9 +1,4 @@
 import Layout from "@/components/layouts/layout";
-import {Checkbox} from "@nextui-org/react";
-import {Input} from "@nextui-org/react";
-import {Button} from "@nextui-org/react";
-import { Google, Facebook } from "@/components/ui/icon";
-import {Link} from "@nextui-org/react";
 import LoginForm from "@/components/auth/login-form";
 
 export default function LoginPage() {
@@ -14,7 +9,7 @@ export default function LoginPage() {
                     className="flex h-screen w-screen items-center justify-center overflow-hidden rounded-small bg-content1 p-2 sm:p-4 lg:p-8"
                     style={{
                         backgroundImage:
-                            'url("https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/black-background-texture-2.jpg")',
+                            'url("../black-background-texture-2.jpg")',
                         backgroundSize: "cover",
                         backgroundPosition: "center center"
                     }}

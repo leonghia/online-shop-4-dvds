@@ -1,8 +1,5 @@
 import RegisterForm from "@/components/auth/register-form";
 import Layout from "@/components/layouts/layout";
-import { Facebook, Google } from "@/components/ui/icon";
-import { Button, Checkbox, Input, Link } from "@nextui-org/react";
-
 
 export default function RegisterPage() {
     return (
@@ -12,7 +9,7 @@ export default function RegisterPage() {
                     className="flex h-screen w-screen items-center justify-center overflow-hidden rounded-small bg-content1 p-2 sm:p-4 lg:p-8"
                     style={{
                         backgroundImage:
-                            'url("https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/black-background-texture.jpeg")',
+                            'url("../black-background-texture.jpeg")',
                         backgroundSize: "cover",
                         backgroundPosition: "center center"
                     }}

@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 const defaultClassName = "w-5 h-5";
 
-export function Google({className} : {className?: string}) {
+export function Google({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 48 48" className={cn(className || defaultClassName)}>
             <title>Google Logo</title>
@@ -19,7 +19,20 @@ export function Google({className} : {className?: string}) {
     );
 }
 
-export function Facebook({className} : {className?: string}) {
+export function AcmeLogo({ width, height }: { width: number, height: number }) {
+    return (
+        <svg fill="none" height={height} viewBox="0 0 32 32" width={width}>
+            <path
+                clipRule="evenodd"
+                d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
+                fill="currentColor"
+                fillRule="evenodd"
+            />
+        </svg>
+    );
+}
+
+export function Facebook({ className }: { className?: string }) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" xmlSpace="preserve" viewBox="0 0 40 40" className={cn(className || defaultClassName)}>
             <linearGradient id="a" x1="-277.375" x2="-277.375" y1="406.6018" y2="407.5726" gradientTransform="matrix(40 0 0 -39.7778 11115.001 16212.334)" gradientUnits="userSpaceOnUse">
