@@ -14,15 +14,14 @@ export default function MovieListWithRating({movies}: {movies: Movie[] | null}) 
                     showAnchorIcon
                     href="/albums"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-pink-500"
+                    className="gap-x-2 font-semibold text-green-500"
                 >
                     See all
                 </Link>
             </div>
 
             <div className="grid w-full grid-cols-1 gap-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {/* {movies?.map(movie => <MovieCard key={movie.id} movie={movie} />)} */}
-                {new Array(8).fill(0).map((e, i) => <MovieCard key={i} />)}
+                {movies?.map(movie => <MovieCard key={movie.id} movie={movie} />)}     
             </div>
         </div>
     );

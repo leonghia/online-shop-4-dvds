@@ -15,7 +15,7 @@ export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
                     showAnchorIcon
                     href="/albums"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-pink-500"
+                    className="gap-x-2 font-semibold text-green-500"
                 >
                     See all
                 </Link>

@@ -6,14 +6,23 @@ import { useEffect, useState } from "react";
 import { Album } from "@/models/album";
 import { API_URL } from "@/config";
 import MovieListWithRating from "@/components/movies/movie-list-with-ratings";
+import { Movie } from "@/models/movie";
 
 export default function Home() {
   const [albums, setAlbums] = useState<Album[] | null>(null);
+  const [movies, setMovies] = useState<Movie[] | null>(null);
 
   useEffect(() => {
     fetch(`${API_URL}/albums`)
       .then(res => res.json())
       .then((data: Album[]) => setAlbums(data))
+      .catch(err => console.error(err));
+  }, []);
+
+  useEffect(() => {
+    fetch(`${API_URL}/movies`)
+      .then(res => res.json())
+      .then((data: Movie[]) => setMovies(data))
       .catch(err => console.error(err));
   }, []);
 
@@ -29,7 +38,7 @@ export default function Home() {
         <AlbumListGrid albums={albums} />
       </div>
       <div className="flex items-center justify-center p-4">
-        <MovieListWithRating movies={null} />
+        <MovieListWithRating movies={movies} />
       </div>
     </UserLayout>
   );
