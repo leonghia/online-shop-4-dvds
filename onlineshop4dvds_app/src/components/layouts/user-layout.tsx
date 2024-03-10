@@ -6,7 +6,7 @@ import MyFooter from "../footer";
 export default function UserLayout({children}: {children: ReactNode}) {
     return (
         <Layout>
-            <div>
+            <div className="bg-radial">
                 <div className="flex items-center justify-center">
                     <MyNavbar />
                 </div> 
