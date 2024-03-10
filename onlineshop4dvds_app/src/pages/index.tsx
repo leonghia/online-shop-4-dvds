@@ -1,9 +1,21 @@
 import Hero from "@/components/hero";
 import UserLayout from "@/components/layouts/user-layout";
-import ProductListGrid from "@/components/product-list-grid";
+import AlbumListGrid from "@/components/albums/album-list-grid";
 import ScrollingBanner from "@/components/scrolling-banner";
+import { useEffect, useState } from "react";
+import { Album } from "@/models/album";
+import { API_URL } from "@/config";
 
 export default function Home() {
+  const [albums, setAlbums] = useState<Album[] | null>(null);
+
+  useEffect(() => {
+    fetch(`${API_URL}/albums`)
+      .then(res => res.json())
+      .then((data: Album[]) => setAlbums(data))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
     <UserLayout>
       <div className="flex items-center justify-center p-4">
@@ -13,7 +25,7 @@ export default function Home() {
         <ScrollingBanner />
       </div>
       <div className="flex items-center justify-center p-4">
-        <ProductListGrid />
+        <AlbumListGrid albums={albums} />
       </div>
     </UserLayout>
   );

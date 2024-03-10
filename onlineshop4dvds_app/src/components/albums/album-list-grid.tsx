@@ -1,8 +1,10 @@
 import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import AlbumCard from "./albums/album-card";
+import AlbumCard from "./album-card";
+import { Album } from "@/models/album";
 
-export default function ProductListGrid() {
+export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
+
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
@@ -20,8 +22,7 @@ export default function ProductListGrid() {
             </div>
 
             <div className="grid w-full grid-cols-1 gap-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                <AlbumCard />
-
+                {albums?.map(album => <AlbumCard key={album.id} album={album} />)}
             </div>
         </div>
 
