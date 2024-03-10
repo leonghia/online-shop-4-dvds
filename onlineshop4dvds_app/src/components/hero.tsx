@@ -8,7 +8,7 @@ export default function Hero() {
                 <h1 className="text-4xl font-medium tracking-tight">Online Shop 4 DVDS</h1>
                 <Spacer y={4} />
                 <h2 className="text-large text-default-500">
-                    Our mission is to provide a sanctuary for CD lovers, a place where they can discover new sounds, revisit old favorites, and preserve the rich heritage of physical media in the digital age.
+                    Our mission is to provide a sanctuary for CD lovers, a place where they can discover new albums, revisit old movies, and preserve the rich heritage of physical media in the digital age.
                 </h2>
                 <span
                     aria-hidden="true"
