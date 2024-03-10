@@ -84,7 +84,8 @@ const config = {
         "scrolling-banner": "scrolling-banner var(--duration) linear infinite",
       },
       backgroundImage: {
-        "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(25,8,43,.3))",
+        "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.8),rgba(25,8,43,.5))",
+        // "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(25,8,43,.3))",
       }
     },
   },
