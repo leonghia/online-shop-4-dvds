@@ -1,5 +1,4 @@
 import Hero from "@/components/hero";
-import UserLayout from "@/components/layouts/user-layout";
 import AlbumListGrid from "@/components/albums/album-list-grid";
 import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
@@ -9,6 +8,7 @@ import MoviesListWithRating from "@/components/movies/movies-list-with-ratings";
 import { Movie } from "@/models/movie";
 import { Game } from "@/models/game";
 import GamesList from "@/components/games/games-list";
+import HomeLayout from "@/components/layouts/home-layout";
 
 export default function Home() {
   const [albums, setAlbums] = useState<Album[] | null>(null);
@@ -37,10 +37,7 @@ export default function Home() {
   }, []);
 
   return (
-    <UserLayout>
-      <div className="flex items-center justify-center p-4">
-        <Hero />
-      </div>
+    <HomeLayout>
       <div className="flex items-center justify-center p-4">
         <ScrollingBanner />
       </div>
@@ -53,6 +50,6 @@ export default function Home() {
       <div className="flex items-center justify-center p-4">
         <GamesList games={games} />
       </div>
-    </UserLayout>
+    </HomeLayout>
   );
 }
