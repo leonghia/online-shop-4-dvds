@@ -15,6 +15,12 @@ export class Game {
     @Column({length: 256})
     public publisher: string;
 
+    @Column("decimal", {nullable: true})
+    public price: number;
+
+    @Column({nullable: true})
+    public description: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];

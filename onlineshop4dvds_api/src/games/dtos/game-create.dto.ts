@@ -16,6 +16,14 @@ export class GameCreateDto {
     @MaxLength(256)
     public publisher: string;
 
+    @IsNumber()
+    @Min(0)
+    public price: number;
+
+    @IsString()
+    @MinLength(1)
+    public description: string;
+
     @IsNumber(undefined, {each: true})
     public genresIds: number[];
 }

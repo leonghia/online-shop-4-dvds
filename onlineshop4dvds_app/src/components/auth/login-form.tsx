@@ -21,7 +21,7 @@ export default function LoginForm() {
                 <Input type="email" label="Email" placeholder="Enter your email....." />
                 <Input type="password" label="Password" placeholder="Enter your password....." />
                 <Checkbox size="sm">Remember me</Checkbox>
-                <Button color="primary" className="font-semibold">Log In</Button>
+                <Button color="primary" className="font-semibold" href="/" as={Link}>Log In</Button>
             </form>
             <div className="flex items-center gap-4 py-2">
                 <hr

@@ -4,4 +4,6 @@ export class GameGetDto {
     public releasedYear: number;
     public publisher: string;
     public genres: string[];
+    public price: number;
+    public description: string;
 }

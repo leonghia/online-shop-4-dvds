@@ -19,6 +19,8 @@ export class GamesController {
             gameToReturn.publisher = game.publisher;
             gameToReturn.releasedYear = game.releasedYear;
             gameToReturn.title = game.title;
+            gameToReturn.description = game.description;
+            gameToReturn.price = game.price;
             return gameToReturn;
         });
         return gamesToReturn;
@@ -34,6 +36,8 @@ export class GamesController {
         gameToReturn.publisher = game.publisher;
         gameToReturn.releasedYear = game.releasedYear;
         gameToReturn.title = game.title;
+        gameToReturn.description = game.description;
+        gameToReturn.price = game.price;
         return gameToReturn;
     }
 
@@ -44,6 +48,8 @@ export class GamesController {
         gameToCreate.publisher = gameCreateDto.publisher;
         gameToCreate.releasedYear = gameCreateDto.releasedYear;
         gameToCreate.title = gameCreateDto.title;
+        gameToCreate.description = gameCreateDto.description;
+        gameToCreate.price = gameCreateDto.price;
 
         const gameCreated = await this.gamesService.create(gameToCreate);
         const gameToReturn = new GameGetDto();
@@ -52,6 +58,8 @@ export class GamesController {
         gameToReturn.publisher = gameCreated.publisher;
         gameToReturn.releasedYear = gameCreated.releasedYear;
         gameToReturn.title = gameCreated.title;
+        gameToReturn.description = gameCreated.description;
+        gameToReturn.price = gameCreated.price;
         return gameToReturn;
     }
 
