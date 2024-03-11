@@ -1,8 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { GamesService } from './games.service';
-import { GameGetDto } from './dtos/game-get.dto';
 import { GameCreateDto } from './dtos/game-create.dto';
-import { Game } from './game.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 
 @Controller('games')
@@ -11,62 +9,32 @@ export class GamesController {
 
     @Get()
     public async getRange() {
-        const games = await this.gamesService.findRange();
-        const gamesToReturn = games.map(game => {
-            const gameToReturn = new GameGetDto();
-            gameToReturn.genres = game.genres.map(genre => genre.name);
-            gameToReturn.id = game.id;
-            gameToReturn.publisher = game.publisher;
-            gameToReturn.releasedYear = game.releasedYear;
-            gameToReturn.title = game.title;
-            gameToReturn.description = game.description;
-            gameToReturn.price = game.price;
-            return gameToReturn;
-        });
-        return gamesToReturn;
+        return await this.gamesService.findRange();
     }
 
     @Get(":id")
     public async getById(@Param("id") id: number) {
-        const game = await this.gamesService.findById(id);
-        if (!game) throw new NotFoundException();
-        const gameToReturn = new GameGetDto();
-        gameToReturn.genres = game.genres.map(genre => genre.name);
-        gameToReturn.id = game.id;
-        gameToReturn.publisher = game.publisher;
-        gameToReturn.releasedYear = game.releasedYear;
-        gameToReturn.title = game.title;
-        gameToReturn.description = game.description;
-        gameToReturn.price = game.price;
+        const gameToReturn = await this.gamesService.findDetailById(id);
+        if (!gameToReturn) throw new NotFoundException();
         return gameToReturn;
     }
 
     @Post()
     public async create(@Body() gameCreateDto: GameCreateDto) {
-        const gameToCreate = new Game();
-        gameToCreate.genres = await this.categoriesService.findRange({type: undefined, ids: gameCreateDto.genresIds});
-        gameToCreate.publisher = gameCreateDto.publisher;
-        gameToCreate.releasedYear = gameCreateDto.releasedYear;
-        gameToCreate.title = gameCreateDto.title;
-        gameToCreate.description = gameCreateDto.description;
-        gameToCreate.price = gameCreateDto.price;
-
-        const gameCreated = await this.gamesService.create(gameToCreate);
-        const gameToReturn = new GameGetDto();
-        gameToReturn.genres = gameCreated.genres.map(genre => genre.name);
-        gameToReturn.id = gameCreated.id;
-        gameToReturn.publisher = gameCreated.publisher;
-        gameToReturn.releasedYear = gameCreated.releasedYear;
-        gameToReturn.title = gameCreated.title;
-        gameToReturn.description = gameCreated.description;
-        gameToReturn.price = gameCreated.price;
-        return gameToReturn;
+        if (gameCreateDto.gameId) {
+            const existingGame = await this.gamesService.findById(gameCreateDto.gameId);
+            if (!existingGame) throw new NotFoundException();
+            
+            return await this.gamesService.createAnotherDetail(gameCreateDto, existingGame);
+        }
+        
+        return await this.gamesService.createNewGame(gameCreateDto);
     }
 
     @HttpCode(204)
     @Delete(":id")
     public async delete(@Param("id") id: number) {
-        const game = await this.gamesService.findById(id);
+        const game = await this.gamesService.findDetailById(id);
         if (!game) throw new NotFoundException();
         await this.gamesService.delete(id);
     }

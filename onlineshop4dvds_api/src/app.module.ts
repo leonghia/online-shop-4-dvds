@@ -19,6 +19,7 @@ import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/movie.entity';
 import { GamesModule } from './games/games.module';
 import { Game } from './games/game.entity';
+import { GameDetail } from './games/game-detail.entity';
 
 @Module({
   imports: [
@@ -30,8 +31,8 @@ import { Game } from './games/game.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist, Album, Song, Movie, Game],
-      synchronize: true, // auto migration
+      entities: [User, Category, Artist, Album, Song, Movie, Game, GameDetail],
+      synchronize: true, // auto migration on save
     }),
     AuthModule,
     UsersModule,
