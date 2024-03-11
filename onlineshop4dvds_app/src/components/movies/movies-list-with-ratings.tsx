@@ -4,17 +4,17 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import GradientHeading from "../gradient-heading";
 import MovieCard from "./movie-card";
 
-export default function MovieListWithRating({movies}: {movies: Movie[] | null}) {
+export default function MoviesListWithRating({movies}: {movies: Movie[] | null}) {
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
-                <GradientHeading title="Movies" />
+                <GradientHeading title="Movies" className="from-[#5EA2EF] to-[#0072F5]" />
                 <Link
                     isExternal
                     showAnchorIcon
-                    href="/albums"
+                    href="/movies"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-green-500"
+                    className="gap-x-2 font-semibold text-blue-500"
                 >
                     See all
                 </Link>

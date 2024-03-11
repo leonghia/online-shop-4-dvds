@@ -1,30 +1,28 @@
 import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
-import AlbumCard from "./album-card";
-import { Album } from "@/models/album";
 import GradientHeading from "../gradient-heading";
+import GameCard from "./game-card";
+import { Game } from "@/models/game";
 
-export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
-
+export default function MoviesListWithRating({games}: {games: Game[] | null}) {
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
-                <GradientHeading title="Albums" className="from-[#FF705B] to-[#FFB457]" />
+                <GradientHeading title="Games" className="from-[#FF1CF7] to-[#b249f8]" />
                 <Link
                     isExternal
                     showAnchorIcon
-                    href="/albums"
+                    href="/games"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-orange-500"
+                    className="gap-x-2 font-semibold text-fuchsia-500"
                 >
                     See all
                 </Link>
             </div>
 
             <div className="grid w-full grid-cols-1 gap-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {albums?.map(album => <AlbumCard key={album.id} album={album} />)}
+                {games?.map(game => <GameCard key={game.id} game={game} />)}     
             </div>
         </div>
-
     );
 }

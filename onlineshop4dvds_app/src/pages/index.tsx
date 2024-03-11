@@ -5,12 +5,15 @@ import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
 import { Album } from "@/models/album";
 import { API_URL } from "@/config";
-import MovieListWithRating from "@/components/movies/movie-list-with-ratings";
+import MoviesListWithRating from "@/components/movies/movies-list-with-ratings";
 import { Movie } from "@/models/movie";
+import { Game } from "@/models/game";
+import GamesList from "@/components/games/games-list";
 
 export default function Home() {
   const [albums, setAlbums] = useState<Album[] | null>(null);
   const [movies, setMovies] = useState<Movie[] | null>(null);
+  const [games, setGames] = useState<Game[] | null>(null);
 
   useEffect(() => {
     fetch(`${API_URL}/albums`)
@@ -26,6 +29,13 @@ export default function Home() {
       .catch(err => console.error(err));
   }, []);
 
+  useEffect(() => {
+    fetch(`${API_URL}/games`)
+      .then(res => res.json())
+      .then((data: Game[]) => setGames(data))
+      .catch(err => console.error(err));
+  }, []);
+
   return (
     <UserLayout>
       <div className="flex items-center justify-center p-4">
@@ -38,7 +48,10 @@ export default function Home() {
         <AlbumListGrid albums={albums} />
       </div>
       <div className="flex items-center justify-center p-4">
-        <MovieListWithRating movies={movies} />
+        <MoviesListWithRating movies={movies} />
+      </div>
+      <div className="flex items-center justify-center p-4">
+        <GamesList games={games} />
       </div>
     </UserLayout>
   );
