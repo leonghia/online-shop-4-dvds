@@ -23,8 +23,8 @@ const Tag = (props: RadioProps) => {
       <VisuallyHidden>
         <input {...getInputProps()} />
       </VisuallyHidden>
-      <div {...getLabelWrapperProps()} className="max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-1 h-7 relative select-none transition-colors-opacity before:transition-width motion-reduce:transition-none">
-        <span {...getLabelProps()} className="flex gap-x-1 items-center pr-1">{children}</span>
+      <div {...getLabelWrapperProps()} className="max-w-fit min-w-min inline-flex items-center justify-between box-border whitespace-nowrap px-2 h-7 relative select-none transition-colors-opacity before:transition-width motion-reduce:transition-none">
+        <span {...getLabelProps()} className="flex gap-x-1 items-center">{children}</span>
       </div>
     </Component>
   );
@@ -36,9 +36,9 @@ export default function FilterGenres({genres}: {genres: Genre[] | null}) {
     <div className="flex gap-x-3 items-center">
       <span className="text-small text-foreground font-medium">Filter:</span>
       <RadioGroup orientation="horizontal">
+        <Tag value="0">All</Tag>
         {genres?.map(genre => (
-          <Tag value={genre.id.toString()}>
-            <Pop />
+          <Tag value={genre.id.toString()}> 
             {genre.name}
           </Tag>
         ))}
