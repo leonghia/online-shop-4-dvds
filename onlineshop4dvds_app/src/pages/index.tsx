@@ -1,5 +1,5 @@
 import Hero from "@/components/hero";
-import AlbumListGrid from "@/components/albums/album-list-grid";
+import AlbumsList from "@/components/albums/albums-list";
 import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
 import { Album } from "@/models/album";
@@ -42,7 +42,7 @@ export default function Home() {
         <ScrollingBanner />
       </div>
       <div className="flex items-center justify-center p-4">
-        <AlbumListGrid albums={albums} />
+        <AlbumsList albums={albums} />
       </div>
       <div className="flex items-center justify-center p-4">
         <MoviesList movies={movies} />

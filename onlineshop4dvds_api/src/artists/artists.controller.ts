@@ -46,7 +46,7 @@ export class ArtistsController {
         artistToCreate.fullName = artistCreateDto.fullName;
         artistToCreate.dob = artistCreateDto.dob;
         artistToCreate.nationality = artistCreateDto.nationality;
-        artistToCreate.categories = await this.categoriesService.findRange({type: undefined, ids: artistCreateDto.genres});
+        artistToCreate.categories = await this.categoriesService.findRange({requestParams: undefined, ids: artistCreateDto.genres});
         return await this.artistsService.create(artistToCreate);
     }
 

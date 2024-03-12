@@ -2,35 +2,26 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
 import { In, Repository } from 'typeorm';
+import { GenresRequestParams } from 'src/utils/request-params';
 
 @Injectable()
 export class CategoriesService {
 
-    public constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) {}
+    public constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) { }
 
     public async create(categoryToCreate: Category): Promise<Category> {
         return await this.categoryRepository.save(categoryToCreate);
     }
 
-    public async findRange({type, ids}: {type: number, ids: number[]}): Promise<Category[]> {
-        if (type)
-            return await this.categoryRepository.find({
-                
-                where: {
-                    type
-                },
-            });
-        else if (ids)
-            return await this.categoryRepository.find({
-                
-                where: {
-                    id: In(ids)
-                }
-            });
-        else
-            return await this.categoryRepository.find({
-                
-            });
+    public async findRange({ requestParams, ids }: { requestParams?: GenresRequestParams, ids?: number[] }): Promise<Category[]> {
+        return await this.categoryRepository.find({
+            where: {
+                type: requestParams?.type,
+
+            },
+            skip: requestParams?.pageSize * (requestParams?.pageNumber - 1) || undefined,
+            take: requestParams?.pageSize || undefined
+        });
     }
 
     public async findById(id: number): Promise<Category | null> {

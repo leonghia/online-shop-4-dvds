@@ -5,7 +5,7 @@ import { Album } from "@/models/album";
 import GradientHeading from "../gradient-heading";
 import FilterTags from "../filter-tags";
 
-export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
+export default function AlbumsList({albums}: {albums: Album[] | null}) {
 
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">

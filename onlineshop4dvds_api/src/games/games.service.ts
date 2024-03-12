@@ -71,7 +71,7 @@ export class GamesService {
     public async createNewGame(gameCreateDto: GameCreateDto): Promise<GameGetDto | null> {
         const gameToCreate = new Game();
         gameToCreate.description = gameCreateDto.description;
-        gameToCreate.genres = await this.categoriesService.findRange({ type: undefined, ids: gameCreateDto.genresIds });
+        gameToCreate.genres = await this.categoriesService.findRange({ requestParams: undefined, ids: gameCreateDto.genresIds });
         gameToCreate.publisher = gameCreateDto.publisher;
         gameToCreate.releasedYear = gameCreateDto.releasedYear;
         gameToCreate.title = gameCreateDto.title;

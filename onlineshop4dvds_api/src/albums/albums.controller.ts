@@ -54,7 +54,7 @@ export class AlbumsController {
     @Post()
     public async create(@Body() albumCreateDto: AlbumCreateDto) {
         const albumToCreate = new Album();
-        albumToCreate.genres = await this.categoriesService.findRange({type: undefined, ids: albumCreateDto.genres });
+        albumToCreate.genres = await this.categoriesService.findRange({requestParams: undefined, ids: albumCreateDto.genres });
         albumToCreate.artist = await this.artistsService.findById(albumCreateDto.artistId, false);
         albumToCreate.released = albumCreateDto.released;
         albumToCreate.title = albumCreateDto.title;

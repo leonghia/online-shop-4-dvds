@@ -48,7 +48,7 @@ export class MoviesController {
     @Post()
     public async create(@Body() movieCreateDto: MovieCreateDto) {
         const movieToCreate = new Movie();
-        movieToCreate.genres = await this.categoriesService.findRange({ type: undefined, ids: movieCreateDto.genresIds });
+        movieToCreate.genres = await this.categoriesService.findRange({ requestParams: undefined, ids: movieCreateDto.genresIds });
         movieToCreate.lengthInMinutes = movieCreateDto.hours * 60 + movieCreateDto.minutes;
         movieToCreate.releasedYear = movieCreateDto.releasedYear;
         movieToCreate.title = movieCreateDto.title;

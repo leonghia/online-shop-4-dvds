@@ -31,21 +31,23 @@ const Tag = (props: RadioProps) => {
 
 export default function FilterTags() {
 
-
   return (
-    <RadioGroup orientation="horizontal">
-      <Tag value="free">
-        <Pop />
-        Pop
-      </Tag>
-      <Tag value="pro">
-        <Rock />
-        Rock
-      </Tag>
-      <Tag value="enterprise">
-        <RnB />
-        R&B
-      </Tag>
-    </RadioGroup>
+    <div className="flex gap-x-3 items-center">
+      <span className="text-small text-foreground font-medium">Filter:</span>
+      <RadioGroup orientation="horizontal">
+        <Tag value="free">
+          <Pop />
+          Pop
+        </Tag>
+        <Tag value="pro">
+          <Rock />
+          Rock
+        </Tag>
+        <Tag value="enterprise">
+          <RnB />
+          R&B
+        </Tag>
+      </RadioGroup>
+    </div>
   );
 }
