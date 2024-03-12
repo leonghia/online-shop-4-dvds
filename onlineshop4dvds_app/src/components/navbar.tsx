@@ -21,7 +21,7 @@ export default function MyNavbar() {
         }}>
             <NavbarContent justify="center">
                 <NavbarBrand>
-                    <div className="rounded-full bg-foreground text-background">
+                    <div className="rounded-full bg-primary text-background">
                         <Acme width={34} height={34} />
                     </div>
                 </NavbarBrand>
@@ -44,7 +44,7 @@ export default function MyNavbar() {
                     <Link href="/forum" color="foreground">Forum</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button href="/auth/login" as={Link} color="default" variant="flat" radius="full">Login</Button>
+                    <Button href="/auth/login" as={Link} color="primary" variant="solid" radius="full" className="font-medium">Login</Button>
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
