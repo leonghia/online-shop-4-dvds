@@ -38,7 +38,7 @@ export default function FilterGenres({genres}: {genres: Genre[] | null}) {
       <RadioGroup orientation="horizontal">
         <Tag value="0">All</Tag>
         {genres?.map(genre => (
-          <Tag value={genre.id.toString()}> 
+          <Tag key={genre.id} value={genre.id.toString()}> 
             {genre.name}
           </Tag>
         ))}

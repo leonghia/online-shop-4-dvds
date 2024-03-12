@@ -19,7 +19,7 @@ export default function GameCard({game}: {game: Game}) {
                     <h3 className="text-medium font-medium text-default-700">
                         {game.title}
                     </h3>
-                    <p className="text-medium font-medium text-default-500">${game.price}</p>
+                    <p className="text-medium font-medium text-pink-500">${game.price}</p>
                 </div>
                 <p className="text-small text-default-500 line-clamp-3">
                     {game.description}

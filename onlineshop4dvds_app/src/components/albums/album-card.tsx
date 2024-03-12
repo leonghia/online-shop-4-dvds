@@ -25,7 +25,7 @@ export default function AlbumCard({album}: {album: Album}) {
                     <h3 className="text-medium font-medium text-default-700">
                         {album.title}
                     </h3>
-                    <p className="text-medium font-medium text-default-500">${album.price}</p>
+                    <p className="text-medium font-medium text-pink-500">${album.price}</p>
                 </div>
                 <p className="text-small text-default-500">{album.artist}</p>
                 <div className="flex gap-2">

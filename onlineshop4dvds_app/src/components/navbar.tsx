@@ -21,7 +21,7 @@ export default function MyNavbar() {
         }}>
             <NavbarContent justify="center">
                 <NavbarBrand>
-                    <div className="rounded-full bg-primary text-background">
+                    <div className="rounded-full bg-foreground text-background">
                         <Acme width={34} height={34} />
                     </div>
                 </NavbarBrand>

@@ -19,7 +19,7 @@ export default function MovieCard({movie}: {movie: Movie}) {
                     <h3 className="text-medium font-medium text-default-700">
                         {movie.title} ({movie.releasedYear})
                     </h3>
-                    <p className="text-medium font-medium text-default-500">${movie.price}</p>
+                    <p className="text-medium font-medium text-pink-500">${movie.price}</p>
                 </div>
                 <p className="text-small text-default-500 line-clamp-3">
                     {movie.description}

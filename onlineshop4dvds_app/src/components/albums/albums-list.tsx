@@ -7,17 +7,18 @@ import FilterGenres from "../filter-genres";
 import { useEffect, useState } from "react";
 import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
+import { GenreType } from "@/utils/genre-type";
 
 export default function AlbumsList() {
     const [albums, setAlbums] = useState<Album[] | null>(null);
     const [genres, setGenres] = useState<Genre[] | null>(null);
 
     useEffect(() => {
-        fetch(`${API_URL}/categories?type=0`)
+        fetch(`${API_URL}/categories?type=${GenreType.Music}`)
             .then(res => res.json())
             .then((data: Genre[]) => setGenres(data))
             .catch(err => console.error(err));
-    })
+    }, []);
 
     useEffect(() => {
         fetch(`${API_URL}/albums`)
