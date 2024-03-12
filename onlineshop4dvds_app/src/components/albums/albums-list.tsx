@@ -3,15 +3,34 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import AlbumCard from "./album-card";
 import { Album } from "@/models/album";
 import GradientHeading from "../gradient-heading";
-import FilterTags from "../filter-tags";
+import FilterGenres from "../filter-genres";
+import { useEffect, useState } from "react";
+import { Genre } from "@/models/genre";
+import { API_URL } from "@/config";
 
-export default function AlbumsList({albums}: {albums: Album[] | null}) {
+export default function AlbumsList() {
+    const [albums, setAlbums] = useState<Album[] | null>(null);
+    const [genres, setGenres] = useState<Genre[] | null>(null);
+
+    useEffect(() => {
+        fetch(`${API_URL}/categories?type=0`)
+            .then(res => res.json())
+            .then((data: Genre[]) => setGenres(data))
+            .catch(err => console.error(err));
+    })
+
+    useEffect(() => {
+        fetch(`${API_URL}/albums`)
+          .then(res => res.json())
+          .then((data: Album[]) => setAlbums(data))
+          .catch(err => console.error(err));
+      }, []);
 
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full justify-between px-4 items-center">
                 <GradientHeading title="Albums" />
-                <FilterTags />
+                <FilterGenres genres={genres} />
                 <Link
                     isExternal
                     showAnchorIcon

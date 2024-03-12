@@ -1,8 +1,6 @@
-import Hero from "@/components/hero";
 import AlbumsList from "@/components/albums/albums-list";
 import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
-import { Album } from "@/models/album";
 import { API_URL } from "@/config";
 import MoviesList from "@/components/movies/movies-list";
 import { Movie } from "@/models/movie";
@@ -11,16 +9,8 @@ import GamesList from "@/components/games/games-list";
 import HomeLayout from "@/components/layouts/home-layout";
 
 export default function Home() {
-  const [albums, setAlbums] = useState<Album[] | null>(null);
   const [movies, setMovies] = useState<Movie[] | null>(null);
   const [games, setGames] = useState<Game[] | null>(null);
-
-  useEffect(() => {
-    fetch(`${API_URL}/albums`)
-      .then(res => res.json())
-      .then((data: Album[]) => setAlbums(data))
-      .catch(err => console.error(err));
-  }, []);
 
   useEffect(() => {
     fetch(`${API_URL}/movies`)
@@ -42,7 +32,7 @@ export default function Home() {
         <ScrollingBanner />
       </div>
       <div className="flex items-center justify-center p-4">
-        <AlbumsList albums={albums} />
+        <AlbumsList />
       </div>
       <div className="flex items-center justify-center p-4">
         <MoviesList movies={movies} />

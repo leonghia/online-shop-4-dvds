@@ -1,5 +1,6 @@
 import { RadioGroup, useRadio, VisuallyHidden, cn, RadioProps } from "@nextui-org/react";
 import { Pop, RnB, Rock } from "./icons/music";
+import { Genre } from "@/models/genre";
 
 const Tag = (props: RadioProps) => {
   const {
@@ -29,24 +30,18 @@ const Tag = (props: RadioProps) => {
   );
 }
 
-export default function FilterTags() {
+export default function FilterGenres({genres}: {genres: Genre[] | null}) {
 
   return (
     <div className="flex gap-x-3 items-center">
       <span className="text-small text-foreground font-medium">Filter:</span>
       <RadioGroup orientation="horizontal">
-        <Tag value="free">
-          <Pop />
-          Pop
-        </Tag>
-        <Tag value="pro">
-          <Rock />
-          Rock
-        </Tag>
-        <Tag value="enterprise">
-          <RnB />
-          R&B
-        </Tag>
+        {genres?.map(genre => (
+          <Tag value={genre.id.toString()}>
+            <Pop />
+            {genre.name}
+          </Tag>
+        ))}
       </RadioGroup>
     </div>
   );
