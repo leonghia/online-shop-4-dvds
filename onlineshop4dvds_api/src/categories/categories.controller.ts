@@ -13,7 +13,6 @@ export class CategoriesController {
 
     @Get()
     public async getRange(@Query() genresRequestParams?: GenresRequestParams) {
-        console.log(genresRequestParams);
         const categories = await this.categoriesService.findRange({requestParams: genresRequestParams, ids: undefined});
         const categoriesToReturn = categories.map(c => {
             const categoryToReturn: CategoryGetDto = {

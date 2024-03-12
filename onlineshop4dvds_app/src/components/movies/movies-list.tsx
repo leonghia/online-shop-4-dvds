@@ -3,12 +3,37 @@ import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import GradientHeading from "../gradient-heading";
 import MovieCard from "./movie-card";
+import { useEffect, useState } from "react";
+import { API_URL } from "@/config";
+import { Genre } from "@/models/genre";
+import FilterGenres from "../filter-genres";
+import { GenreType } from "@/utils/genre-type";
 
-export default function MoviesList({movies}: {movies: Movie[] | null}) {
+export default function MoviesList() {
+    const [movies, setMovies] = useState<Movie[] | null>(null);
+    const [genres, setGenres] = useState<Genre[] | null>(null);
+
+    useEffect(() => {
+        fetch(`${API_URL}/categories?type=${GenreType.Movie}`)
+            .then(res => res.json())
+            .then((data: Genre[]) => setGenres(data))
+            .catch(err => console.error(err));
+    }, []);
+
+    useEffect(() => {
+        fetch(`${API_URL}/movies`)
+          .then(res => res.json())
+          .then((data: Movie[]) => setMovies(data))
+          .catch(err => console.error(err));
+      }, []);
+
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
                 <GradientHeading title="Movies" />
+                <div className="lg:max-w-3xl">
+                    <FilterGenres genres={genres} />
+                </div>
                 <Link
                     isExternal
                     showAnchorIcon

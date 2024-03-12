@@ -30,7 +30,9 @@ export default function AlbumsList() {
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full justify-between px-4 items-center">
                 <GradientHeading title="Albums" />
-                <FilterGenres genres={genres} />
+                <div className="lg:max-w-3xl">
+                    <FilterGenres genres={genres} />
+                </div>
                 <Link
                     isExternal
                     showAnchorIcon
