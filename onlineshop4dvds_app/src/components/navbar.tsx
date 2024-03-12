@@ -6,7 +6,7 @@ import {
     Link,
     Button
   } from "@nextui-org/react";
-import { Acme } from "./icon";
+import { Acme } from "./icons/brands";
 
 export default function MyNavbar() {
     return (

@@ -1,5 +1,5 @@
 import RegisterForm from "@/components/auth/register-form";
-import { Acme } from "@/components/icon";
+import { Acme } from "@/components/icons/brands";
 import Layout from "@/components/layouts/layout";
 
 export default function RegisterPage() {

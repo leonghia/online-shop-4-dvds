@@ -1,6 +1,6 @@
 import { Link, Spacer } from "@nextui-org/react";
 import { FaFacebookF, FaInstagram, FaXTwitter, FaLinkedin } from "react-icons/fa6";
-import { Acme } from "./icon";
+import { Acme } from "./icons/brands";
 
 
 export default function MyFooter() {

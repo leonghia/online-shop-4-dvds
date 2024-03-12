@@ -1,6 +1,6 @@
 import Layout from "@/components/layouts/layout";
 import LoginForm from "@/components/auth/login-form";
-import { Acme } from "@/components/icon";
+import { Acme } from "@/components/icons/brands";
 
 export default function LoginPage() {
     return (

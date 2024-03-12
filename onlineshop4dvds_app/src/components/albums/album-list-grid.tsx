@@ -3,13 +3,15 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import AlbumCard from "./album-card";
 import { Album } from "@/models/album";
 import GradientHeading from "../gradient-heading";
+import FilterTags from "../filter-tags";
 
 export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
 
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
-            <div className="flex w-full items-baseline justify-between px-4">
+            <div className="flex w-full justify-between px-4 items-center">
                 <GradientHeading title="Albums" />
+                <FilterTags />
                 <Link
                     isExternal
                     showAnchorIcon

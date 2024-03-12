@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import RegisterForm from "./register-form";
 import Divider from "../ui/divider";
 import { Button } from "../ui/button";
-import { Facebook, Google } from "../icon";
+import { Facebook, Google } from "../icons/brands";
 import LoginForm from "./login-form";
 
 export enum AuthFormType {
