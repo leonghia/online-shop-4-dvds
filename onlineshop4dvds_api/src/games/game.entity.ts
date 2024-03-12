@@ -1,5 +1,6 @@
 import { Category } from "src/categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { GameDetail } from "./game-detail.entity";
 
 @Entity()
 export class Game {
@@ -15,7 +16,13 @@ export class Game {
     @Column({length: 256})
     public publisher: string;
 
+    @Column({nullable: true})
+    public description: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];
+
+    @OneToMany(() => GameDetail, (gameDetail) => gameDetail.game)
+    public gameDetails: GameDetail[];
 }

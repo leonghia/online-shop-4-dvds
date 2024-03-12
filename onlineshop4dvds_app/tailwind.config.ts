@@ -69,11 +69,26 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "scrolling-banner": {
+          "0%": {
+            transform: "translateX(0)"
+          },
+          "to": {
+            transform: "translateX(calc(-50% - var(--gap)/2))"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "scrolling-banner": "scrolling-banner var(--duration) linear infinite",
       },
+      backgroundImage: {
+        "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.8),rgba(25,8,43,.5))",
+        // "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(25,8,43,.3))",
+        "hero": "url('https://maven-uploads.s3.amazonaws.com/120386748/projects/netflix%20image.jpg')",
+        "shadow": "linear-gradient(7deg, rgba(0, 0, 0, 0.8500) 10.00%, rgba(0, 0, 0, 0.8465) 17.25%, rgba(0, 0, 0, 0.8361) 24.50%, rgba(0, 0, 0, 0.8187) 31.75%, rgba(0, 0, 0, 0.7944) 39.00%, rgba(0, 0, 0, 0.7632) 46.25%, rgba(0, 0, 0, 0.7250) 53.50%, rgba(0, 0, 0, 0.6868) 60.75%, rgba(0, 0, 0, 0.6556) 68.00%, rgba(0, 0, 0, 0.6312) 75.25%, rgba(0, 0, 0, 0.6139) 82.50%, rgba(0, 0, 0, 0.6035) 89.75%, rgba(0, 0, 0, 0.6000) 97.00%)",
+      }
     },
   },
   plugins: [require("tailwindcss-animate"), nextui()],

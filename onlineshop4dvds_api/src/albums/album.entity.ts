@@ -17,6 +17,12 @@ export class Album {
     @Column({nullable: true})
     lengthInSeconds: number;
 
+    @Column("decimal", {nullable: true})
+    price: number;
+
+    @Column({nullable: true})
+    coverUrl: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     genres: Category[];

@@ -4,6 +4,7 @@ import { CategoryCreateDto } from './dtos/category-create.dto';
 import { Category } from './category.entity';
 import { CategoryUpdateDto } from './dtos/category-update.dto';
 import { CategoryGetDto } from './dtos/category-get.dto';
+import { GenresRequestParams } from 'src/utils/request-params';
 
 @Controller('categories')
 export class CategoriesController {
@@ -11,13 +12,14 @@ export class CategoriesController {
     public constructor(private categoriesService: CategoriesService) {}
 
     @Get()
-    public async getRange(@Query("type") type: number) {
-        const categories = await this.categoriesService.findRange({type, ids: undefined});
+    public async getRange(@Query() genresRequestParams?: GenresRequestParams) {
+        const categories = await this.categoriesService.findRange({requestParams: genresRequestParams, ids: undefined});
         const categoriesToReturn = categories.map(c => {
-            const categoryToReturn = new CategoryGetDto();
-            categoryToReturn.id = c.id;
-            categoryToReturn.name = c.name;
-            categoryToReturn.type = c.type;
+            const categoryToReturn: CategoryGetDto = {
+                id: c.id,
+                name: c.name,
+                type: c.type,
+            };
             return categoryToReturn;
         });
 
@@ -29,11 +31,11 @@ export class CategoriesController {
         const category = await this.categoriesService.findById(id);
         if (!category) throw new NotFoundException();
 
-        const categoryToReturn = new CategoryGetDto();
-        categoryToReturn.id = category.id;
-        categoryToReturn.name = category.name;
-        categoryToReturn.type = category.type;
-
+        const categoryToReturn: CategoryGetDto = {
+            id: category.id,
+            name: category.name,
+            type: category.type,
+        };
         return categoryToReturn;
     }
 

@@ -18,6 +18,18 @@ export class MovieCreateDto {
     @Min(0)
     public minutes: number;
 
+    @IsNumber()
+    public price: number;
+
+    @IsNumber()
+    public rating: number;
+
+    @IsString()
+    public description: string;
+
+    @IsString()
+    public coverUrl: string;
+
     @IsNumber(undefined, {each: true})
     public genresIds: number[];
 }

@@ -4,6 +4,8 @@ export interface Album {
     released: string;
     genres: string[];
     artist: string;
+    price: number;
+    coverUrl: string;
     lengthInSeconds: number;
 }
 

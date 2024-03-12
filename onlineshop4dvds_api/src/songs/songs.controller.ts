@@ -50,7 +50,7 @@ export class SongsController {
         if (songCreateDto.albumId)
             songToCreate.album = await this.albumsService.findById(songCreateDto.albumId);
         songToCreate.artist = await this.artistsService.findById(songCreateDto.artistId, false);
-        songToCreate.genres = await this.categoriesService.findRange({type: undefined, ids: songCreateDto.genresIds});
+        songToCreate.genres = await this.categoriesService.findRange({requestParams: undefined, ids: songCreateDto.genresIds});
         songToCreate.lengthInSeconds = songCreateDto.minutes * 60 + songCreateDto.seconds;
         songToCreate.released = songCreateDto.released;
         songToCreate.title = songCreateDto.title;
