@@ -4,7 +4,7 @@ import ScrollingBanner from "@/components/scrolling-banner";
 import { useEffect, useState } from "react";
 import { Album } from "@/models/album";
 import { API_URL } from "@/config";
-import MoviesListWithRating from "@/components/movies/movies-list-with-ratings";
+import MoviesList from "@/components/movies/movies-list";
 import { Movie } from "@/models/movie";
 import { Game } from "@/models/game";
 import GamesList from "@/components/games/games-list";
@@ -45,7 +45,7 @@ export default function Home() {
         <AlbumListGrid albums={albums} />
       </div>
       <div className="flex items-center justify-center p-4">
-        <MoviesListWithRating movies={movies} />
+        <MoviesList movies={movies} />
       </div>
       <div className="flex items-center justify-center p-4">
         <GamesList games={games} />

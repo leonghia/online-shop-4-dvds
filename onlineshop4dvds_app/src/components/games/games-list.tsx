@@ -8,13 +8,14 @@ export default function MoviesListWithRating({games}: {games: Game[] | null}) {
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
-                <GradientHeading title="Games" className="from-[#FF1CF7] to-[#b249f8]" />
+                <GradientHeading title="Games" />
                 <Link
                     isExternal
                     showAnchorIcon
                     href="/games"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-fuchsia-500"
+                    className="gap-x-2 font-semibold"
+                    color="primary"
                 >
                     See all
                 </Link>

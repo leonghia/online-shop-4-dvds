@@ -9,13 +9,14 @@ export default function AlbumListGrid({albums}: {albums: Album[] | null}) {
     return (
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
             <div className="flex w-full items-baseline justify-between px-4">
-                <GradientHeading title="Albums" className="from-[#FF705B] to-[#FFB457]" />
+                <GradientHeading title="Albums" />
                 <Link
                     isExternal
                     showAnchorIcon
                     href="/albums"
                     anchorIcon={<FaArrowRightLong />}
-                    className="gap-x-2 font-semibold text-orange-500"
+                    className="gap-x-2 font-semibold"
+                    color="primary"
                 >
                     See all
                 </Link>
