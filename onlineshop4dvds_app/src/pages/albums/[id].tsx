@@ -10,11 +10,12 @@ export default function AlbumPage() {
   const [album, setAlbum] = useState<Album | null>(null);
 
   useEffect(() => {
+    if (!router.query.id) return;
     fetch(`${API_URL}/albums/${router.query.id}`)
       .then(res => res.json())
       .then((data: Album) => setAlbum(data))
       .catch(err => console.error(err));
-  }, []);
+  }, [router.query.id]);
 
   return (
     <PageLayout>
