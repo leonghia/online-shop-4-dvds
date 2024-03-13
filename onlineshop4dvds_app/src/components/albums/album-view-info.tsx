@@ -5,7 +5,7 @@ import StarRatings from "../star-ratings";
 
 export default function AlbumViewInfo({album}: {album: Album | null}) {
     return (
-        <div className="max-w-7xl h-full w-full px-2">
+        <div className="max-w-6xl h-full w-full px-2">
 
             <Breadcrumbs className="my-4 py-2">
                 <BreadcrumbItem href="/">Home</BreadcrumbItem>
@@ -25,8 +25,8 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                     >
                         {" "}
                         <img
-                            src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                            className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
+                            src="https://helios-i.mashable.com/imagery/articles/06bcUDzPHBJkLt4xKWIdkHy/hero-image.fill.size_1200x900.v1691654369.jpg"
+                            className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large w-full aspect-square object-cover"
                             alt="Nike Air Max 270"
                             data-loaded="true"
                         />
@@ -161,130 +161,7 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                         </div>
                         
                     </div>
-                    <div className="px-2 w-full -mx-1 mt-2" data-orientation="vertical">
-                        <div className="group-[.is-splitted]:px-4 group-[.is-splitted]:bg-content1 group-[.is-splitted]:shadow-medium group-[.is-splitted]:rounded-medium">
-                            <h2>
-                                <button
-                                    className="flex py-4 w-full h-full gap-3 items-center tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 transition-opacity"
-                                    type="button"
-                                    id=":r1d:"
-                                    aria-expanded="false"
-                                >
-                                    <div className="flex-1 flex flex-col text-start">
-                                        <span className="text-large text-default-400">
-                                            Size &amp; Fit
-                                        </span>
-                                    </div>
-                                    <span
-                                        aria-hidden="true"
-                                        className="text-default-400 transition-transform rotate-0 data-[open=true]:-rotate-90 rtl:-rotate-180 rtl:data-[open=true]:-rotate-90"
-                                    >
-                                        <svg
-                                            aria-hidden="true"
-                                            fill="none"
-                                            focusable="false"
-                                            height="1em"
-                                            role="presentation"
-                                            viewBox="0 0 24 24"
-                                            width="1em"
-                                        >
-                                            <path
-                                                d="M15.5 19l-7-7 7-7"
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1.5"
-                                            />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </h2>
-                        </div>
-                        <hr
-                            className="shrink-0 bg-divider border-none w-full h-divider"
-                            role="separator"
-                        />
-                        <div className="group-[.is-splitted]:px-4 group-[.is-splitted]:bg-content1 group-[.is-splitted]:shadow-medium group-[.is-splitted]:rounded-medium">
-                            <h2>
-                                <button
-                                    className="flex py-4 w-full h-full gap-3 items-center tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 transition-opacity"
-                                    type="button"
-                                    id=":r1f:"
-                                    aria-expanded="false"
-                                >
-                                    <div className="flex-1 flex flex-col text-start">
-                                        <span className="text-large text-default-400">
-                                            Shipping &amp; Returns
-                                        </span>
-                                    </div>
-                                    <span
-                                        aria-hidden="true"
-                                        className="text-default-400 transition-transform rotate-0 data-[open=true]:-rotate-90 rtl:-rotate-180 rtl:data-[open=true]:-rotate-90"
-                                    >
-                                        <svg
-                                            aria-hidden="true"
-                                            fill="none"
-                                            focusable="false"
-                                            height="1em"
-                                            role="presentation"
-                                            viewBox="0 0 24 24"
-                                            width="1em"
-                                        >
-                                            <path
-                                                d="M15.5 19l-7-7 7-7"
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1.5"
-                                            />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </h2>
-                        </div>
-                        <hr
-                            className="shrink-0 bg-divider border-none w-full h-divider"
-                            role="separator"
-                        />
-                        <div className="group-[.is-splitted]:px-4 group-[.is-splitted]:bg-content1 group-[.is-splitted]:shadow-medium group-[.is-splitted]:rounded-medium">
-                            <h2>
-                                <button
-                                    className="flex py-4 w-full h-full gap-3 items-center tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 transition-opacity"
-                                    type="button"
-                                    id=":r1h:"
-                                    aria-expanded="false"
-                                >
-                                    <div className="flex-1 flex flex-col text-start">
-                                        <span className="text-large text-default-400">
-                                            Designer Notes
-                                        </span>
-                                    </div>
-                                    <span
-                                        aria-hidden="true"
-                                        className="text-default-400 transition-transform rotate-0 data-[open=true]:-rotate-90 rtl:-rotate-180 rtl:data-[open=true]:-rotate-90"
-                                    >
-                                        <svg
-                                            aria-hidden="true"
-                                            fill="none"
-                                            focusable="false"
-                                            height="1em"
-                                            role="presentation"
-                                            viewBox="0 0 24 24"
-                                            width="1em"
-                                        >
-                                            <path
-                                                d="M15.5 19l-7-7 7-7"
-                                                stroke="currentColor"
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="1.5"
-                                            />
-                                        </svg>
-                                    </span>
-                                </button>
-                            </h2>
-                        </div>
-                    </div>
+                    
                     <div className="mt-2 flex gap-2">
                         <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5"/>} size="lg">Add to cart</Button>
                         <Button isIconOnly color="secondary" aria-label="Add to favorites" size="lg">
