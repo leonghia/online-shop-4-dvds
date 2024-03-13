@@ -28,9 +28,9 @@ export default function AlbumCard({album}: {album: Album}) {
                     <p className="text-medium font-medium text-pink-500">${album.price}</p>
                 </div>
                 <p className="text-small text-default-500">{album.artist}</p>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <Button color="default" className="w-full font-medium">Add to cart</Button>
-                </div>
+                </div> */}
             </div>
         </div>
     );

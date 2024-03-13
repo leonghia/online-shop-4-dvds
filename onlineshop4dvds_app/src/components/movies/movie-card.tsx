@@ -28,9 +28,9 @@ export default function MovieCard({movie}: {movie: Movie}) {
                     <span><FaStar className="text-yellow-500" /></span>
                     <p className="text-small text-default-400">{movie.rating} / 10</p>
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <Button color="default" className="w-full font-medium">Add to cart</Button>
-                </div>
+                </div> */}
             </div>
         </div>
 

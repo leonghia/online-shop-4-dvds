@@ -28,9 +28,9 @@ export default function GameCard({game}: {game: Game}) {
                     <span><FaTv className="text-emerald-500" /></span>
                     <p className="text-small text-default-400">{game.consoleType}</p>
                 </div>
-                <div className="flex gap-2">
+                {/* <div className="flex gap-2">
                     <Button color="default" className="w-full font-medium">Add to cart</Button>
-                </div>
+                </div> */}
             </div>
         </div>
 
