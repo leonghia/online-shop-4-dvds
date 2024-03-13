@@ -8,6 +8,8 @@ export interface Album {
     coverUrl: string;
     lengthInSeconds: number;
     artistAvatar: string;
+    ratings?: number | null;
+    numbersOfReviews?: number;
 }
 
 export class AlbumCreate {

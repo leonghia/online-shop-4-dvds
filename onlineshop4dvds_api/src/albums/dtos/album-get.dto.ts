@@ -8,4 +8,6 @@ export interface AlbumGetDto {
     artist: string;
     artistAvatar: string;
     lengthInSeconds: number;
+    ratings?: number | null;
+    numbersOfReviews?: number;
 }

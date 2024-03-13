@@ -1,6 +1,7 @@
 import { Album } from "@/models/album";
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
-import { FaStar, FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
+import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
+import StarRatings from "../star-ratings";
 
 export default function AlbumViewInfo({album}: {album: Album | null}) {
     return (
@@ -128,15 +129,11 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                                     role="presentation"
                                     data-orientation="horizontal"
                                 >
-                                    <FaStar className="text-yellow-500" />
-                                    <FaStar className="text-yellow-500" />
-                                    <FaStar className="text-yellow-500" />
-                                    <FaStar className="text-yellow-500" />
-                                    <FaStar className="text-default" />
+                                    <StarRatings ratings={album?.ratings} />
                                 </div>
                             </div>
                         </div>
-                        <p className="text-small text-default-400">669 reviews</p>
+                        <p className="text-small text-default-400">{album?.numbersOfReviews} reviews</p>
                     </div>
                     <p className="text-xl font-medium tracking-tight text-pink-500">${album?.price}</p>
                     <div className="mt-4">

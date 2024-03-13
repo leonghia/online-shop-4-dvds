@@ -5,10 +5,12 @@ import { AlbumCreateDto } from './dtos/album-create.dto';
 import { Album } from './album.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 import { ArtistsService } from 'src/artists/artists.service';
+import { ReviewsService } from 'src/reviews/reviews.service';
+import { GenreType } from 'src/utils/genre-type';
 
 @Controller('albums')
 export class AlbumsController {
-    public constructor(private albumsService: AlbumsService, private categoriesService: CategoriesService, private artistsService: ArtistsService) { }
+    public constructor(private albumsService: AlbumsService, private categoriesService: CategoriesService, private artistsService: ArtistsService, private reviewsService: ReviewsService) { }
 
     @Get()
     public async getRange(@Query("artistId") artistId: number) {
@@ -30,7 +32,7 @@ export class AlbumsController {
                 lengthInSeconds: album.lengthInSeconds,
                 price: album.price,
                 coverUrl: album.coverUrl,
-                artistAvatar: album.artist.avatar
+                artistAvatar: album.artist.avatar, 
             };
             return albumToReturn;
         });
@@ -41,6 +43,8 @@ export class AlbumsController {
     public async getById(@Param("id") id: number) {
         const album = await this.albumsService.findById(id);
         if (!album) throw new NotFoundException();
+
+        const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({genreType: GenreType.Music, productId: album.id});
         const albumToReturn: AlbumGetDto = {
             artist: album.artist.fullName,
             genres: album.genres.map(g => g.name),
@@ -50,7 +54,9 @@ export class AlbumsController {
             lengthInSeconds: album.lengthInSeconds,
             price: album.price,
             coverUrl: album.coverUrl,
-            artistAvatar: album.artist.avatar
+            artistAvatar: album.artist.avatar,
+            ratings,
+            numbersOfReviews
         };
         return albumToReturn;
     }
