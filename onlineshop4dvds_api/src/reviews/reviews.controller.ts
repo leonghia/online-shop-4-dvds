@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
+import { ReviewsService } from './reviews.service';
+import { ReviewsRequestParams } from 'src/utils/request-params';
 
 @Controller('reviews')
-export class ReviewsController {}
+export class ReviewsController {
+    public constructor(private reviewsService: ReviewsService) {}
+
+    @Get("ratings")
+    public async getRatings(@Query() requestParams: ReviewsRequestParams) {
+        return await this.reviewsService.calculateAvgRatings({genreType: requestParams.genreType, productId: requestParams.productId});
+    }
+}

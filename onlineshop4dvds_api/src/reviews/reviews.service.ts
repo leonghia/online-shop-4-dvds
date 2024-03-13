@@ -19,8 +19,14 @@ export class ReviewsService {
         });
     }
 
-    public async calculateAvgRatings({genreType, productId}: {genreType: GenreType, productId: number}): Promise<number> {
-        
+    public async calculateAvgRatings({genreType, productId}: {genreType: GenreType, productId: number}): Promise<{ratings: number, numbersOfReviews: number}> {
+        const ratings = await this.reviewRepo.average("ratings", {
+            genreType,
+            productId
+        });
+        const numbersOfReviews = await this.reviewRepo.countBy({genreType, productId});
+
+        return {ratings, numbersOfReviews};
     }
 
     public async create(reviewToCreate: Review): Promise<Review> {

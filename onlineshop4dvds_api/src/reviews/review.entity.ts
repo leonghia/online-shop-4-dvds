@@ -10,13 +10,13 @@ export class Review {
     @ManyToOne(() => User, (user) => user.reviews)
     public user: User;
 
-    @Column("date")
-    public createdAt: Date;
+    @Column("timestamptz", {default: new Date()})
+    public createdAt: Date = new Date();
 
     @Column("smallint")
     public ratings: number;
 
-    @Column()
+    @Column({nullable: true})
     public content: string;
 
     @Column()
