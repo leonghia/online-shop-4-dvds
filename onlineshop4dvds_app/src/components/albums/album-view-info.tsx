@@ -1,5 +1,5 @@
 import { Album } from "@/models/album";
-import { BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
 import { FaStar, FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 
 export default function AlbumViewInfo({album}: {album: Album | null}) {
@@ -105,9 +105,14 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                     </div>
                 </div>
                 <div className="flex flex-col">
-                    <h1 className="text-2xl font-bold tracking-tight">
+                    <p className="text-small font-medium text-default-400 mb-2">Album</p>
+                    <h1 className="text-3xl font-bold tracking-tight">
                         {album?.title}
                     </h1>
+                    <div className="flex items-center gap-x-2 my-3">
+                        <Avatar src={album?.artistAvatar} showFallback name={album?.artist} size="sm" />
+                        <p className="text-small text-default-500">{album?.artist}</p>
+                    </div>
                     <h2 className="sr-only">Product information</h2>
                     <div className="my-2 flex items-center gap-2">
                         <div className="flex items-center gap-3">
