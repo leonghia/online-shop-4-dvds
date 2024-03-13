@@ -1,5 +1,5 @@
 import { Game } from "@/models/game";
-import { Button, Image } from "@nextui-org/react";
+import { Button, Image, Link } from "@nextui-org/react";
 import { FaHeart, FaTv } from "react-icons/fa6";
 
 export default function GameCard({game}: {game: Game}) {
@@ -16,9 +16,7 @@ export default function GameCard({game}: {game: Game}) {
             </div>
             <div className="flex flex-col gap-3 px-1">
                 <div className="flex items-center justify-between">
-                    <h3 className="text-medium font-medium text-default-700">
-                        {game.title}
-                    </h3>
+                    <Link href="#" className="font-medium text-default-700" size="md">{game.title}</Link>
                     <p className="text-medium font-medium text-pink-500">${game.price}</p>
                 </div>
                 <p className="text-small text-default-500 line-clamp-3">

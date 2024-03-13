@@ -3,7 +3,7 @@ import MyNavbar from "../navbar";
 import Layout from "./layout";
 import MyFooter from "../footer";
 
-export default function UserLayout({ children }: { children: ReactNode }) {
+export default function PageLayout({ children }: { children: ReactNode }) {
     return (
         <Layout>
             <div className="bg-radial">
