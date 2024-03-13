@@ -1,87 +1,16 @@
-export default function AlbumViewInfo({ id }: { id: number }) {
+import { Album } from "@/models/album";
+import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
+
+export default function AlbumViewInfo({album}: {album: Album | null}) {
     return (
-        <div className="max-w-8xl h-full w-full px-2 lg:px-24">
-            <nav className="my-4 py-2">
-                <nav data-slot="base" aria-label="Breadcrumbs">
-                    <ol
-                        data-slot="list"
-                        className="flex flex-wrap list-none rounded-small"
-                    >
-                        <li data-slot="base" className="flex items-center">
-                            <span
-                                data-slot="item"
-                                className="flex gap-1 items-center cursor-pointer whitespace-nowrap line-clamp-1 tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-foreground/50 text-small hover:opacity-80 active:opacity-disabled transition-opacity no-underline"
-                                role="link"
-                            >
-                                Home
-                            </span>
-                            <span
-                                data-slot="separator"
-                                aria-hidden="true"
-                                className="px-1 text-foreground/50"
-                            >
-                                <svg
-                                    aria-hidden="true"
-                                    fill="none"
-                                    focusable="false"
-                                    height="1em"
-                                    role="presentation"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1.5"
-                                    viewBox="0 0 24 24"
-                                    width="1em"
-                                >
-                                    <path d="m9 18 6-6-6-6" />
-                                </svg>
-                            </span>
-                        </li>
-                        <li data-slot="base" className="flex items-center">
-                            <span
-                                data-slot="item"
-                                className="flex gap-1 items-center cursor-pointer whitespace-nowrap line-clamp-1 tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-foreground/50 text-small hover:opacity-80 active:opacity-disabled transition-opacity no-underline"
-                                role="link"
-                            >
-                                Shoes Category
-                            </span>
-                            <span
-                                data-slot="separator"
-                                aria-hidden="true"
-                                className="px-1 text-foreground/50"
-                            >
-                                <svg
-                                    aria-hidden="true"
-                                    fill="none"
-                                    focusable="false"
-                                    height="1em"
-                                    role="presentation"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1.5"
-                                    viewBox="0 0 24 24"
-                                    width="1em"
-                                >
-                                    <path d="m9 18 6-6-6-6" />
-                                </svg>
-                            </span>
-                        </li>
-                        <li data-slot="base" className="flex items-center">
-                            <span
-                                data-slot="item"
-                                data-current="true"
-                                className="flex gap-1 items-center whitespace-nowrap line-clamp-1 tap-highlight-transparent outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 text-small no-underline cursor-default transition-opacity text-foreground"
-                                aria-disabled="true"
-                                role="link"
-                                aria-current="page"
-                            >
-                                Training Shoes
-                            </span>
-                        </li>
-                    </ol>
-                </nav>
-            </nav>
+        <div className="max-w-7xl h-full w-full px-2">
+
+            <Breadcrumbs className="my-4 py-2">
+                <BreadcrumbItem href="/">Home</BreadcrumbItem>
+                <BreadcrumbItem href="/albums">Albums</BreadcrumbItem>
+                <BreadcrumbItem href="#">{album?.title}</BreadcrumbItem>
+            </Breadcrumbs>
+
             <div
                 className="relative flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8"
                 id="942837-003"
@@ -195,7 +124,7 @@ export default function AlbumViewInfo({ id }: { id: number }) {
                 </div>
                 <div className="flex flex-col">
                     <h1 className="text-2xl font-bold tracking-tight">
-                        Nike Air Max 270
+                        {album?.title}
                     </h1>
                     <h2 className="sr-only">Product information</h2>
                     <div className="my-2 flex items-center gap-2">

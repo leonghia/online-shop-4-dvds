@@ -1,6 +1,7 @@
 import { Movie } from "@/models/movie";
 import { Button, Image, Link } from "@nextui-org/react";
 import { FaHeart, FaStar } from "react-icons/fa6";
+import { Imdb } from "../icons/brands";
 
 export default function MovieCard({movie}: {movie: Movie}) {
     return (
@@ -23,7 +24,7 @@ export default function MovieCard({movie}: {movie: Movie}) {
                     {movie.description}
                 </p>
                 <div className="flex items-center gap-2">
-                    <span><FaStar className="text-yellow-500" /></span>
+                    <span><Imdb /></span>
                     <p className="text-small text-default-400">{movie.rating} / 10</p>
                 </div>
                 {/* <div className="flex gap-2">
