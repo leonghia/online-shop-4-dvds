@@ -21,15 +21,17 @@ export class AlbumsController {
         }
         
         const albumsToReturn = albums.map(album => {
-            const albumToReturn = new AlbumGetDto();
-            albumToReturn.artist = album.artist.fullName;
-            albumToReturn.genres = album.genres.map(genre => genre.name);
-            albumToReturn.id = album.id;
-            albumToReturn.released = album.released;
-            albumToReturn.title = album.title;
-            albumToReturn.lengthInSeconds = album.lengthInSeconds;
-            albumToReturn.price = album.price;
-            albumToReturn.coverUrl = album.coverUrl;
+            const albumToReturn: AlbumGetDto = {
+                artist: album.artist.fullName,
+                genres: album.genres.map(g => g.name),
+                id: album.id,
+                released: album.released,
+                title: album.title,
+                lengthInSeconds: album.lengthInSeconds,
+                price: album.price,
+                coverUrl: album.coverUrl,
+                artistAvatar: album.artist.avatar
+            };
             return albumToReturn;
         });
         return albumsToReturn;
@@ -39,15 +41,17 @@ export class AlbumsController {
     public async getById(@Param("id") id: number) {
         const album = await this.albumsService.findById(id);
         if (!album) throw new NotFoundException();
-        const albumToReturn = new AlbumGetDto();
-        albumToReturn.artist = album.artist.fullName;
-        albumToReturn.genres = album.genres.map(genre => genre.name);
-        albumToReturn.id = album.id;
-        albumToReturn.released = album.released;
-        albumToReturn.title = album.title;
-        albumToReturn.lengthInSeconds = album.lengthInSeconds;
-        albumToReturn.price = album.price;
-        albumToReturn.coverUrl = album.coverUrl;
+        const albumToReturn: AlbumGetDto = {
+            artist: album.artist.fullName,
+            genres: album.genres.map(g => g.name),
+            id: album.id,
+            released: album.released,
+            title: album.title,
+            lengthInSeconds: album.lengthInSeconds,
+            price: album.price,
+            coverUrl: album.coverUrl,
+            artistAvatar: album.artist.avatar
+        };
         return albumToReturn;
     }
 
@@ -62,15 +66,18 @@ export class AlbumsController {
         albumToCreate.price = albumCreateDto.price;
         albumToCreate.coverUrl = albumCreateDto.coverUrl;
         const albumCreated = await this.albumsService.create(albumToCreate);
-        const albumToReturn = new AlbumGetDto();
-        albumToReturn.artist = albumCreated.artist.fullName;
-        albumToReturn.genres = albumCreated.genres.map(genre => genre.name);
-        albumToReturn.id = albumCreated.id;
-        albumToReturn.released = albumCreated.released;
-        albumToReturn.title = albumCreated.title;
-        albumToReturn.lengthInSeconds = albumCreated.lengthInSeconds;
-        albumToReturn.price = albumCreated.price;
-        albumToReturn.coverUrl = albumCreated.coverUrl;
+    
+        const albumToReturn: AlbumGetDto = {
+            artist: albumCreated.artist.fullName,
+            genres: albumCreated.genres.map(g => g.name),
+            id: albumCreated.id,
+            released: albumCreated.released,
+            title: albumCreated.title,
+            lengthInSeconds: albumCreated.lengthInSeconds,
+            price: albumCreated.price,
+            coverUrl: albumCreated.coverUrl,
+            artistAvatar: albumCreated.artist.avatar
+        };
         return albumToReturn;
     }
 

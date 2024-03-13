@@ -1,10 +1,11 @@
-export class AlbumGetDto {
-    public id: number;
-    public title: string;
-    public released: Date;
-    public price: number;
-    public coverUrl: string;
-    public genres: string[];
-    public artist: string;
-    public lengthInSeconds: number;
+export interface AlbumGetDto {
+    id: number;
+    title: string;
+    released: Date;
+    price: number;
+    coverUrl: string;
+    genres: string[];
+    artist: string;
+    artistAvatar: string;
+    lengthInSeconds: number;
 }

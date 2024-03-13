@@ -15,12 +15,14 @@ export class ArtistsController {
     public async getRange() {
         const artists = await this.artistsService.findRange({ids: undefined});
         const artistsToReturn = artists.map(a => {
-            const artistToReturn = new ArtistGetDto();
-            artistToReturn.genres = a.categories.map(c => c.name);
-            artistToReturn.dob = a.dob;
-            artistToReturn.fullName = a.fullName;
-            artistToReturn.id = a.id;
-            artistToReturn.nationality = a.nationality;
+            const artistToReturn: ArtistGetDto = {
+                genres: a.categories.map(c => c.name),
+                dob: a.dob,
+                fullName: a.fullName,
+                id: a.id,
+                nationality: a.nationality,
+                avatar: a.avatar
+            };
             return artistToReturn;
         })
 
@@ -31,12 +33,14 @@ export class ArtistsController {
     public async getById(@Param("id") id: number) {
         const artist = await this.artistsService.findById(id, true);
         if (!artist) throw new NotFoundException();
-        const artistToReturn = new ArtistGetDto();
-        artistToReturn.genres = artist.categories.map(cat => cat.name);
-        artistToReturn.dob = artist.dob;
-        artistToReturn.fullName = artist.fullName;
-        artistToReturn.id = artist.id;
-        artistToReturn.nationality = artist.nationality;
+        const artistToReturn: ArtistGetDto = {
+            genres: artist.categories.map(c => c.name),
+            dob: artist.dob,
+            fullName: artist.fullName,
+            id: artist.id,
+            nationality: artist.nationality,
+            avatar: artist.avatar
+        };
         return artistToReturn;
     }
 

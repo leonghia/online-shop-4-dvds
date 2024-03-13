@@ -7,6 +7,7 @@ export interface Album {
     price: number;
     coverUrl: string;
     lengthInSeconds: number;
+    artistAvatar: string;
 }
 
 export class AlbumCreate {

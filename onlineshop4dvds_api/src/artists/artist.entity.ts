@@ -17,6 +17,9 @@ export class Artist {
     @Column({length: 64})
     nationality: string;
 
+    @Column({nullable: true})
+    avatar: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     categories: Category[];

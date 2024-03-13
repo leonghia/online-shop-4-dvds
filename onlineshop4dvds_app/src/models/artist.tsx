@@ -17,5 +17,6 @@ export interface Artist {
     fullName: string;
     dob: string;
     nationality: string;
+    avatar: string;
     genres: string[];
 }
