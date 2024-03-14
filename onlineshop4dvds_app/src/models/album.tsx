@@ -20,6 +20,7 @@ export interface AlbumInfo {
     ratings: number | null;
     numbersOfReviews: number;
     description: string;
+    images: string[];
 }
 
 export class AlbumCreate {

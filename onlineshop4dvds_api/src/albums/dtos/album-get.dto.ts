@@ -20,4 +20,5 @@ export interface AlbumInfoGetDto {
     ratings: number | null;
     numbersOfReviews: number;
     description: string;
+    images: string[];
 }

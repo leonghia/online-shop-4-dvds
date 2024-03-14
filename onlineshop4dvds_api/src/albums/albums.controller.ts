@@ -7,10 +7,11 @@ import { CategoriesService } from 'src/categories/categories.service';
 import { ArtistsService } from 'src/artists/artists.service';
 import { ReviewsService } from 'src/reviews/reviews.service';
 import { GenreType } from 'src/utils/genre-type';
+import { ImagesService } from 'src/images/images.service';
 
 @Controller('albums')
 export class AlbumsController {
-    public constructor(private albumsService: AlbumsService, private categoriesService: CategoriesService, private artistsService: ArtistsService, private reviewsService: ReviewsService) { }
+    public constructor(private albumsService: AlbumsService, private categoriesService: CategoriesService, private artistsService: ArtistsService, private reviewsService: ReviewsService, private imagesService: ImagesService) { }
 
     @Get()
     public async getRange(@Query("artistId") artistId: number) {
@@ -42,6 +43,7 @@ export class AlbumsController {
         if (!album) throw new NotFoundException();
 
         const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({genreType: GenreType.Music, productId: album.id});
+        const images = await this.imagesService.getRange({genreType: GenreType.Music, productId: album.id});
         const albumToReturn: AlbumInfoGetDto = {
             artist: album.artist.fullName,
             id: album.id,
@@ -54,7 +56,8 @@ export class AlbumsController {
             lengthInSeconds: album.lengthInSeconds,
             description: album.description,
             ratings,
-            numbersOfReviews
+            numbersOfReviews,
+            images: images.map(img => img.url),
         };
         return albumToReturn;
     }
