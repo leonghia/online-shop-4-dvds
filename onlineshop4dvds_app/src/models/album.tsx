@@ -1,13 +1,22 @@
 export interface Album {
     id: number;
     title: string;
-    released: string;
-    genres: string[];
-    artist: string;
     price: number;
     coverUrl: string;
-    lengthInSeconds: number;
+    artist: string;
     artistAvatar: string;
+}
+
+export interface AlbumInfo {
+    id: number;
+    title: string;
+    released: Date;
+    price: number;
+    coverUrl: string;
+    genres: string[];
+    artist: string;
+    artistAvatar: string;
+    lengthInSeconds: number;
     ratings?: number | null;
     numbersOfReviews?: number;
     description: string;

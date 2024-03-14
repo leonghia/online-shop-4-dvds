@@ -25,15 +25,11 @@ export class AlbumsController {
         const albumsToReturn = albums.map(album => {
             const albumToReturn: AlbumGetDto = {
                 artist: album.artist.fullName,
-                genres: album.genres.map(g => g.name),
                 id: album.id,
-                released: album.released,
                 title: album.title,
-                lengthInSeconds: album.lengthInSeconds,
                 price: album.price,
                 coverUrl: album.coverUrl,
-                artistAvatar: album.artist.avatar, 
-                description: album.description
+                artistAvatar: album.artist.avatar,
             };
             return albumToReturn;
         });
@@ -48,17 +44,11 @@ export class AlbumsController {
         const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({genreType: GenreType.Music, productId: album.id});
         const albumToReturn: AlbumGetDto = {
             artist: album.artist.fullName,
-            genres: album.genres.map(g => g.name),
             id: album.id,
-            released: album.released,
             title: album.title,
-            lengthInSeconds: album.lengthInSeconds,
             price: album.price,
             coverUrl: album.coverUrl,
             artistAvatar: album.artist.avatar,
-            ratings,
-            numbersOfReviews,
-            description: album.description
         };
         return albumToReturn;
     }
@@ -77,15 +67,11 @@ export class AlbumsController {
     
         const albumToReturn: AlbumGetDto = {
             artist: albumCreated.artist.fullName,
-            genres: albumCreated.genres.map(g => g.name),
             id: albumCreated.id,
-            released: albumCreated.released,
             title: albumCreated.title,
-            lengthInSeconds: albumCreated.lengthInSeconds,
             price: albumCreated.price,
             coverUrl: albumCreated.coverUrl,
             artistAvatar: albumCreated.artist.avatar,
-            description: albumCreated.description
         };
         return albumToReturn;
     }

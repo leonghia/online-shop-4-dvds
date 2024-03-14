@@ -1,9 +1,9 @@
-import { Album } from "@/models/album";
+import { AlbumInfo } from "@/models/album";
 import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 
-export default function AlbumViewInfo({album}: {album: Album | null}) {
+export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
     return (
         <div className="max-w-6xl h-full w-full px-2">
 
