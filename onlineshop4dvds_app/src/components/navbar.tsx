@@ -1,12 +1,14 @@
 import {
-    Navbar, 
-    NavbarBrand, 
-    NavbarContent, 
+    Navbar,
+    NavbarBrand,
+    NavbarContent,
     NavbarItem,
     Link,
-    Button
-  } from "@nextui-org/react";
+    Button,
+    Badge
+} from "@nextui-org/react";
 import { Acme } from "./icons/brands";
+import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi2";
 
 export default function MyNavbar() {
     return (
@@ -42,6 +44,16 @@ export default function MyNavbar() {
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex opacity-50">
                     <Link href="/forum" color="foreground">Forum</Link>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex">
+                    <Badge color="danger" size="sm" content={0} shape="circle">
+                        <HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                    </Badge>
+                </NavbarItem>
+                <NavbarItem className="hidden md:flex">
+                    <Badge color="danger" size="sm" content={0} shape="circle">
+                        <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                    </Badge>
                 </NavbarItem>
                 <NavbarItem>
                     <Button href="/auth/login" as={Link} color="primary" variant="solid" radius="full" className="font-medium">Login</Button>

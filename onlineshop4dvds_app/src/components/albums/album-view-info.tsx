@@ -6,7 +6,7 @@ import ImagesGallery from "../images-gallery";
 
 export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
     return (
-        <div className="max-w-6xl h-full w-full px-2">
+        <div className="max-w-5xl h-full w-full px-2">
 
             <Breadcrumbs className="my-4 py-2">
                 <BreadcrumbItem href="/">Home</BreadcrumbItem>
