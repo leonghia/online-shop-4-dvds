@@ -61,8 +61,9 @@ export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
                         </div>
                         <p className="text-small text-default-400">{album?.numbersOfReviews} reviews</p>
                     </div>
-                    <div className="mt-2">
+                    <div className="mt-2 flex gap-x-6 items-center">
                         <p className="text-xl font-medium tracking-tight text-pink-500">${album?.price}</p>
+                        <p className="text-sm font-bold text-primary">In Stock</p>
                     </div>
                     <div className="mt-4">
                         <p className="sr-only">Product description</p>
