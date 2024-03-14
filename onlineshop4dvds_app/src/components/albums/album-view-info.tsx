@@ -5,6 +5,7 @@ import StarRatings from "../star-ratings";
 import ImagesGallery from "../images-gallery";
 
 export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
+
     return (
         <div className="max-w-5xl h-full w-full px-2">
 
@@ -63,8 +64,8 @@ export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
                     </div>
                     <div className="mt-2 flex gap-x-6 items-center">
                         <p className="text-xl font-medium tracking-tight text-pink-500">${album?.price}</p>
-                        <p className="text-sm font-bold text-primary">In Stock</p>
-                        <p className="text-sm text-default-400">185 products available</p>
+                        {album?.stock && album?.stock > 0 ? <p className="text-sm font-bold text-primary">In Stock</p> : <p className="text-sm font-bold text-danger">Out of Stock</p>}
+                        <p className="text-sm text-default-400">{album?.stock} products available</p>
                     </div>
                     <div className="mt-4">
                         <p className="sr-only">Product description</p>

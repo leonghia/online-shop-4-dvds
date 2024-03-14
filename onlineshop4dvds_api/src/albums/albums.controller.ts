@@ -58,6 +58,7 @@ export class AlbumsController {
             ratings,
             numbersOfReviews,
             images: [album.imgUrl, ...images.map(img => img.url)],
+            stock: album.stock
         };
         return albumToReturn;
     }

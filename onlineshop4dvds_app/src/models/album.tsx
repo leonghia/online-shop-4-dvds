@@ -21,6 +21,7 @@ export interface AlbumInfo {
     numbersOfReviews: number;
     description: string;
     images: string[];
+    stock: number;
 }
 
 export class AlbumCreate {

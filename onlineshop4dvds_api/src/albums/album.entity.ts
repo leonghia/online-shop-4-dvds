@@ -29,6 +29,9 @@ export class Album {
     @Column({nullable: true})
     description: string;
 
+    @Column({nullable: true, default: 200})
+    stock: number;
+
     @ManyToMany(() => Category)
     @JoinTable()
     genres: Category[];
