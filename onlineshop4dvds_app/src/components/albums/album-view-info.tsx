@@ -1,7 +1,8 @@
 import { AlbumInfo } from "@/models/album";
-import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip, Divider } from "@nextui-org/react";
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip, Divider, Image, ScrollShadow } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
+import ImagesGallery from "../images-gallery";
 
 export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
     return (
@@ -17,94 +18,7 @@ export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
                 className="relative flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8"
                 id="942837-003"
             >
-                <div className="relative h-full w-full flex-none">
-
-                    <div
-                        className="relative shadow-black/5 shadow-none rounded-large"
-                        style={{ maxWidth: "fit-content" }}
-                    >
-                        {" "}
-                        <img
-                            src="https://helios-i.mashable.com/imagery/articles/06bcUDzPHBJkLt4xKWIdkHy/hero-image.fill.size_1200x900.v1691654369.jpg"
-                            className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large w-full aspect-square object-cover"
-                            alt="Nike Air Max 270"
-                            data-loaded="true"
-                        />
-                    </div>
-                    <div
-                        className="overflow-x-auto data-[left-scroll=true]:[mask-image:linear-gradient(270deg,#000_calc(100%_-_var(--scroll-shadow-size)),transparent)] data-[right-scroll=true]:[mask-image:linear-gradient(90deg,#000_calc(100%_-_var(--scroll-shadow-size)),transparent)] data-[left-right-scroll=true]:[mask-image:linear-gradient(to_right,#000,#000,transparent_0,#000_var(--scroll-shadow-size),#000_calc(100%_-_var(--scroll-shadow-size)),transparent)] -mx-2 -mb-4 mt-4 flex w-full max-w-full gap-4 px-2 pb-4 pt-2"
-                        data-orientation="horizontal"
-                        data-left-scroll="false"
-                        data-right-scroll="true"
-                    >
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="true"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/1.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="false"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/2.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="false"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/3.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="false"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/4.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="false"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/5.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                        <button
-                            className="relative h-24 w-24 flex-none cursor-pointer items-center justify-center rounded-medium ring-offset-background transition-shadow data-[selected=true]:outline-none data-[selected=true]:ring-2 data-[selected=true]:ring-focus data-[selected=true]:ring-offset-2"
-                            data-selected="false"
-                        >
-                            <img
-                                src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/product-view/6.jpeg"
-                                className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large h-full w-full"
-                                alt="Nike Air Max 270"
-                                data-loaded="true"
-                            />
-                        </button>
-                    </div>
-                </div>
+                <ImagesGallery images={album?.images} />
                 <div className="flex flex-col">
                     <p className="text-small font-medium text-default-400 mb-2">Album</p>
                     <h1 className="text-3xl font-bold tracking-tight">
