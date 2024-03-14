@@ -1,9 +1,9 @@
 import { AlbumInfo } from "@/models/album";
-import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip } from "@nextui-org/react";
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip, Divider } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 
-export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
+export default function AlbumViewInfo({ album }: { album: AlbumInfo | null }) {
     return (
         <div className="max-w-6xl h-full w-full px-2">
 
@@ -18,7 +18,7 @@ export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
                 id="942837-003"
             >
                 <div className="relative h-full w-full flex-none">
-                    
+
                     <div
                         className="relative shadow-black/5 shadow-none rounded-large"
                         style={{ maxWidth: "fit-content" }}
@@ -114,10 +114,16 @@ export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
                         <Avatar src={album?.artistAvatar} showFallback name={album?.artist} size="sm" />
                         <p className="text-small text-default-500">{album?.artist}</p>
                     </div>
-                    <div className="flex items-center gap-x-2 mb-2">
-                        <p className="text-small text-foreground">Genres: </p>
-                        <div>
-                            {album?.genres.map(genre => <Chip key={genre}>{genre}</Chip>)}
+                    <div className="flex items-center gap-x-6 mb-2">
+                        <div className="flex items-center space-x-2">
+                            <p className="text-small text-foreground">Genres: </p>
+                            <div>
+                                {album?.genres.map(genre => <Chip key={genre}>{genre}</Chip>)}
+                            </div>
+                        </div>
+                        <Divider orientation="vertical" className="h-5" />
+                        <div className="flex items-center space-x-2">
+                            <p className="text-small text-foreground">Released: <span className="text-gray-500">{album?.released && new Date(album?.released).toLocaleDateString("vi-VN")}</span></p>
                         </div>
                     </div>
                     <h2 className="sr-only">Product information</h2>
@@ -141,14 +147,16 @@ export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
                         </div>
                         <p className="text-small text-default-400">{album?.numbersOfReviews} reviews</p>
                     </div>
-                    <p className="text-xl font-medium tracking-tight text-pink-500">${album?.price}</p>
+                    <div className="mt-2">
+                        <p className="text-xl font-medium tracking-tight text-pink-500">${album?.price}</p>
+                    </div>
                     <div className="mt-4">
                         <p className="sr-only">Product description</p>
                         <p className="line-clamp-3 text-medium text-default-500">
                             {album?.description}
                         </p>
                     </div>
-                    
+
                     <div className="mt-6 flex flex-col gap-1">
                         <div className="mb-4 flex items-center gap-2 text-default-700">
                             <FaRegCreditCard />
@@ -162,13 +170,13 @@ export default function AlbumViewInfo({album}: {album: AlbumInfo | null}) {
                                 3 days return
                             </p>
                         </div>
-                        
+
                     </div>
-                    
+
                     <div className="mt-2 flex gap-2">
-                        <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5"/>} size="lg">Add to cart</Button>
+                        <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5" />} size="lg">Add to cart</Button>
                         <Button isIconOnly color="secondary" aria-label="Add to favorites" size="lg">
-                            <FaRegHeart className="w-5 h-5" />
+                            <FaRegHeart className="w-5 h-5 text-default-400" />
                         </Button>
                     </div>
                 </div>

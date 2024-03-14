@@ -17,8 +17,8 @@ export interface AlbumInfo {
     artist: string;
     artistAvatar: string;
     lengthInSeconds: number;
-    ratings?: number | null;
-    numbersOfReviews?: number;
+    ratings: number | null;
+    numbersOfReviews: number;
     description: string;
 }
 

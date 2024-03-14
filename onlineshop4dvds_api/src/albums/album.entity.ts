@@ -24,6 +24,9 @@ export class Album {
     coverUrl: string;
 
     @Column({nullable: true})
+    imgUrl: string;
+
+    @Column({nullable: true})
     description: string;
 
     @ManyToMany(() => Category)

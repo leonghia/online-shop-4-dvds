@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
-import { AlbumGetDto } from './dtos/album-get.dto';
+import { AlbumGetDto, AlbumInfoGetDto } from './dtos/album-get.dto';
 import { AlbumCreateDto } from './dtos/album-create.dto';
 import { Album } from './album.entity';
 import { CategoriesService } from 'src/categories/categories.service';
@@ -42,13 +42,19 @@ export class AlbumsController {
         if (!album) throw new NotFoundException();
 
         const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({genreType: GenreType.Music, productId: album.id});
-        const albumToReturn: AlbumGetDto = {
+        const albumToReturn: AlbumInfoGetDto = {
             artist: album.artist.fullName,
             id: album.id,
             title: album.title,
             price: album.price,
             coverUrl: album.coverUrl,
             artistAvatar: album.artist.avatar,
+            released: album.released,
+            genres: album.genres.map(genre => genre.name),
+            lengthInSeconds: album.lengthInSeconds,
+            description: album.description,
+            ratings,
+            numbersOfReviews
         };
         return albumToReturn;
     }
