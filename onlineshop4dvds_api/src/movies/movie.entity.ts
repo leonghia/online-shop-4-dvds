@@ -27,6 +27,12 @@ export class Movie {
     @Column({nullable: true})
     public coverUrl: string;
 
+    @Column({nullable: true})
+    public imgUrl: string;
+
+    @Column({nullable: true, default: 200})
+    public stock: number;
+
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];

@@ -18,4 +18,10 @@ export class GameDetail {
 
     @ManyToOne(() => Game, (game) => game.gameDetails)
     public game: Game;
+
+    @Column({nullable: true})
+    public imgUrl: string;
+
+    @Column({nullable: true, default: 200})
+    public stock: number;
 }

@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post } from '@nestjs/common';
 import { MoviesService } from './movies.service';
-import { MovieGetDto } from './dtos/movie-get.dto';
 import { MovieCreateDto } from './dtos/movie-create.dto';
+import { MovieDto, MovieInfoDto } from './dtos/movie.dto';
 import { Movie } from './movie.entity';
 import { CategoriesService } from 'src/categories/categories.service';
 
@@ -13,16 +13,15 @@ export class MoviesController {
     public async getRange() {
         const movies = await this.moviesService.findRange();
         const moviesToReturn = movies.map(movie => {
-            const movieToReturn = new MovieGetDto();
-            movieToReturn.genres = movie.genres.map(genre => genre.name);
-            movieToReturn.id = movie.id;
-            movieToReturn.lengthInMinutes = movie.lengthInMinutes;
-            movieToReturn.releasedYear = movie.releasedYear;
-            movieToReturn.title = movie.title;
-            movieToReturn.price = movie.price;
-            movieToReturn.rating = movie.rating;
-            movieToReturn.description = movie.description;
-            movieToReturn.coverUrl = movie.coverUrl;
+            const movieToReturn: MovieDto = {
+                genres: movie.genres.map(g => g.name),
+                id: movie.id,
+                title: movie.title,
+                price: movie.price,
+                rating: movie.rating,
+                description: movie.description,
+                coverUrl: movie.coverUrl
+            };
             return movieToReturn;
         });
         return moviesToReturn;
@@ -32,16 +31,19 @@ export class MoviesController {
     public async getById(@Param("id") id: number) {
         const movie = await this.moviesService.findById(id);
         if (!movie) throw new NotFoundException();
-        const movieToReturn = new MovieGetDto();
-        movieToReturn.genres = movie.genres.map(genre => genre.name);
-        movieToReturn.id = movie.id;
-        movieToReturn.lengthInMinutes = movie.lengthInMinutes;
-        movieToReturn.releasedYear = movie.releasedYear;
-        movieToReturn.title = movie.title;
-        movieToReturn.price = movie.price;
-        movieToReturn.rating = movie.rating;
-        movieToReturn.description = movie.description;
-        movieToReturn.coverUrl = movie.coverUrl;
+        const movieToReturn: MovieInfoDto = {
+            genres: movie.genres.map(g => g.name),
+            id: movie.id,
+            title: movie.title,
+            price: movie.price,
+            rating: movie.rating,
+            description: movie.description,
+            coverUrl: movie.coverUrl,
+            releasedYear: movie.releasedYear,
+            lengthInMinutes: movie.lengthInMinutes,
+            imgUrl: movie.imgUrl,
+            stock: movie.stock
+        };
         return movieToReturn;
     }
 
@@ -58,16 +60,15 @@ export class MoviesController {
         movieToCreate.coverUrl = movieCreateDto.coverUrl;
 
         const movieCreated = await this.moviesService.create(movieToCreate);
-        const movieToReturn = new MovieGetDto();
-        movieToReturn.genres = movieCreated.genres.map(genre => genre.name);
-        movieToReturn.id = movieCreated.id;
-        movieToReturn.lengthInMinutes = movieCreated.lengthInMinutes;
-        movieToReturn.releasedYear = movieCreated.releasedYear;
-        movieToReturn.title = movieCreated.title;
-        movieToReturn.price = movieCreated.price;
-        movieToReturn.rating = movieCreated.rating;
-        movieToReturn.description = movieCreated.description;
-        movieToReturn.coverUrl = movieCreated.coverUrl;
+        const movieToReturn: MovieDto = {
+            genres: movieCreated.genres.map(g => g.name),
+            id: movieCreated.id,
+            title: movieCreated.title,
+            price: movieCreated.price,
+            rating: movieCreated.rating,
+            description: movieCreated.description,
+            coverUrl: movieCreated.coverUrl
+        };
         return movieToReturn;
     }
 

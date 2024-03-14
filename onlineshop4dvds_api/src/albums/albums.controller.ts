@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, NotFoundException, Param, Post, Query } from '@nestjs/common';
 import { AlbumsService } from './albums.service';
-import { AlbumGetDto, AlbumInfoGetDto } from './dtos/album-get.dto';
+import { AlbumGetDto } from './dtos/album.dto';
+import { AlbumInfoGetDto } from "./dtos/album-info.dto";
 import { AlbumCreateDto } from './dtos/album-create.dto';
 import { Album } from './album.entity';
 import { CategoriesService } from 'src/categories/categories.service';

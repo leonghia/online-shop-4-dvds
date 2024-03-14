@@ -4,15 +4,16 @@ import { Game } from './game.entity';
 import { Repository } from 'typeorm';
 import { GameDetail } from './game-detail.entity';
 import { GameCreateDto } from './dtos/game-create.dto';
-import { GameGetDto } from './dtos/game-get.dto';
+import { GameDto } from './dtos/game.dto';
 import { CategoriesService } from 'src/categories/categories.service';
 import { toString } from 'src/utils/console-type';
+import { GameInfoDto } from './dtos/game-info.dto';
 
 @Injectable()
 export class GamesService {
     public constructor(@InjectRepository(Game) private gameRepository: Repository<Game>, @InjectRepository(GameDetail) private gameDetailRepository: Repository<GameDetail>, private categoriesService: CategoriesService) { }
 
-    public async findRange(): Promise<GameGetDto[]> {
+    public async findRange(): Promise<GameDto[]> {
         const gameDetails = await this.gameDetailRepository.find({
             relations: {
                 game: {
@@ -22,21 +23,20 @@ export class GamesService {
         });
 
         return gameDetails.map(gameDetail => {
-            const gameToReturn = new GameGetDto();
-            gameToReturn.consoleType = toString(gameDetail.consoleType);
-            gameToReturn.coverUrl = gameDetail.coverUrl;
-            gameToReturn.description = gameDetail.game.description;
-            gameToReturn.genres = gameDetail.game.genres.map(genre => genre.name);
-            gameToReturn.id = gameDetail.id;
-            gameToReturn.price = gameDetail.price;
-            gameToReturn.publisher = gameDetail.game.publisher;
-            gameToReturn.releasedYear = gameDetail.game.releasedYear;
-            gameToReturn.title = gameDetail.game.title;
+            const gameToReturn: GameDto = {
+                id: gameDetail.id,
+                title: gameDetail.game.title,
+                genres: gameDetail.game.genres.map(genre => genre.name),
+                price: gameDetail.price,
+                description: gameDetail.game.description,
+                coverUrl: gameDetail.coverUrl,
+                consoleType: toString(gameDetail.consoleType)
+            };
             return gameToReturn;
         });
     }
 
-    public async findDetailById(gameDetailId: number): Promise<GameGetDto | null> {
+    public async findDetailById(gameDetailId: number): Promise<GameDto | null> {
         const gameDetail = await this.gameDetailRepository.findOne({
             where: { id: gameDetailId },
             relations: {
@@ -48,16 +48,19 @@ export class GamesService {
 
         if (!gameDetail) return null;
 
-        const gameToReturn = new GameGetDto();
-        gameToReturn.consoleType = toString(gameDetail.consoleType);
-        gameToReturn.coverUrl = gameDetail.coverUrl;
-        gameToReturn.description = gameDetail.game.description;
-        gameToReturn.genres = gameDetail.game.genres.map(genre => genre.name);
-        gameToReturn.id = gameDetail.id;
-        gameToReturn.price = gameDetail.price;
-        gameToReturn.publisher = gameDetail.game.publisher;
-        gameToReturn.releasedYear = gameDetail.game.releasedYear;
-        gameToReturn.title = gameDetail.game.title;
+        const gameToReturn: GameInfoDto = {
+            id: gameDetail.id,
+            title: gameDetail.game.title,
+            genres: gameDetail.game.genres.map(genre => genre.name),
+            price: gameDetail.price,
+            description: gameDetail.game.description,
+            coverUrl: gameDetail.coverUrl,
+            consoleType: toString(gameDetail.consoleType),
+            releasedYear: gameDetail.game.releasedYear,
+            publisher: gameDetail.game.publisher,
+            stock: gameDetail.stock,
+            imgUrl: gameDetail.imgUrl
+        };
         return gameToReturn;
     }
 
@@ -68,7 +71,7 @@ export class GamesService {
         });
     }
 
-    public async createNewGame(gameCreateDto: GameCreateDto): Promise<GameGetDto | null> {
+    public async createNewGame(gameCreateDto: GameCreateDto): Promise<GameDto | null> {
         const gameToCreate = new Game();
         gameToCreate.description = gameCreateDto.description;
         gameToCreate.genres = await this.categoriesService.findRange({ requestParams: undefined, ids: gameCreateDto.genresIds });
@@ -84,21 +87,19 @@ export class GamesService {
         gameDetailToCreate.price = gameCreateDto.price;
         const gameDetailCreated = await this.gameDetailRepository.save(gameDetailToCreate);
 
-        const gameToReturn = new GameGetDto();
-        gameToReturn.consoleType = toString(gameDetailCreated.consoleType);
-        gameToReturn.coverUrl = gameDetailCreated.coverUrl;
-        gameToReturn.description = gameCreated.description;
-        gameToReturn.genres = gameCreated.genres.map(genre => genre.name);
-        gameToReturn.id = gameDetailCreated.id;
-        gameToReturn.price = gameDetailCreated.price;
-        gameToReturn.publisher = gameCreated.publisher;
-        gameToReturn.releasedYear = gameCreated.releasedYear;
-        gameToReturn.title = gameCreated.title;
-
+        const gameToReturn: GameDto = {
+            id: gameDetailCreated.id,
+            title: gameDetailCreated.game.title,
+            genres: gameDetailCreated.game.genres.map(genre => genre.name),
+            price: gameDetailCreated.price,
+            description: gameDetailCreated.game.description,
+            coverUrl: gameDetailCreated.coverUrl,
+            consoleType: toString(gameDetailCreated.consoleType)
+        };
         return gameToReturn;
     }
 
-    public async createAnotherDetail(gameCreateDto: GameCreateDto, existingGame: Game): Promise<GameGetDto | null> {
+    public async createAnotherDetail(gameCreateDto: GameCreateDto, existingGame: Game): Promise<GameDto | null> {
         const gameDetailToCreate = new GameDetail();
         gameDetailToCreate.consoleType = gameCreateDto.consoleType;
         gameDetailToCreate.coverUrl = gameCreateDto.coverUrl;
@@ -106,16 +107,15 @@ export class GamesService {
         gameDetailToCreate.price = gameCreateDto.price;
         const gameDetailCreated = await this.gameDetailRepository.save(gameDetailToCreate);
 
-        const gameToReturn = new GameGetDto();
-        gameToReturn.consoleType = toString(gameDetailCreated.consoleType);
-        gameToReturn.coverUrl = gameDetailCreated.coverUrl;
-        gameToReturn.description = existingGame.description;
-        gameToReturn.genres = existingGame.genres.map(genre => genre.name);
-        gameToReturn.id = gameDetailCreated.id;
-        gameToReturn.price = gameDetailCreated.price;
-        gameToReturn.publisher = existingGame.publisher;
-        gameToReturn.releasedYear = existingGame.releasedYear;
-        gameToReturn.title = existingGame.title;
+        const gameToReturn: GameDto = {
+            id: gameDetailCreated.id,
+            title: gameDetailCreated.game.title,
+            genres: gameDetailCreated.game.genres.map(genre => genre.name),
+            price: gameDetailCreated.price,
+            description: gameDetailCreated.game.description,
+            coverUrl: gameDetailCreated.coverUrl,
+            consoleType: toString(gameDetailCreated.consoleType)
+        };
         return gameToReturn;
     }
 

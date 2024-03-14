@@ -6,39 +6,39 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGen
 @Entity()
 export class Album {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column({length: 256})
-    title: string;
+    public title: string;
 
     @Column("date")
-    released: Date;
+    public released: Date;
 
     @Column({nullable: true})
-    lengthInSeconds: number;
+    public lengthInSeconds: number;
 
     @Column("decimal", {nullable: true})
-    price: number;
+    public price: number;
 
     @Column({nullable: true})
-    coverUrl: string;
+    public coverUrl: string;
 
     @Column({nullable: true})
-    imgUrl: string;
+    public imgUrl: string;
 
     @Column({nullable: true})
-    description: string;
+    public description: string;
 
     @Column({nullable: true, default: 200})
-    stock: number;
+    public stock: number;
 
     @ManyToMany(() => Category)
     @JoinTable()
-    genres: Category[];
+    public genres: Category[];
 
     @ManyToOne(() => Artist, (artist) => artist.albums)
-    artist: Artist;
+    public artist: Artist;
 
     @OneToMany(() => Song, (song) => song.album)
-    songs: Song[];
+    public songs: Song[];
 }
