@@ -10,4 +10,5 @@ export interface AlbumGetDto {
     lengthInSeconds: number;
     ratings?: number | null;
     numbersOfReviews?: number;
+    description: string;
 }

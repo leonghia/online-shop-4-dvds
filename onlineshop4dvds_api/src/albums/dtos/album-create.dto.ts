@@ -22,6 +22,9 @@ export class AlbumCreateDto {
     @IsString()
     coverUrl: string;
 
+    @IsString()
+    description: string;
+
     @IsNumber(undefined, {each: true})
     genres: number[];
 

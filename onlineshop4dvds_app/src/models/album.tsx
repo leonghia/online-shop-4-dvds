@@ -10,6 +10,7 @@ export interface Album {
     artistAvatar: string;
     ratings?: number | null;
     numbersOfReviews?: number;
+    description: string;
 }
 
 export class AlbumCreate {

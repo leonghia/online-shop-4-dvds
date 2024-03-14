@@ -1,5 +1,5 @@
 import { Album } from "@/models/album";
-import { Avatar, BreadcrumbItem, Breadcrumbs, Button } from "@nextui-org/react";
+import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 
@@ -114,6 +114,12 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                         <Avatar src={album?.artistAvatar} showFallback name={album?.artist} size="sm" />
                         <p className="text-small text-default-500">{album?.artist}</p>
                     </div>
+                    <div className="flex items-center gap-x-2 mb-2">
+                        <p className="text-small text-foreground">Genres: </p>
+                        <div>
+                            {album?.genres.map(genre => <Chip key={genre}>{genre}</Chip>)}
+                        </div>
+                    </div>
                     <h2 className="sr-only">Product information</h2>
                     <div className="my-2 flex items-center gap-2">
                         <div className="flex items-center gap-3">
@@ -139,10 +145,7 @@ export default function AlbumViewInfo({album}: {album: Album | null}) {
                     <div className="mt-4">
                         <p className="sr-only">Product description</p>
                         <p className="line-clamp-3 text-medium text-default-500">
-                            The Nike Air Max 270 delivers an even more adaptive fit than
-                            before. Stretch material in the upper moves with your foot, while
-                            the tri-star outsole pattern adjusts to your every step for a ride
-                            that delivers support and flexibility where you need it.
+                            {album?.description}
                         </p>
                     </div>
                     

@@ -33,6 +33,7 @@ export class AlbumsController {
                 price: album.price,
                 coverUrl: album.coverUrl,
                 artistAvatar: album.artist.avatar, 
+                description: album.description
             };
             return albumToReturn;
         });
@@ -56,7 +57,8 @@ export class AlbumsController {
             coverUrl: album.coverUrl,
             artistAvatar: album.artist.avatar,
             ratings,
-            numbersOfReviews
+            numbersOfReviews,
+            description: album.description
         };
         return albumToReturn;
     }
@@ -82,7 +84,8 @@ export class AlbumsController {
             lengthInSeconds: albumCreated.lengthInSeconds,
             price: albumCreated.price,
             coverUrl: albumCreated.coverUrl,
-            artistAvatar: albumCreated.artist.avatar
+            artistAvatar: albumCreated.artist.avatar,
+            description: albumCreated.description
         };
         return albumToReturn;
     }

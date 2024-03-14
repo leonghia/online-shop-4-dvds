@@ -23,6 +23,9 @@ export class Album {
     @Column({nullable: true})
     coverUrl: string;
 
+    @Column({nullable: true})
+    description: string;
+
     @ManyToMany(() => Category)
     @JoinTable()
     genres: Category[];
