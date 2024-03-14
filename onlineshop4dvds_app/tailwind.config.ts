@@ -91,7 +91,16 @@ const config = {
       }
     },
   },
-  plugins: [require("tailwindcss-animate"), nextui()],
+  plugins: [require("tailwindcss-animate"), nextui({
+    themes: {
+      dark: {
+        colors: {
+          focus: "hsl(142.1 70.6% 45.3%)",
+        }
+      },
+      
+    }
+  })],
 } satisfies Config
 
 export default config
