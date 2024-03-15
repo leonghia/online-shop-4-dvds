@@ -2,15 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
-import { RequestParams } from 'src/utils/request-params';
+import { ProductRequestParams, RequestParams } from 'src/utils/request-params';
 
 @Injectable()
 export class ProductsService {
     public constructor(@InjectRepository(Product) private productRepo: Repository<Product>) {}
 
-    public async findRange(requestParams: RequestParams = null): Promise<Product[]> {
-        requestParams ??= new RequestParams();
+    public async findRange(requestParams: ProductRequestParams = null): Promise<Product[]> {
+        requestParams ??= new ProductRequestParams();
         const products = await this.productRepo.find({
+            where: {genreType: requestParams.genreType},
             relations: {genres: true},
             skip: requestParams.pageSize * (requestParams.pageNumber - 1),
             take: requestParams.pageSize

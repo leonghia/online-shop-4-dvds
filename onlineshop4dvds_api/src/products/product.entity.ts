@@ -19,10 +19,7 @@ export class Product {
     public price: number;
 
     @Column()
-    public coverUrl: string;
-
-    @Column()
-    public imgUrl: string;
+    public thumbnailUrl: string;
 
     @Column()
     public description: string;

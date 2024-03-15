@@ -2,7 +2,7 @@ export interface ProductDto {
     id: number;
     title: string;
     price: number;
-    coverUrl: string;
+    thumbnailUrl: string;
     description: string;
     genres: string[];
 }

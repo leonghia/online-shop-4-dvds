@@ -17,6 +17,14 @@ export class RequestParams {
     pageNumber: number = 1;
 }
 
+export class ProductRequestParams extends RequestParams {
+    @IsOptional()
+    @IsNumber()
+    @Min(0)
+    @Type(() => Number)
+    genreType: number;
+}
+
 export class GenresRequestParams extends RequestParams {
 
     @IsOptional()

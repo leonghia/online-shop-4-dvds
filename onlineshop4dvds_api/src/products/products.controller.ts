@@ -1,6 +1,6 @@
 import { Controller, Get, NotFoundException, Param, Query } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { RequestParams } from 'src/utils/request-params';
+import { ProductRequestParams, RequestParams } from 'src/utils/request-params';
 import { GenreType } from 'src/utils/genre-type';
 import { AlbumProductDto, GameProductDto, MovieProductDto, ProductDto } from './dtos/product.dto';
 import { AlbumsService } from 'src/albums/albums.service';
@@ -15,7 +15,7 @@ export class ProductsController {
     public constructor(private productsService: ProductsService, private albumsService: AlbumsService, private moviesService: MoviesService, private gamesService: GamesService, private reviewsService: ReviewsService, private imagesService: ImagesService) { }
 
     @Get()
-    public async getRange(@Query() requestParams?: RequestParams) {
+    public async getRange(@Query() requestParams?: ProductRequestParams) {
         const products = await this.productsService.findRange(requestParams);
         const productsToReturn = new Array<ProductDto>(products.length);
         for (let i = 0; i < products.length; i++) {
@@ -24,7 +24,7 @@ export class ProductsController {
                 const albumToReturn: AlbumProductDto = {
                     id: products[i].id,
                     title: products[i].title,
-                    coverUrl: products[i].coverUrl,
+                    thumbnailUrl: products[i].thumbnailUrl,
                     description: products[i].description,
                     artist: album.artist.fullName,
                     artistAvatar: album.artist.avatar,
@@ -37,9 +37,9 @@ export class ProductsController {
                 const movieToReturn: MovieProductDto = {
                     id: products[i].id,
                     title: products[i].title,
-                    coverUrl: products[i].coverUrl,
+                    thumbnailUrl: products[i].thumbnailUrl,
                     description: products[i].description,
-                    imdbRatings: movie.rating,
+                    imdbRatings: movie.imdbRatings,
                     price: Number(products[i].price),
                     genres: products[i].genres.map(g => g.name)
                 };
@@ -49,7 +49,7 @@ export class ProductsController {
                 const gameToReturn: GameProductDto = {
                     id: products[i].id,
                     title: products[i].title,
-                    coverUrl: products[i].coverUrl,
+                    thumbnailUrl: products[i].thumbnailUrl,
                     description: products[i].description,
                     price: Number(products[i].price),
                     genres: products[i].genres.map(g => g.name),
@@ -102,7 +102,7 @@ export class ProductsController {
                 images: images.map(img => img.url),
                 yearReleased: product.yearReleased,
                 stock: product.stock,
-                imdbRatings: movie.rating,
+                imdbRatings: movie.imdbRatings,
                 lengthInMinutes: movie.lengthInMinutes
             };
             return movieProductDetailToReturn;

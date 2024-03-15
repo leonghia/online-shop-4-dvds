@@ -7,18 +7,9 @@ import { Repository } from 'typeorm';
 export class MoviesService {
     public constructor(@InjectRepository(Movie) private movieRepository: Repository<Movie>) {}
 
-    public async findRange(): Promise<Movie[]> {
-        return await this.movieRepository.find({
-            relations: {
-                genres: true,
-            },
-        });
-    }
-
     public async findByProductId(productId: number): Promise<Movie | null> {
         return await this.movieRepository.findOne({
             where: {product: {id: productId}},
-            relations: {genres: true}
         });
     }
 
