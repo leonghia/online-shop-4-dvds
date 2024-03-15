@@ -9,6 +9,7 @@ import { GamesService } from 'src/games/games.service';
 import { AlbumProductDetailDto, GameProductDetailDto, MovieProductDetailDto } from './dtos/product-detail.dto';
 import { ReviewsService } from 'src/reviews/reviews.service';
 import { ImagesService } from 'src/images/images.service';
+import { toString } from 'src/utils/console-type';
 
 @Controller('products')
 export class ProductsController {
@@ -45,7 +46,7 @@ export class ProductsController {
                 };
                 productsToReturn[i] = movieToReturn;
             } else if (products[i].genreType === GenreType.Game) {
-                const game = await this.gamesService.findDetailByProductId(products[i].id);
+                const game = await this.gamesService.findByProductId(products[i].id);
                 const gameToReturn: GameProductDto = {
                     id: products[i].id,
                     title: products[i].title,
@@ -53,7 +54,7 @@ export class ProductsController {
                     description: products[i].description,
                     price: Number(products[i].price),
                     genres: products[i].genres.map(g => g.name),
-                    console: game.consoleType
+                    console: toString(game.consoleType)
                 };
                 productsToReturn[i] = gameToReturn;
             } else {
@@ -107,7 +108,7 @@ export class ProductsController {
             };
             return movieProductDetailToReturn;
         } else if (product.genreType === GenreType.Game) {
-            const game = await this.gamesService.findDetailByProductId(product.id);
+            const game = await this.gamesService.findByProductId(product.id);
             const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({productId: product.id});
             const images = await this.imagesService.getRange({productId: product.id});
             const gameProductDetailToReturn: GameProductDetailDto = {
@@ -121,7 +122,7 @@ export class ProductsController {
                 images: images.map(img => img.url),
                 yearReleased: product.yearReleased,
                 stock: product.stock,
-                console: game.consoleType
+                console: toString(game.consoleType)
             };
             return gameProductDetailToReturn;
         } else {
