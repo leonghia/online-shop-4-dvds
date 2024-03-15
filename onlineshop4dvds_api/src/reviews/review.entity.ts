@@ -1,5 +1,5 @@
+import { Product } from "src/products/product.entity";
 import { User } from "src/users/user.entity";
-import { GenreType } from "src/utils/genre-type";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -19,9 +19,6 @@ export class Review {
     @Column({nullable: true})
     public content: string;
 
-    @Column()
-    public genreType: GenreType;
-
-    @Column()
-    public productId: number;
+    @ManyToOne(() => Product, (product) => product.reviews)
+    public product: Product;
 }

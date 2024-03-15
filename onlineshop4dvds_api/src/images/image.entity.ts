@@ -1,5 +1,5 @@
-import { GenreType } from "src/utils/genre-type";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/products/product.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Image {
@@ -9,9 +9,6 @@ export class Image {
     @Column()
     public url: string;
 
-    @Column("smallint")
-    public genreType: GenreType;
-
-    @Column()
-    public productId: number;
+    @ManyToOne(() => Product, (product) => product.images)
+    public product: Product;
 }

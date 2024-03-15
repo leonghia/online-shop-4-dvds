@@ -23,4 +23,5 @@ export interface GameProductDetailDto extends ProductDetail {
 
 export interface MovieProductDetailDto extends ProductDetail {
     imdbRatings: number;
+    lengthInMinutes: number;
 }

@@ -1,6 +1,8 @@
 import { Category } from "src/categories/category.entity";
+import { Image } from "src/images/image.entity";
+import { Review } from "src/reviews/review.entity";
 import { GenreType } from "src/utils/genre-type";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Product {
@@ -37,4 +39,10 @@ export class Product {
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];
+
+    @OneToMany(() => Review, (review) => review.product)
+    public reviews: Review[];
+
+    @OneToMany(() => Image, (image) => image.product)
+    public images: Image[];
 }

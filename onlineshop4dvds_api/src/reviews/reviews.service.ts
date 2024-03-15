@@ -8,23 +8,21 @@ import { GenreType } from 'src/utils/genre-type';
 export class ReviewsService {
     public constructor(@InjectRepository(Review) private reviewRepo: Repository<Review>) {}
 
-    public async findRange({genreType, productId, pageSize, pageNumber}: {genreType: GenreType, productId: number, pageSize: number, pageNumber: number}): Promise<Review[]> {
+    public async findRange({productId, pageSize, pageNumber}: {genreType: GenreType, productId: number, pageSize: number, pageNumber: number}): Promise<Review[]> {
         return this.reviewRepo.find({
             where: {
-                genreType,
-                productId
+                product: {id: productId}
             },
             skip: pageSize * (pageNumber - 1),
             take: pageSize
         });
     }
 
-    public async calculateAvgRatings({genreType, productId}: {genreType: GenreType, productId: number}): Promise<{ratings: number, numbersOfReviews: number}> {
+    public async calculateAvgRatings({productId}: {productId: number}): Promise<{ratings: number, numbersOfReviews: number}> {
         const ratings = await this.reviewRepo.average("ratings", {
-            genreType,
-            productId
+            product: {id: productId}
         });
-        const numbersOfReviews = await this.reviewRepo.countBy({genreType, productId});
+        const numbersOfReviews = await this.reviewRepo.countBy({product: {id: productId}});
 
         return {ratings, numbersOfReviews};
     }
