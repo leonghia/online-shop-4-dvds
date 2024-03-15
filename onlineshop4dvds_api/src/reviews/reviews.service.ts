@@ -23,6 +23,7 @@ export class ReviewsService {
             product: {id: productId}
         });
         const numbersOfReviews = await this.reviewRepo.countBy({product: {id: productId}});
+        
 
         return {ratings, numbersOfReviews};
     }

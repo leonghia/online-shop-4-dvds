@@ -1,4 +1,3 @@
-import { Song } from "src/songs/song.entity";
 import { Album } from "../albums/album.entity";
 import { Category } from "../categories/category.entity";
 import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -26,7 +25,4 @@ export class Artist {
 
     @OneToMany(() => Album, (album) => album.artist, {onDelete: "CASCADE"})
     albums: Album[];
-
-    @OneToMany(() => Song, (song) => song.artist, {onDelete: "CASCADE"})
-    songs: Song[];
 }

@@ -26,8 +26,4 @@ export class Game {
 
     @OneToMany(() => GameDetail, (gameDetail) => gameDetail.game)
     public gameDetails: GameDetail[];
-
-    @OneToOne(() => Product)
-    @JoinColumn()
-    public product: Product;
 }

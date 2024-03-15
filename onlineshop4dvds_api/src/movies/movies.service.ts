@@ -15,9 +15,9 @@ export class MoviesService {
         });
     }
 
-    public async findById(id: number): Promise<Movie | null> {
+    public async findByProductId(productId: number): Promise<Movie | null> {
         return await this.movieRepository.findOne({
-            where: {id},
+            where: {product: {id: productId}},
             relations: {genres: true}
         });
     }

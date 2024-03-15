@@ -8,22 +8,11 @@ import { Artist } from 'src/artists/artist.entity';
 export class AlbumsService {
     public constructor(@InjectRepository(Album) private albumRepository: Repository<Album>) {}
 
-    public async findRange({artist}: {artist: Artist | null}): Promise<Album[]> {
-        if (artist)
-            return await this.albumRepository.find({
-                where: {artist},
-                relations: {genres: true, artist: true}
-            });
-        else
-            return await this.albumRepository.find({
-                relations: {genres: true, artist: true}
-            });
-    }
 
-    public async findById(id: number): Promise<Album | null> {
+    public async findByProductId(productId: number): Promise<Album | null> {
         return await this.albumRepository.findOne({
-            where: {id},
-            relations: {genres: true, artist: true}
+            where: {product: {id: productId}},
+            relations: {artist: true}
         });
     }
 

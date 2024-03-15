@@ -7,7 +7,7 @@ import { Repository } from 'typeorm';
 export class ImagesService {
     public constructor(@InjectRepository(Image) private imageRepo: Repository<Image>) {}
 
-    public async getRange({productId}: {productId: number}) {
+    public async getRange({productId}: {productId: number}): Promise<Image[]> {
         return await this.imageRepo.findBy({product: {id: productId}});
     }
 }

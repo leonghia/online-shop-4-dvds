@@ -8,6 +8,6 @@ export class ReviewsController {
 
     @Get("ratings")
     public async getRatings(@Query() requestParams: ReviewsRequestParams) {
-        return await this.reviewsService.calculateAvgRatings({genreType: requestParams.genreType, productId: requestParams.productId});
+        return await this.reviewsService.calculateAvgRatings({productId: requestParams.productId});
     }
 }

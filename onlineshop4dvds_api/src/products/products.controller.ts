@@ -18,49 +18,48 @@ export class ProductsController {
     public async getRange(@Query() requestParams?: RequestParams) {
         const products = await this.productsService.findRange(requestParams);
         const productsToReturn = new Array<ProductDto>(products.length);
-        for (const p of products) {
-            if (p.genreType === GenreType.Music) {
-                const album = await this.albumsService.findById(p.entityId);
+        for (let i = 0; i < products.length; i++) {
+            if (products[i].genreType === GenreType.Music) {
+                const album = await this.albumsService.findByProductId(products[i].id);
                 const albumToReturn: AlbumProductDto = {
-                    id: p.id,
-                    title: p.title,
-                    coverUrl: p.coverUrl,
-                    description: p.description,
+                    id: products[i].id,
+                    title: products[i].title,
+                    coverUrl: products[i].coverUrl,
+                    description: products[i].description,
                     artist: album.artist.fullName,
                     artistAvatar: album.artist.avatar,
-                    price: p.price,
-                    genres: p.genres.map(g => g.name)
+                    price: Number(products[i].price),
+                    genres: products[i].genres.map(g => g.name)
                 };
-                productsToReturn.push(albumToReturn);
-            } else if (p.genreType === GenreType.Movie) {
-                const movie = await this.moviesService.findById(p.entityId);
+                productsToReturn[i] = albumToReturn;
+            } else if (products[i].genreType === GenreType.Movie) {
+                const movie = await this.moviesService.findByProductId(products[i].id);
                 const movieToReturn: MovieProductDto = {
-                    id: p.id,
-                    title: p.title,
-                    coverUrl: p.coverUrl,
-                    description: p.description,
+                    id: products[i].id,
+                    title: products[i].title,
+                    coverUrl: products[i].coverUrl,
+                    description: products[i].description,
                     imdbRatings: movie.rating,
-                    price: p.price,
-                    genres: p.genres.map(g => g.name)
+                    price: Number(products[i].price),
+                    genres: products[i].genres.map(g => g.name)
                 };
-                productsToReturn.push(movieToReturn);
-            } else if (p.genreType === GenreType.Game) {
-                const game = await this.gamesService.findDetailById(p.entityId);
+                productsToReturn[i] = movieToReturn;
+            } else if (products[i].genreType === GenreType.Game) {
+                const game = await this.gamesService.findDetailByProductId(products[i].id);
                 const gameToReturn: GameProductDto = {
-                    id: p.id,
-                    title: p.title,
-                    coverUrl: p.coverUrl,
-                    description: p.description,
-                    price: p.price,
-                    genres: p.genres.map(g => g.name),
+                    id: products[i].id,
+                    title: products[i].title,
+                    coverUrl: products[i].coverUrl,
+                    description: products[i].description,
+                    price: Number(products[i].price),
+                    genres: products[i].genres.map(g => g.name),
                     console: game.consoleType
                 };
-                productsToReturn.push(gameToReturn);
+                productsToReturn[i] = gameToReturn;
             } else {
                 throw new Error("Invalid genre type");
             }
         }
-
         return productsToReturn;
     }
 
@@ -69,7 +68,7 @@ export class ProductsController {
         const product = await this.productsService.findById(id);
         if (!product) throw new NotFoundException();
         if (product.genreType === GenreType.Music) {
-            const album = await this.albumsService.findById(product.entityId);
+            const album = await this.albumsService.findByProductId(product.id);
             const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({productId: product.id});
             const images = await this.imagesService.getRange({productId: product.id});
             const albumProductDetailToReturn: AlbumProductDetailDto = {
@@ -78,7 +77,7 @@ export class ProductsController {
                 lengthInSeconds: album.lengthInSeconds,
                 id: product.id,
                 title: product.title,
-                price: product.price,
+                price: Number(product.price),
                 description: product.description,
                 genres: product.genres.map(g => g.name),
                 ratings,
@@ -89,13 +88,13 @@ export class ProductsController {
             };
             return albumProductDetailToReturn;
         } else if (product.genreType === GenreType.Movie) {
-            const movie = await this.moviesService.findById(product.entityId);
+            const movie = await this.moviesService.findByProductId(product.id);
             const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({productId: product.id});
             const images = await this.imagesService.getRange({productId: product.id});
             const movieProductDetailToReturn: MovieProductDetailDto = {
                 id: product.id,
                 title: product.title,
-                price: product.price,
+                price: Number(product.price),
                 description: product.description,
                 genres: product.genres.map(g => g.name),
                 ratings,
@@ -108,13 +107,13 @@ export class ProductsController {
             };
             return movieProductDetailToReturn;
         } else if (product.genreType === GenreType.Game) {
-            const game = await this.gamesService.findDetailById(product.id);
+            const game = await this.gamesService.findDetailByProductId(product.id);
             const {ratings, numbersOfReviews} = await this.reviewsService.calculateAvgRatings({productId: product.id});
             const images = await this.imagesService.getRange({productId: product.id});
             const gameProductDetailToReturn: GameProductDetailDto = {
                 id: product.id,
                 title: product.title,
-                price: product.price,
+                price: Number(product.price),
                 description: product.description,
                 genres: product.genres.map(g => g.name),
                 ratings,

@@ -13,8 +13,6 @@ import { ArtistsModule } from './artists/artists.module';
 import { Artist } from './artists/artist.entity';
 import { AlbumsModule } from './albums/albums.module';
 import { Album } from './albums/album.entity';
-import { SongsModule } from './songs/songs.module';
-import { Song } from './songs/song.entity';
 import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/movie.entity';
 import { GamesModule } from './games/games.module';
@@ -37,7 +35,7 @@ import { Product } from './products/product.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist, Album, Song, Movie, Game, GameDetail, Review, Image, Product],
+      entities: [User, Category, Artist, Album, Movie, Game, GameDetail, Review, Image, Product],
       synchronize: true, // auto migration on save
     }),
     AuthModule,
@@ -46,7 +44,6 @@ import { Product } from './products/product.entity';
     CategoriesModule,
     ArtistsModule,
     AlbumsModule,
-    SongsModule,
     MoviesModule,
     GamesModule,
     ReviewsModule,

@@ -36,9 +36,9 @@ export class GamesService {
         });
     }
 
-    public async findDetailById(gameDetailId: number): Promise<GameDto | null> {
+    public async findDetailByProductId(productId: number): Promise<GameDto | null> {
         const gameDetail = await this.gameDetailRepository.findOne({
-            where: { id: gameDetailId },
+            where: { product: {id: productId} },
             relations: {
                 game: {
                     genres: true,

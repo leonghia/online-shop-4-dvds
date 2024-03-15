@@ -1,6 +1,7 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Game } from "./game.entity";
 import { ConsoleType } from "src/utils/console-type";
+import { Product } from "src/products/product.entity";
 
 @Entity()
 export class GameDetail {
@@ -24,4 +25,8 @@ export class GameDetail {
 
     @Column({nullable: true, default: 200})
     public stock: number;
+
+    @OneToOne(() => Product)
+    @JoinColumn()
+    public product: Product;
 }
