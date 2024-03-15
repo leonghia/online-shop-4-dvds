@@ -33,9 +33,6 @@ export class Product {
     @Column()
     public genreType: GenreType;
 
-    @Column()
-    public entityId: number;
-
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];

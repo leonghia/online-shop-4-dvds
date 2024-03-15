@@ -1,6 +1,7 @@
 import { Category } from "src/categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { GameDetail } from "./game-detail.entity";
+import { Product } from "src/products/product.entity";
 
 @Entity()
 export class Game {
@@ -25,4 +26,8 @@ export class Game {
 
     @OneToMany(() => GameDetail, (gameDetail) => gameDetail.game)
     public gameDetails: GameDetail[];
+
+    @OneToOne(() => Product)
+    @JoinColumn()
+    public product: Product;
 }

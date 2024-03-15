@@ -1,5 +1,6 @@
 import { Category } from "src/categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/products/product.entity";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Movie {
@@ -36,4 +37,8 @@ export class Movie {
     @ManyToMany(() => Category)
     @JoinTable()
     public genres: Category[];
+
+    @OneToOne(() => Product)
+    @JoinColumn()
+    public product: Product;
 }

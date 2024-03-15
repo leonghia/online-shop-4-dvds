@@ -1,7 +1,8 @@
 import { Song } from "src/songs/song.entity";
 import { Artist } from "../artists/artist.entity";
 import { Category } from "../categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/products/product.entity";
 
 @Entity()
 export class Album {
@@ -41,4 +42,8 @@ export class Album {
 
     @OneToMany(() => Song, (song) => song.album)
     public songs: Song[];
+
+    @OneToOne(() => Product)
+    @JoinColumn()
+    public product: Product;
 }
