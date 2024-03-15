@@ -1,19 +1,20 @@
 import { Type } from "class-transformer";
-import { IsNumber, IsOptional, Min } from "class-validator";
+import { IsNumber, IsOptional, Max, Min } from "class-validator";
 
 export class RequestParams {
 
     @IsOptional()
     @IsNumber()
     @Min(1)
+    @Max(50)
     @Type(() => Number)
-    pageSize?: number;
+    pageSize: number = 10;
 
     @IsOptional()
     @IsNumber()
     @Min(1)
     @Type(() => Number)
-    pageNumber?: number;
+    pageNumber: number = 1;
 }
 
 export class GenresRequestParams extends RequestParams {

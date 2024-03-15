@@ -24,6 +24,8 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { Review } from './reviews/review.entity';
 import { ImagesModule } from './images/images.module';
 import { Image } from './images/image.entity';
+import { ProductsModule } from './products/products.module';
+import { Product } from './products/product.entity';
 
 @Module({
   imports: [
@@ -35,7 +37,7 @@ import { Image } from './images/image.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist, Album, Song, Movie, Game, GameDetail, Review, Image],
+      entities: [User, Category, Artist, Album, Song, Movie, Game, GameDetail, Review, Image, Product],
       synchronize: true, // auto migration on save
     }),
     AuthModule,
@@ -49,6 +51,7 @@ import { Image } from './images/image.entity';
     GamesModule,
     ReviewsModule,
     ImagesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
