@@ -2,15 +2,15 @@ import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import GradientHeading from "../gradient-heading";
 import GameCard from "./game-card";
-import { Game } from "@/models/game";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
 import { GenreType } from "@/utils/genre-type";
 import FilterGenres from "../filter-genres";
+import { GameProduct } from "@/models/product";
 
 export default function GamesList() {
-    const [games, setGames] = useState<Game[] | null>(null);
+    const [games, setGames] = useState<GameProduct[] | null>(null);
     const [genres, setGenres] = useState<Genre[] | null>(null);
 
     useEffect(() => {
@@ -21,9 +21,9 @@ export default function GamesList() {
     }, []);
 
     useEffect(() => {
-        fetch(`${API_URL}/games`)
+        fetch(`${API_URL}/products?genreType=${GenreType.Game}`)
             .then(res => res.json())
-            .then((data: Game[]) => setGames(data))
+            .then((data: GameProduct[]) => setGames(data))
             .catch(err => console.error(err));
     }, []);
 

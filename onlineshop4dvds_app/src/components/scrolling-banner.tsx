@@ -7,7 +7,7 @@ export default function ScrollingBanner() {
     data-top-bottom-scroll="false"
     data-left-right-scroll="true"
   >
-    <div className="flex w-max items-stretch gap-[--gap] animate-scrolling-banner hover:[animation-play-state:paused]">
+    <div className="flex w-max items-stretch gap-[--gap] animate-scrolling-banner">
       <div className="flex items-center justify-center text-foreground">
         <svg
           fill="none"

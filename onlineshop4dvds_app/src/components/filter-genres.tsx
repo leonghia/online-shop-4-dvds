@@ -1,5 +1,4 @@
 import { RadioGroup, useRadio, VisuallyHidden, cn, RadioProps } from "@nextui-org/react";
-import { Pop, RnB, Rock } from "./icons/music";
 import { Genre } from "@/models/genre";
 
 const Tag = (props: RadioProps) => {

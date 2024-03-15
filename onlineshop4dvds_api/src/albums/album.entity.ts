@@ -1,35 +1,19 @@
-import { Song } from "src/songs/song.entity";
 import { Artist } from "../artists/artist.entity";
-import { Category } from "../categories/category.entity";
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/products/product.entity";
 
 @Entity()
 export class Album {
     @PrimaryGeneratedColumn()
-    id: number;
-
-    @Column({length: 256})
-    title: string;
-
-    @Column("date")
-    released: Date;
+    public id: number;
 
     @Column({nullable: true})
-    lengthInSeconds: number;
-
-    @Column("decimal", {nullable: true})
-    price: number;
-
-    @Column({nullable: true})
-    coverUrl: string;
-
-    @ManyToMany(() => Category)
-    @JoinTable()
-    genres: Category[];
+    public lengthInSeconds: number;
 
     @ManyToOne(() => Artist, (artist) => artist.albums)
-    artist: Artist;
+    public artist: Artist;
 
-    @OneToMany(() => Song, (song) => song.album)
-    songs: Song[];
+    @OneToOne(() => Product)
+    @JoinColumn()
+    public product: Product;
 }

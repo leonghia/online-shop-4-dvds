@@ -1,28 +1,32 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Review } from "src/reviews/review.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id: number;
+    public id: number;
 
     @Column({length: 64})
-    fullName: string;
+    public fullName: string;
 
     @Column()
-    email: string;
+    public email: string;
 
     @Column()
-    normalizedEmail: string;
+    public normalizedEmail: string;
     
     @Column()
-    passwordHash: string;
+    public passwordHash: string;
 
     @Column("boolean", {default: false})
-    isEmailActive: boolean = false;
+    public isEmailActive: boolean = false;
 
     @Column({nullable: true})
-    emailToken: string;
+    public emailToken: string;
 
     @Column("boolean", {default: false})
-    isAdmin: boolean = false;
+    public isAdmin: boolean = false;
+
+    @OneToMany(() => Review, (review) => review.user)
+    public reviews: Review[];
 }

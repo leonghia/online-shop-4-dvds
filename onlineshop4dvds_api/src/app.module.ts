@@ -13,13 +13,16 @@ import { ArtistsModule } from './artists/artists.module';
 import { Artist } from './artists/artist.entity';
 import { AlbumsModule } from './albums/albums.module';
 import { Album } from './albums/album.entity';
-import { SongsModule } from './songs/songs.module';
-import { Song } from './songs/song.entity';
 import { MoviesModule } from './movies/movies.module';
 import { Movie } from './movies/movie.entity';
 import { GamesModule } from './games/games.module';
 import { Game } from './games/game.entity';
-import { GameDetail } from './games/game-detail.entity';
+import { ReviewsModule } from './reviews/reviews.module';
+import { Review } from './reviews/review.entity';
+import { ImagesModule } from './images/images.module';
+import { Image } from './images/image.entity';
+import { ProductsModule } from './products/products.module';
+import { Product } from './products/product.entity';
 
 @Module({
   imports: [
@@ -31,7 +34,7 @@ import { GameDetail } from './games/game-detail.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist, Album, Song, Movie, Game, GameDetail],
+      entities: [User, Category, Artist, Album, Movie, Game, Review, Image, Product],
       synchronize: true, // auto migration on save
     }),
     AuthModule,
@@ -40,9 +43,11 @@ import { GameDetail } from './games/game-detail.entity';
     CategoriesModule,
     ArtistsModule,
     AlbumsModule,
-    SongsModule,
     MoviesModule,
     GamesModule,
+    ReviewsModule,
+    ImagesModule,
+    ProductsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
