@@ -16,7 +16,7 @@ export default function GameCard({game}: {game: GameProduct}) {
             </div>
             <div className="flex flex-col gap-3 px-1">
                 <div className="flex items-start justify-between">
-                    <Link href="#" className="font-medium text-default-700" size="md">{game.title}</Link>
+                    <Link href={`/games/${game.id}`} className="font-medium text-default-700" size="md">{game.title}</Link>
                     <p className="text-medium font-medium text-pink-500">${game.price}</p>
                 </div>
                 <p className="text-small text-default-500 line-clamp-3">
