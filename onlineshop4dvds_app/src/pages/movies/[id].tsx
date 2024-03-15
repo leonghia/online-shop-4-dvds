@@ -1,7 +1,7 @@
-import AlbumViewInfo from '@/components/albums/album-view-info';
 import PageLayout from '@/components/layouts/page-layout';
+import MovieViewInfo from '@/components/movies/movie-view-info';
 import { API_URL } from '@/config';
-import { AlbumProductDetail } from '@/models/product-detail';
+import { MovieProductDetail } from '@/models/product-detail';
 import { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
@@ -9,21 +9,21 @@ export const getServerSideProps = (async (context: GetServerSidePropsContext) =>
   // Fetch data from external API
   try {
     const res = await fetch(`${API_URL}/products/${id}`);
-    const albumProductDetail: AlbumProductDetail = await res.json();
+    const movieProductDetail: MovieProductDetail = await res.json();
 
     // Pass data to the page via props
-    return {props: {albumProductDetail}}
+    return {props: {movieProductDetail}}
   } catch(err) {
     console.error(err);
   }
 });
 
-export default function AlbumPage({albumProductDetail}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function AlbumPage({movieProductDetail}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
   return (
     <PageLayout>
         <div className="flex items-center justify-center p-4">
-            <AlbumViewInfo album={albumProductDetail}  />
+            <MovieViewInfo movie={movieProductDetail}  />
         </div>
     </PageLayout>
   );

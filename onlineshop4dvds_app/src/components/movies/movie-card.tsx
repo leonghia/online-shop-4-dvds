@@ -17,7 +17,7 @@ export default function MovieCard({movie}: {movie: MovieProduct}) {
             </div>
             <div className="flex flex-col gap-3 px-1">
                 <div className="flex items-start justify-between">
-                    <Link href="#" className="font-medium text-default-700" size="md">{movie.title}</Link>
+                    <Link href={`/movies/${movie.id}`} className="font-medium text-default-700" size="md">{movie.title}</Link>
                     <p className="text-medium font-medium text-pink-500">${movie.price}</p>
                 </div>
                 <p className="text-small text-default-500 line-clamp-3">

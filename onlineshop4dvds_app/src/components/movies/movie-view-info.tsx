@@ -1,44 +1,40 @@
-import { Avatar, BreadcrumbItem, Breadcrumbs, Button, Chip, Divider } from "@nextui-org/react";
+import { BreadcrumbItem, Breadcrumbs, Button, Chip, Divider } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 import ImagesGallery from "../images-gallery";
-import { AlbumProductDetail } from "@/models/product-detail";
+import { MovieProductDetail } from "@/models/product-detail";
 
-export default function AlbumViewInfo({ album }: { album: AlbumProductDetail }) {
+export default function MovieViewInfo({ movie }: { movie: MovieProductDetail }) {
 
     return (
         <div className="max-w-5xl h-full w-full px-2">
 
             <Breadcrumbs className="my-4 py-2">
                 <BreadcrumbItem href="/">Home</BreadcrumbItem>
-                <BreadcrumbItem href="/albums">Albums</BreadcrumbItem>
-                <BreadcrumbItem href="#">{album.title}</BreadcrumbItem>
+                <BreadcrumbItem href="/movies">Movies</BreadcrumbItem>
+                <BreadcrumbItem href="#">{movie.title}</BreadcrumbItem>
             </Breadcrumbs>
 
             <div
                 className="relative flex flex-col gap-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8"
                 id="942837-003"
             >
-                <ImagesGallery images={album.images} />
+                <ImagesGallery images={movie.images} />
                 <div className="flex flex-col">
-                    <p className="text-small font-medium text-default-400 mb-2">Album</p>
+                    <p className="text-small font-medium text-default-400 mb-2">Movie</p>
                     <h1 className="text-3xl font-bold tracking-tight">
-                        {album.title}
+                        {movie.title}
                     </h1>
-                    <div className="flex items-center gap-x-2 my-3">
-                        <Avatar src={album.artistAvatar} showFallback name={album.artist} size="sm" />
-                        <p className="text-small text-default-500">{album.artist}</p>
-                    </div>
-                    <div className="flex items-center gap-x-6 mb-2">
+                    <div className="flex items-center gap-x-6 my-3">
                         <div className="flex items-center space-x-2">
                             <p className="text-small text-foreground">Genres: </p>
                             <div className="space-x-2">
-                                {album.genres.map(genre => <Chip key={genre}>{genre}</Chip>)}
+                                {movie.genres.map(genre => <Chip key={genre}>{genre}</Chip>)}
                             </div>
                         </div>
                         <Divider orientation="vertical" className="h-5" />
                         <div className="flex items-center space-x-2">
-                            <p className="text-small text-foreground">Released: <span className="text-gray-500">{album.yearReleased}</span></p>
+                            <p className="text-small text-foreground">Released: <span className="text-gray-500">{movie.yearReleased}</span></p>
                         </div>
                     </div>
                     <h2 className="sr-only">Product information</h2>
@@ -56,21 +52,21 @@ export default function AlbumViewInfo({ album }: { album: AlbumProductDetail }) 
                                     role="presentation"
                                     data-orientation="horizontal"
                                 >
-                                    <StarRatings ratings={album.ratings} />
+                                    <StarRatings ratings={movie.ratings} />
                                 </div>
                             </div>
                         </div>
-                        <p className="text-small text-default-400">{album.numbersOfReviews} reviews</p>
+                        <p className="text-small text-default-400">{movie.numbersOfReviews} reviews</p>
                     </div>
                     <div className="mt-2 flex gap-x-6 items-center">
-                        <p className="text-xl font-medium tracking-tight text-pink-500">${album.price}</p>
-                        {album.stock && album.stock > 0 ? <p className="text-sm font-bold text-primary">In Stock</p> : <p className="text-sm font-bold text-danger">Out of Stock</p>}
-                        <p className="text-sm text-default-400">{album.stock} products available</p>
+                        <p className="text-xl font-medium tracking-tight text-pink-500">${movie.price}</p>
+                        {movie.stock && movie.stock > 0 ? <p className="text-sm font-bold text-primary">In Stock</p> : <p className="text-sm font-bold text-danger">Out of Stock</p>}
+                        <p className="text-sm text-default-400">{movie.stock} products available</p>
                     </div>
                     <div className="mt-4">
                         <p className="sr-only">Product description</p>
                         <p className="line-clamp-3 text-medium text-default-500">
-                            {album.description}
+                            {movie.description}
                         </p>
                     </div>
 

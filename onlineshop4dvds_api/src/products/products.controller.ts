@@ -83,7 +83,7 @@ export class ProductsController {
                 genres: product.genres.map(g => g.name),
                 ratings,
                 numbersOfReviews,
-                images: images.map(img => img.url),
+                images: [product.thumbnailUrl, ...images.map(img => img.url)],
                 yearReleased: product.yearReleased,
                 stock: product.stock
             };
@@ -100,7 +100,7 @@ export class ProductsController {
                 genres: product.genres.map(g => g.name),
                 ratings,
                 numbersOfReviews,
-                images: images.map(img => img.url),
+                images: [product.thumbnailUrl, ...images.map(img => img.url)],
                 yearReleased: product.yearReleased,
                 stock: product.stock,
                 imdbRatings: movie.imdbRatings,
@@ -119,7 +119,7 @@ export class ProductsController {
                 genres: product.genres.map(g => g.name),
                 ratings,
                 numbersOfReviews,
-                images: images.map(img => img.url),
+                images: [product.thumbnailUrl, ...images.map(img => img.url)],
                 yearReleased: product.yearReleased,
                 stock: product.stock,
                 console: toString(game.consoleType)

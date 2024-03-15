@@ -20,7 +20,10 @@ export class ProductsService {
     }
 
     public async findById(id: number): Promise<Product | null> {
-        return await this.productRepo.findOneBy({id});
+        return await this.productRepo.findOne({
+            where: {id},
+            relations: {genres: true},
+        });
     }
 
     public async create(productToCreate): Promise<Product> {
