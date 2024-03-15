@@ -1,8 +1,8 @@
-import { Album } from "@/models/album";
+import { AlbumProduct } from "@/models/product";
 import { Button, Image, Link, Avatar } from "@nextui-org/react";
 import { FaHeart } from "react-icons/fa6";
 
-export default function AlbumCard({album}: {album: Album}) {
+export default function AlbumCard({album}: {album: AlbumProduct}) {
     return (
         <div
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 rounded-large p-4 shadow-medium rounded-none bg-transparent shadow-none w-full snap-start"
@@ -18,7 +18,7 @@ export default function AlbumCard({album}: {album: Album}) {
                     </h3>
                     <p className="text-small text-default-500" />
                 </div> */}
-                <Image src={album.coverUrl} className="z-0 h-full max-h-full w-full max-w-[80%] overflow-visible object-contain object-center hover:scale-110" removeWrapper />
+                <Image src={album.thumbnailUrl} className="z-0 h-full max-h-full w-full max-w-[80%] overflow-visible object-contain object-center hover:scale-110" removeWrapper />
             </div>
             <div className="flex flex-col gap-3 px-1">
                 <div className="flex items-center justify-between">

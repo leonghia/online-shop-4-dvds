@@ -1,4 +1,4 @@
-export interface ProductDetailDto {
+export interface ProductDetail {
     id: number;
     title: string;
     price: number;
@@ -11,17 +11,17 @@ export interface ProductDetailDto {
     stock: number;
 }
 
-export interface AlbumProductDetailDto extends ProductDetailDto {
+export interface AlbumProductDetail extends ProductDetail {
     artist: string;
     artistAvatar: string;
     lengthInSeconds: number;
 }
 
-export interface GameProductDetailDto extends ProductDetailDto {
+export interface GameProductDetail extends ProductDetail {
     console: string;
 }
 
-export interface MovieProductDetailDto extends ProductDetailDto {
+export interface MovieProductDetail extends ProductDetail {
     imdbRatings: number;
     lengthInMinutes: number;
 }

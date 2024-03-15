@@ -1,16 +1,16 @@
 import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import AlbumCard from "./album-card";
-import { Album } from "@/models/album";
 import GradientHeading from "../gradient-heading";
 import FilterGenres from "../filter-genres";
 import { useEffect, useState } from "react";
 import { Genre } from "@/models/genre";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre-type";
+import { AlbumProduct } from "@/models/product";
 
 export default function AlbumsList() {
-    const [albums, setAlbums] = useState<Album[] | null>(null);
+    const [albums, setAlbums] = useState<AlbumProduct[] | null>(null);
     const [genres, setGenres] = useState<Genre[] | null>(null);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ export default function AlbumsList() {
     useEffect(() => {
         fetch(`${API_URL}/albums`)
           .then(res => res.json())
-          .then((data: Album[]) => setAlbums(data))
+          .then((data: AlbumProduct[]) => setAlbums(data))
           .catch(err => console.error(err));
       }, []);
 
