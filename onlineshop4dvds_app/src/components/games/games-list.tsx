@@ -21,7 +21,7 @@ export default function GamesList() {
     }, []);
 
     useEffect(() => {
-        fetch(`${API_URL}/games`)
+        fetch(`${API_URL}/products?genreType=${GenreType.Game}`)
             .then(res => res.json())
             .then((data: GameProduct[]) => setGames(data))
             .catch(err => console.error(err));

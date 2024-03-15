@@ -1,4 +1,3 @@
-import { Movie } from "@/models/movie";
 import { Link } from "@nextui-org/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import GradientHeading from "../gradient-heading";
@@ -8,9 +7,10 @@ import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
 import FilterGenres from "../filter-genres";
 import { GenreType } from "@/utils/genre-type";
+import { MovieProduct } from "@/models/product";
 
 export default function MoviesList() {
-    const [movies, setMovies] = useState<Movie[] | null>(null);
+    const [movies, setMovies] = useState<MovieProduct[] | null>(null);
     const [genres, setGenres] = useState<Genre[] | null>(null);
 
     useEffect(() => {
@@ -21,9 +21,9 @@ export default function MoviesList() {
     }, []);
 
     useEffect(() => {
-        fetch(`${API_URL}/movies`)
+        fetch(`${API_URL}/products?genreType=${GenreType.Movie}`)
           .then(res => res.json())
-          .then((data: Movie[]) => setMovies(data))
+          .then((data: MovieProduct[]) => setMovies(data))
           .catch(err => console.error(err));
       }, []);
 

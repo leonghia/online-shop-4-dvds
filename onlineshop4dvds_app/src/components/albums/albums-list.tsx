@@ -21,7 +21,7 @@ export default function AlbumsList() {
     }, []);
 
     useEffect(() => {
-        fetch(`${API_URL}/albums`)
+        fetch(`${API_URL}/products?genreType=${GenreType.Music}`)
           .then(res => res.json())
           .then((data: AlbumProduct[]) => setAlbums(data))
           .catch(err => console.error(err));
