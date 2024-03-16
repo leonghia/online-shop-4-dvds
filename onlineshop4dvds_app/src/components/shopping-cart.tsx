@@ -1,5 +1,5 @@
 import { useCart } from "@/contexts/cart-context";
-import { Button, Input } from "@nextui-org/react";
+import { Button, Input, Image } from "@nextui-org/react";
 import { FaXmark } from "react-icons/fa6";
 
 export default function ShoppingCart() {
@@ -22,20 +22,7 @@ export default function ShoppingCart() {
                                         className="flex items-center gap-x-4 border-divider py-4"
                                         key={item.id}
                                     >
-                                        <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center">
-                                            <div
-                                                className="relative shadow-black/5 shadow-none rounded-large"
-                                                style={{ maxWidth: "fit-content" }}
-                                            >
-                                                {" "}
-                                                <img
-                                                    src="https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/shoes/1.png"
-                                                    className="relative z-10 opacity-0 shadow-black/5 data-[loaded=true]:opacity-100 shadow-none transition-transform-opacity motion-reduce:transition-none !duration-300 rounded-large"
-                                                    alt="Training shoes"
-                                                    data-loaded="true"
-                                                />
-                                            </div>
-                                        </div>
+                                        <Image alt={item.title} src={item.thumbnailUrl} className="w-20 h-20" />
                                         <div className="flex flex-1 flex-col">
                                             <h4 className="text-small">
                                                 <a
@@ -49,15 +36,15 @@ export default function ShoppingCart() {
                                             </h4>
                                             <div className="flex items-center gap-3">
                                                 <p>
-                                                    <span className="text-small text-default-500">Product: </span>
+                                                    <span className="text-small text-default-500">Type: </span>
                                                     <span className="text-small font-medium capitalize text-default-700">
-                                                        black
+                                                        {item.type}
                                                     </span>
                                                 </p>
                                                 <p>
                                                     <span className="text-small text-default-500">Stock: </span>
                                                     <span className="text-small font-medium text-default-700">
-                                                        42
+                                                        {item.stock}
                                                     </span>
                                                 </p>
                                             </div>
