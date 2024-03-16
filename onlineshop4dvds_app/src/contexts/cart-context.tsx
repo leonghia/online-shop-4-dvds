@@ -5,8 +5,8 @@ interface CartState {
     cart: Cart | null;
 }
 
-interface CartAction {
-    payload: Cart;
+export interface CartAction {
+    payload: Cart | null;
 }
 
 const CartContext = createContext<Cart | null>(null);

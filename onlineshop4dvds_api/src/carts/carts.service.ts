@@ -33,7 +33,7 @@ export class CartsService {
         return await this.findById(cartCreated.id);
     }
 
-    public async update({cartId, productId, quantity}: {cartId: number, productId: number, quantity: number}): Promise<void> {
+    public async update({cartId, productId, quantity}: {cartId: number, productId: number, quantity: number}): Promise<Cart> {
         const item = await this.cartProductRepo.findOneBy({
             cart: {id: cartId},
             product: {id: productId},
@@ -47,6 +47,7 @@ export class CartsService {
         } else {
             await this.cartProductRepo.update(item.id, {quantity: item.quantity + quantity});
         }
+        return await this.findById(cartId);
     }
 
     public async dropItem({cartId, productId}: {cartId: number, productId: number}): Promise<void> {

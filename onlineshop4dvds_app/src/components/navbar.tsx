@@ -9,11 +9,28 @@ import {
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi2";
-import { useContext } from "react";
-import { CartContext } from "@/contexts/cart-context";
+import { CartAction, useCart, useCartDispatch } from "@/contexts/cart-context";
+import { useCookies } from "react-cookie";
+import { useEffect } from "react";
+import { API_URL } from "@/config";
+import { Cart } from "@/models/cart";
 
 export default function MyNavbar() {
-    const cart = useContext(CartContext);
+    const [cookies, setCookie] = useCookies(["cartId"]);
+
+    const cartState = useCart();
+    const dispatch = useCartDispatch();
+
+    useEffect(() => {
+        if (!cookies.cartId) {
+            dispatch && dispatch({payload: null});
+            return;
+        }
+        fetch(`${API_URL}/carts`)
+            .then(res => res.json())
+            .then((data: Cart) => dispatch && dispatch({payload: data}))
+            .catch(err => console.error(err));
+    }, []);
 
     return (
         <Navbar height="54px" classNames={{
@@ -55,7 +72,7 @@ export default function MyNavbar() {
                     </Badge>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
-                    <Badge color="danger" size="sm" content={cart} shape="circle">
+                    <Badge color="danger" size="sm" content={cartState?.items.length || 0} shape="circle">
                         <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
                     </Badge>
                 </NavbarItem>

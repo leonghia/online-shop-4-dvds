@@ -50,12 +50,24 @@ export class CartsController {
 
     }
 
-    @HttpCode(204)
     @Put()
     public async update(@Req() request: Request, @Body() cartUpdateDto: CartUpdateDto) {
         const cartId = Number(request.cookies["cartId"]);
         const cart = await this.cartsService.findById(cartId);
         if (!cart) throw new ConflictException();
-        return await this.cartsService.update({ cartId: cart.id, productId: cartUpdateDto.productId, quantity: cartUpdateDto.quantity });
+        const cartUpdated = await this.cartsService.update({ cartId: cart.id, productId: cartUpdateDto.productId, quantity: cartUpdateDto.quantity });
+        const cartToReturn: CartDto = {
+            id: cartUpdated.id,
+            items: cartUpdated.cartProducts.map(cp => {
+                const itemToReturn: CartItemDto = {
+                    id: cp.id,
+                    title: cp.product.title,
+                    price: cp.product.price,
+                    quantity: cp.quantity
+                };
+                return itemToReturn;
+            }),
+        };
+        return cartToReturn;
     }
 }
