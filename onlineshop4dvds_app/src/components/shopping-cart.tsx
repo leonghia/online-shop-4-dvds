@@ -70,14 +70,14 @@ export default function ShoppingCart() {
                                     <div className="flex justify-between">
                                         <dt className="text-small text-default-500">Subtotal</dt>
                                         <dd className="text-small font-semibold text-default-700">
-                                            $159.96
+                                            ${cart?.subtotal}
                                         </dd>
                                     </div>
                                     <div className="flex justify-between">
                                         <dt className="text-small text-default-500">Discount</dt>
                                         <dd className="text-small font-semibold text-success">
                                             {" "}
-                                            - $0.00
+                                            - ${cart?.discount}
                                         </dd>
                                     </div>
                                     <hr
@@ -89,7 +89,7 @@ export default function ShoppingCart() {
                                             Total
                                         </dt>
                                         <dd className="text-small font-semibold text-default-700">
-                                            $172.96
+                                            ${cart?.total}
                                         </dd>
                                     </div>
                                 </dl>
