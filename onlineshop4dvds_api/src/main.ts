@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
+import * as cookieParser from "cookie-parser";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -14,6 +15,8 @@ async function bootstrap() {
       whitelist: true // make sure additional props sent along with a request will be stripped out automatically
     })
   );
+
+  app.use(cookieParser());
   
   await app.listen(5000);
 }
