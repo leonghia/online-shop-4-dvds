@@ -9,7 +9,7 @@ import {
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi2";
-import { CartAction, useCart, useCartDispatch } from "@/contexts/cart-context";
+import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { API_URL } from "@/config";

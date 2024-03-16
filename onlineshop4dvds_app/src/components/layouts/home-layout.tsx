@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 import MyNavbar from "../navbar";
-import Layout from "./layout";
 import MyFooter from "../footer";
 import Hero from "../hero";
 import CurvedContainer from "../curved-container";
+import UserLayout from "./user-layout";
 
 export default function HomeLayout({ children }: { children: ReactNode }) {
     return (
-        <Layout>
+        <UserLayout>
             <div className="bg-radial">
                 <div className="bg-hero bg-center bg-no-repeat bg-cover relative">
                     <div>
@@ -32,6 +32,6 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                     <MyFooter />
                 </div>
             </div>
-        </Layout>
+        </UserLayout>
     );
 }
