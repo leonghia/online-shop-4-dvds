@@ -9,8 +9,12 @@ import {
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi2";
+import { useContext } from "react";
+import { CartContext } from "@/contexts/cart-context";
 
 export default function MyNavbar() {
+    const cart = useContext(CartContext);
+
     return (
         <Navbar height="54px" classNames={{
             base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",
@@ -51,7 +55,7 @@ export default function MyNavbar() {
                     </Badge>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
-                    <Badge color="danger" size="sm" content={0} shape="circle">
+                    <Badge color="danger" size="sm" content={cart} shape="circle">
                         <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
                     </Badge>
                 </NavbarItem>

@@ -2,10 +2,11 @@ import { ReactNode } from "react";
 import MyNavbar from "../navbar";
 import Layout from "./layout";
 import MyFooter from "../footer";
+import UserLayout from "./user-layout";
 
 export default function PageLayout({ children }: { children: ReactNode }) {
     return (
-        <Layout>
+        <UserLayout>
             <div className="bg-radial">
                 <div className="flex items-center justify-center">
                     <MyNavbar />
@@ -19,6 +20,6 @@ export default function PageLayout({ children }: { children: ReactNode }) {
                     <MyFooter />
                 </div>
             </div>
-        </Layout>
+        </UserLayout>
     );
 }
