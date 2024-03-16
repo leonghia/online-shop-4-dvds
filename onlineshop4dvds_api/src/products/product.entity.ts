@@ -1,3 +1,4 @@
+import { CartProduct } from "src/carts/cart-product.entity";
 import { Category } from "src/categories/category.entity";
 import { Image } from "src/images/image.entity";
 import { Review } from "src/reviews/review.entity";
@@ -39,4 +40,7 @@ export class Product {
 
     @OneToMany(() => Image, (image) => image.product)
     public images: Image[];
+
+    @OneToMany(() => CartProduct, (cartProduct) => cartProduct.product)
+    public cartProducts: CartProduct[];
 }
