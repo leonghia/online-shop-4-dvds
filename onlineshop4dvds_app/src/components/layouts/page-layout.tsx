@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import MyNavbar from "../navbar";
-import Layout from "./layout";
 import MyFooter from "../footer";
 import UserLayout from "./user-layout";
 

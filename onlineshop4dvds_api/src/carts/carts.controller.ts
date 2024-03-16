@@ -5,6 +5,7 @@ import { CartUpdateDto } from './dto/cart-update.dto';
 import { CartDto } from './dto/cart.dto';
 import { CartItemDto } from './dto/cart-item.dto';
 import { CartCreateDto } from './dto/cart-create.dto';
+import { toString } from 'src/utils/genre-type';
 
 @Controller('carts')
 export class CartsController {
@@ -23,7 +24,10 @@ export class CartsController {
                     id: cp.id,
                     title: cp.product.title,
                     price: cp.product.price,
-                    quantity: cp.quantity
+                    quantity: cp.quantity,
+                    thumbnailUrl: cp.product.thumbnailUrl,
+                    type: toString(cp.product.genreType),
+                    stock: cp.product.stock
                 };
                 return itemToReturn;
             }),
@@ -41,7 +45,10 @@ export class CartsController {
                     id: cp.id,
                     title: cp.product.title,
                     price: cp.product.price,
-                    quantity: cp.quantity
+                    quantity: cp.quantity,
+                    thumbnailUrl: cp.product.thumbnailUrl,
+                    type: toString(cp.product.genreType),
+                    stock: cp.product.stock
                 };
                 return itemToReturn;
             }),
@@ -63,7 +70,10 @@ export class CartsController {
                     id: cp.id,
                     title: cp.product.title,
                     price: cp.product.price,
-                    quantity: cp.quantity
+                    quantity: cp.quantity,
+                    thumbnailUrl: cp.product.thumbnailUrl,
+                    type: toString(cp.product.genreType),
+                    stock: cp.product.stock
                 };
                 return itemToReturn;
             }),

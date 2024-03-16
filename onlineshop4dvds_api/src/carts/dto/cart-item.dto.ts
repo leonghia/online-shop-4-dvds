@@ -3,4 +3,7 @@ export interface CartItemDto {
     title: string;
     price: number;
     quantity: number;
+    thumbnailUrl: string;
+    type: string;
+    stock: number;
 }

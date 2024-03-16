@@ -18,17 +18,17 @@ import { Cart } from "@/models/cart";
 export default function MyNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
 
-    const cartState = useCart();
+    const cart = useCart();
     const dispatch = useCartDispatch();
 
     useEffect(() => {
         if (!cookies.cartId) {
-            dispatch && dispatch({payload: null});
+            dispatch && dispatch({ payload: null });
             return;
         }
-        fetch(`${API_URL}/carts`, {credentials: "include"})
+        fetch(`${API_URL}/carts`, { credentials: "include" })
             .then(res => res.json())
-            .then((data: Cart) => dispatch && dispatch({payload: data}))
+            .then((data: Cart) => dispatch && dispatch({ payload: data }))
             .catch(err => console.error(err));
     }, []);
 
@@ -72,9 +72,11 @@ export default function MyNavbar() {
                     </Badge>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
-                    <Badge color="danger" size="sm" content={cartState?.items.length || 0} shape="circle">
-                        <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                    </Badge>
+                    <Link href="/cart">
+                        <Badge color="danger" size="sm" content={cart?.items.length || 0} shape="circle">
+                            <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                        </Badge>
+                    </Link>
                 </NavbarItem>
                 <NavbarItem>
                     <Button href="/auth/login" as={Link} color="primary" variant="solid" radius="full" className="font-medium">Login</Button>
