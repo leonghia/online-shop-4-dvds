@@ -33,6 +33,7 @@ export class CartsController {
                     thumbnailUrl: cp.product.thumbnailUrl,
                     type: toString(cp.product.genreType),
                     stock: cp.product.stock,
+                    productId: cp.product.id
                 };
                 return itemToReturn;
             }),
@@ -59,7 +60,8 @@ export class CartsController {
                     quantity: cp.quantity,
                     thumbnailUrl: cp.product.thumbnailUrl,
                     type: toString(cp.product.genreType),
-                    stock: cp.product.stock
+                    stock: cp.product.stock,
+                    productId: cp.product.id
                 };
                 return itemToReturn;
             }),
@@ -90,7 +92,8 @@ export class CartsController {
                     quantity: cp.quantity,
                     thumbnailUrl: cp.product.thumbnailUrl,
                     type: toString(cp.product.genreType),
-                    stock: cp.product.stock
+                    stock: cp.product.stock,
+                    productId: cp.product.id
                 };
                 return itemToReturn;
             }),

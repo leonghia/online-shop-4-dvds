@@ -14,4 +14,5 @@ export interface CartItem {
     thumbnailUrl: string;
     type: string;
     stock: number;
+    productId: number;
 }
