@@ -8,7 +8,7 @@ import UserLayout from "./user-layout";
 export default function HomeLayout({ children }: { children: ReactNode }) {
     return (
         <UserLayout>
-            <div className="bg-radial">
+            <div className="bg-radial min-h-screen">
                 <div className="bg-hero bg-center bg-no-repeat bg-cover relative">
                     <div>
                         <div className="absolute top-0 h-full w-full bg-shadow z-0"></div>

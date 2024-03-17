@@ -6,7 +6,7 @@ import UserLayout from "./user-layout";
 export default function PageLayout({ children }: { children: ReactNode }) {
     return (
         <UserLayout>
-            <div className="bg-radial">
+            <div className="bg-radial min-h-screen">
                 <div className="flex items-center justify-center">
                     <MyNavbar />
                 </div>

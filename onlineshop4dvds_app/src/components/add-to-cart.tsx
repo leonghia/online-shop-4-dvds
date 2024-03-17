@@ -21,7 +21,7 @@ export default function AddToCart({productId}: {productId: number}) {
             .then(res => res.json())
             .then((data: Cart) => {
                 cartDispatch && cartDispatch({payload: data});
-                setCookie("cartId", data.id, {path: "/"});
+                setCookie("cartId", data.id, {path: "/", maxAge: 604800});
             })
             .catch(err => console.error(err));
         } else {
