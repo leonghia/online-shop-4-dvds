@@ -8,10 +8,10 @@ export default function ShoppingCart() {
     const initialCart = useCart();
     const dispatch = useCartDispatch();
     
-    const handleIncrease = (productId: number) => {
+    const handleUpdate = (productId: number, quantity: number) => {
         const payload: CartUpdateDto = {
             productId,
-            quantity: 1
+            quantity
         };
 
         fetch(`${API_URL}/carts`, {
@@ -71,11 +71,11 @@ export default function ShoppingCart() {
                                             </div>
                                         </div>
                                         <div className="flex">
-                                            <Button isIconOnly aria-label="Decrease quantity" variant="light">
+                                            <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleUpdate(item.productId, -1)}>
                                                 <FaMinus className="w-3 h-3" />
                                             </Button>
                                             <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{base: "bg-background"}} />
-                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.productId)}>
+                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleUpdate(item.productId, 1)}>
                                                 <FaPlus className="w-3 h-3" />
                                             </Button>
                                         </div>

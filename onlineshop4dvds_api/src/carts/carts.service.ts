@@ -46,7 +46,7 @@ export class CartsService {
             item.quantity = this.defaultQuantity;
             await this.cartProductRepo.save(item);
         } else {
-            await this.cartProductRepo.update(item.id, {quantity: item.quantity + quantity});
+            await this.cartProductRepo.update(item.id, {quantity});
         }
         return await this.findById(cartId);
     }

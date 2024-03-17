@@ -1,4 +1,4 @@
-import { IsNumber } from "class-validator";
+import { IsNumber, Min } from "class-validator";
 
 export class CartUpdateDto {
 
@@ -6,5 +6,6 @@ export class CartUpdateDto {
     public productId: number;
 
     @IsNumber()
+    @Min(1)
     public quantity: number;
 }
