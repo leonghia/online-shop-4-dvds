@@ -6,6 +6,6 @@ export class CartUpdateDto {
     public productId: number;
 
     @IsNumber()
-    @Min(1)
+    @Min(0)
     public quantity: number;
 }

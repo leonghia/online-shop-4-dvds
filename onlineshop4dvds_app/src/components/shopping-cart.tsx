@@ -9,9 +9,28 @@ export default function ShoppingCart() {
     const dispatch = useCartDispatch();
     
     const handleUpdate = (productId: number, quantity: number) => {
+        if (quantity < 1) return;
+
         const payload: CartUpdateDto = {
             productId,
             quantity
+        };
+
+        fetch(`${API_URL}/carts`, {
+            method: "PUT",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload),
+        })
+        .then(res => res.json())
+        .then((data: Cart) => dispatch && dispatch({payload: data}))
+        .catch(err => console.error(err));
+    };
+
+    const handleDrop = (productId: number) => {
+        const payload: CartUpdateDto = {
+            productId,
+            quantity: 0
         };
 
         fetch(`${API_URL}/carts`, {
@@ -71,15 +90,15 @@ export default function ShoppingCart() {
                                             </div>
                                         </div>
                                         <div className="flex">
-                                            <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleUpdate(item.productId, -1)}>
+                                            <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity - 1)}>
                                                 <FaMinus className="w-3 h-3" />
                                             </Button>
                                             <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{base: "bg-background"}} />
-                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleUpdate(item.productId, 1)}>
+                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity + 1)}>
                                                 <FaPlus className="w-3 h-3" />
                                             </Button>
                                         </div>
-                                        <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full">
+                                        <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full" onPress={() => handleDrop(item.productId)}>
                                             <FaXmark className="w-3 h-3 text-foreground" />
                                         </Button>
                                     </li>

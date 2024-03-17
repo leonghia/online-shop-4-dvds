@@ -46,16 +46,9 @@ export class CartsService {
             item.quantity = this.defaultQuantity;
             await this.cartProductRepo.save(item);
         } else {
-            await this.cartProductRepo.update(item.id, {quantity});
+            if (quantity > 0) await this.cartProductRepo.update(item.id, {quantity});
+            else await this.cartProductRepo.delete(item.id);
         }
         return await this.findById(cartId);
-    }
-
-    public async dropItem({cartId, productId}: {cartId: number, productId: number}): Promise<void> {
-        const item = await this.cartProductRepo.findOneBy({
-            cart: {id: cartId},
-            product: {id: productId},
-        });
-        await this.cartProductRepo.delete(item.id);
     }
 }
