@@ -111,7 +111,15 @@ export default function CheckoutPage() {
                                 </MethodRadio>
                             </RadioGroup>
                             <div className="flex flex-col gap-4">
-                                <Input type="number" label="Card number" placeholder="Card number" labelPlacement="outside" startContent={<FaCreditCard className="text-default-400 mr-1" />} />
+                                <Input type="number" label="Card number" placeholder="Card number" labelPlacement="outside" startContent={<FaCreditCard className="text-default-400 mr-1" />} endContent={
+                                    <div className="flex max-w-[140px] items-center">
+                                        <Input type="number" name="card-month" placeholder="MM" min={0} minLength={0} max={12} maxLength={2} size="sm" classNames={{input: "w-11 bg-transparent text-small outline-none placeholder:text-default-400", inputWrapper: "bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent"}} />
+                                        <span className="mx-1 text-default-300">/</span>
+                                        <Input type="number" name="card-year" placeholder="YY" min={0} minLength={0} max={99} maxLength={2} size="sm" classNames={{input: "w-11 bg-transparent text-small outline-none placeholder:text-default-400", inputWrapper: "bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent"}} />
+                                        <Input type="number" name="card-cvc" placeholder="CVC" min={0} minLength={0} max={999} maxLength={3} size="sm" classNames={{input: "w-11 bg-transparent text-small outline-none placeholder:text-default-400", inputWrapper: "bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent"}} />                                   
+                                  </div>
+                                  
+                                } />
                                 <Input type="text" label="Cardholder name" placeholder="Cardholder name" labelPlacement="outside" />
                             </div>
                             <CheckboxGroup label="Billing address">
