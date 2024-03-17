@@ -22,6 +22,7 @@ export default function MyNavbar() {
     const dispatch = useCartDispatch();
 
     useEffect(() => {
+        if (cart) return;
         if (!cookies.cartId) {
             dispatch && dispatch({ payload: null });
             return;

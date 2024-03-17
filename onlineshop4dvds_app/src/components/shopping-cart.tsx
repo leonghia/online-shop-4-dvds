@@ -1,6 +1,6 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartUpdateDto } from "@/models/cart";
+import { Cart, CartUpdate } from "@/models/cart";
 import { Button, Input, Image } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 
@@ -11,7 +11,7 @@ export default function ShoppingCart() {
     const handleUpdate = (productId: number, quantity: number) => {
         if (quantity < 1) return;
 
-        const payload: CartUpdateDto = {
+        const payload: CartUpdate = {
             productId,
             quantity
         };
@@ -28,7 +28,7 @@ export default function ShoppingCart() {
     };
 
     const handleDrop = (productId: number) => {
-        const payload: CartUpdateDto = {
+        const payload: CartUpdate = {
             productId,
             quantity: 0
         };
@@ -45,7 +45,7 @@ export default function ShoppingCart() {
     }
 
     return (
-        <section className="flex max-w-xl w-full h-full gap-8 justify-center">
+        <section className="flex max-w-2xl w-full h-full gap-8 justify-center">
             <div className="w-full flex-none py-4">
                 <div className="flex h-full flex-1 flex-col p-4">
                     <form
@@ -61,8 +61,9 @@ export default function ShoppingCart() {
                                         className="flex justify-between items-center border-divider py-4"
                                         key={item.id}
                                     >
-                                        <div className="flex gap-x-4 max-w-72">
-                                            <Image alt={item.title} src={item.thumbnailUrl} className="w-20 h-20" />
+                                        <div className="flex gap-x-4 w-[20rem]">
+                                            <Image alt={item.title} src={item.thumbnailUrl} className="h-20 w-20" />
+                                            
                                             <div className="flex flex-col">
                                                 <h4 className="text-medium font-semibold">
                                                     {item.title}
@@ -123,7 +124,9 @@ export default function ShoppingCart() {
                             </div>
                         </div>
                     </form>
-                    <Button color="primary" className="font-medium mt-10" size="lg" fullWidth>Check out</Button>
+                    <div className="w-full h-auto flex justify-end">
+                        <Button color="primary" className="font-medium mt-10" size="lg">Check out</Button>          
+                    </div>
                 </div>
             </div>
         </section>

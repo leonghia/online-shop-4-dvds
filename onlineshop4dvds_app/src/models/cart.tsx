@@ -17,7 +17,11 @@ export interface CartItem {
     productId: number;
 }
 
-export interface CartUpdateDto {
+export interface CartUpdate {
     productId: number;
     quantity: number;
+}
+
+export interface CartCreate {
+    productId: number;
 }
