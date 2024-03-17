@@ -11,7 +11,7 @@ export default function GameCard({game}: {game: GameProduct}) {
             <Button isIconOnly color="default" variant="flat" radius="full" aria-label="Save" className="absolute right-6 top-6 z-20" size="sm">
                 <FaHeart className="text-default-500" />
             </Button>
-            <div className="relative flex h-52 max-h-full w-full flex-col items-center justify-center overflow-visible rounded-medium bg-white">
+            <div className="relative flex h-52 max-h-full w-full flex-col items-center justify-center overflow-visible rounded-medium bg-content2">
                 <Image src={game.thumbnailUrl} className="z-0 h-full max-h-[80%] w-full max-w-[80%] overflow-visible object-contain object-center hover:scale-110" removeWrapper />
             </div>
             <div className="flex flex-col gap-3 px-1">

@@ -62,7 +62,7 @@ export default function ShoppingCart() {
                                         key={item.id}
                                     >
                                         <div className="flex gap-x-4 w-[20rem]">
-                                            <Image alt={item.title} src={item.thumbnailUrl} className="h-20 w-20" />
+                                            <Image alt={item.title} src={item.thumbnailUrl} className="h-20 w-20 object-contain" />
                                             
                                             <div className="flex flex-col">
                                                 <h4 className="text-medium font-semibold">
