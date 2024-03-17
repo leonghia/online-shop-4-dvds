@@ -1,7 +1,8 @@
 import { MoMo, Stripe } from "@/components/icons/brands";
 import PageLayout from "@/components/layouts/page-layout";
-import { Input, RadioGroup, Radio, cn, RadioProps, useRadio, VisuallyHidden, Image } from "@nextui-org/react";
+import { Input, RadioGroup, Radio, cn, RadioProps, useRadio, VisuallyHidden, Image, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import { ReactNode } from "react";
+import { FaCreditCard } from "react-icons/fa6";
 
 interface RadioPropsWithIcon extends RadioProps {
     icon: ReactNode;
@@ -47,7 +48,7 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
                     )}
                 </div>
             </div>
-            
+
         </Component>
     );
 };
@@ -98,7 +99,7 @@ export default function CheckoutPage() {
                                     Office
                                 </Radio>
                             </RadioGroup>
-                            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{wrapper: "gap-3"}}>
+                            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }}>
                                 <MethodRadio description="Pay with MoMo" value="momo" icon={<MoMo className="h-6" />}>
                                     MoMo
                                 </MethodRadio>
@@ -110,262 +111,12 @@ export default function CheckoutPage() {
                                 </MethodRadio>
                             </RadioGroup>
                             <div className="flex flex-col gap-4">
-                                <div
-                                    className="group flex flex-col w-full group relative justify-end data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_10px)]"
-                                    data-slot="base"
-                                    data-filled="true"
-                                    data-filled-within="true"
-                                    data-has-elements="true"
-                                    data-has-label="true"
-                                >
-                                    <div data-slot="main-wrapper" className="h-full flex flex-col">
-                                        <div
-                                            data-slot="input-wrapper"
-                                            className="relative w-full inline-flex tap-highlight-transparent flex-row items-center shadow-sm px-3 gap-3 bg-default-100 data-[hover=true]:bg-default-200 group-data-[focus=true]:bg-default-100 h-unit-10 min-h-unit-10 rounded-medium transition-background motion-reduce:transition-none !duration-150 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background"
-                                            style={{ cursor: "text" }}
-                                        >
-                                            <label
-                                                data-slot="label"
-                                                className="absolute pointer-events-none origin-top-left subpixel-antialiased block text-foreground-500 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity] group-data-[filled-within=true]:text-foreground group-data-[filled-within=true]:pointer-events-auto pb-0 z-20 top-1/2 -translate-y-1/2 group-data-[filled-within=true]:left-0 left-3 text-small group-data-[filled-within=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_20px)] pe-2 max-w-full text-ellipsis overflow-hidden"
-                                                id="react-aria1714968914-:r28:"
-                                                htmlFor="react-aria1714968914-:r27:"
-                                            >
-                                                Email address
-                                            </label>
-                                            <div
-                                                data-slot="inner-wrapper"
-                                                className="inline-flex w-full items-center h-full box-border"
-                                            >
-                                                <input
-                                                    data-slot="input"
-                                                    className="w-full font-normal bg-transparent !outline-none placeholder:text-foreground-500 focus-visible:outline-none data-[has-start-content=true]:ps-1.5 data-[has-end-content=true]:pe-1.5 text-small group-data-[has-value=true]:text-default-foreground h-full"
-                                                    aria-label="Email address"
-                                                    placeholder="Enter address"
-                                                    id="react-aria1714968914-:r27:"
-                                                    aria-labelledby="react-aria1714968914-:r27: react-aria1714968914-:r28:"
-                                                    type="email"
-                                                    defaultValue=""
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="group flex flex-col w-full group relative justify-end data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_10px)]"
-                                    data-slot="base"
-                                    data-filled="true"
-                                    data-filled-within="true"
-                                    data-has-elements="true"
-                                    data-has-label="true"
-                                >
-                                    <div data-slot="main-wrapper" className="h-full flex flex-col">
-                                        <div
-                                            data-slot="input-wrapper"
-                                            className="relative w-full inline-flex tap-highlight-transparent flex-row items-center shadow-sm px-3 gap-3 bg-default-100 data-[hover=true]:bg-default-200 group-data-[focus=true]:bg-default-100 h-unit-10 min-h-unit-10 rounded-medium transition-background motion-reduce:transition-none !duration-150 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background"
-                                            style={{ cursor: "text" }}
-                                        >
-                                            <label
-                                                data-slot="label"
-                                                className="absolute pointer-events-none origin-top-left subpixel-antialiased block text-foreground-500 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity] group-data-[filled-within=true]:text-foreground group-data-[filled-within=true]:pointer-events-auto pb-0 z-20 top-1/2 -translate-y-1/2 group-data-[filled-within=true]:left-0 left-3 text-small group-data-[filled-within=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_20px)] pe-2 max-w-full text-ellipsis overflow-hidden"
-                                                id="react-aria1714968914-:r2d:"
-                                                htmlFor="react-aria1714968914-:r2c:"
-                                            >
-                                                Card number
-                                            </label>
-                                            <div
-                                                data-slot="inner-wrapper"
-                                                className="inline-flex w-full items-center h-full box-border"
-                                            >
-                                                <span>
-                                                    <svg
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                        aria-hidden="true"
-                                                        role="img"
-                                                        className="text-default-400 iconify iconify--solar"
-                                                        width={20}
-                                                        height={20}
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <defs>
-                                                            <mask id="iconifyReact0">
-                                                                <g fill="none">
-                                                                    <path
-                                                                        fill="#fff"
-                                                                        d="M14 4h-4C6.229 4 4.343 4 3.172 5.172c-.844.843-1.08 2.057-1.146 4.078h19.948c-.066-2.021-.302-3.235-1.146-4.078C19.657 4 17.771 4 14 4m-4 16h4c3.771 0 5.657 0 6.828-1.172C22 17.657 22 15.771 22 12c0-.442 0-.858-.002-1.25H2.002C2 11.142 2 11.558 2 12c0 3.771 0 5.657 1.172 6.828C4.343 20 6.229 20 10 20"
-                                                                    />
-                                                                    <path
-                                                                        fill="#000"
-                                                                        fillRule="evenodd"
-                                                                        d="M5.25 16a.75.75 0 0 1 .75-.75h4a.75.75 0 0 1 0 1.5H6a.75.75 0 0 1-.75-.75m6.5 0a.75.75 0 0 1 .75-.75H14a.75.75 0 0 1 0 1.5h-1.5a.75.75 0 0 1-.75-.75"
-                                                                        clipRule="evenodd"
-                                                                    />
-                                                                </g>
-                                                            </mask>
-                                                        </defs>
-                                                        <path
-                                                            fill="currentColor"
-                                                            d="M0 0h24v24H0z"
-                                                            mask="url(#iconifyReact0)"
-                                                        />
-                                                    </svg>
-                                                </span>
-                                                <input
-                                                    data-slot="input"
-                                                    data-has-start-content="true"
-                                                    data-has-end-content="true"
-                                                    className="w-full font-normal bg-transparent !outline-none placeholder:text-foreground-500 focus-visible:outline-none data-[has-start-content=true]:ps-1.5 data-[has-end-content=true]:pe-1.5 text-small group-data-[has-value=true]:text-default-foreground h-full"
-                                                    aria-label="Card number"
-                                                    minLength={0}
-                                                    placeholder="Card number"
-                                                    id="react-aria1714968914-:r2c:"
-                                                    aria-labelledby="react-aria1714968914-:r2c: react-aria1714968914-:r2d:"
-                                                    type="number"
-                                                    defaultValue=""
-                                                    name="card-number"
-                                                />
-                                                <div className="flex max-w-[140px] items-center">
-                                                    <input
-                                                        className="w-11 rounded-sm bg-transparent text-small outline-none placeholder:text-default-400"
-                                                        min={0}
-                                                        minLength={0}
-                                                        max={12}
-                                                        maxLength={2}
-                                                        placeholder="MM"
-                                                        type="number"
-                                                        name="card-month"
-                                                    />
-                                                    <span className="mx-1 text-default-300">/</span>
-                                                    <input
-                                                        className="w-11 rounded-sm bg-transparent text-small outline-none placeholder:text-default-400"
-                                                        min={0}
-                                                        minLength={0}
-                                                        max={99}
-                                                        maxLength={2}
-                                                        placeholder="YY"
-                                                        type="number"
-                                                        name="card-year"
-                                                    />
-                                                    <input
-                                                        className="w-11 rounded-sm bg-transparent text-small outline-none placeholder:text-default-400"
-                                                        min={0}
-                                                        minLength={0}
-                                                        max={999}
-                                                        maxLength={3}
-                                                        placeholder="CVC"
-                                                        type="number"
-                                                        name="card-cvc"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div
-                                    className="group flex flex-col w-full group relative justify-end data-[has-label=true]:mt-[calc(theme(fontSize.small)_+_10px)]"
-                                    data-slot="base"
-                                    data-filled="true"
-                                    data-filled-within="true"
-                                    data-has-elements="true"
-                                    data-has-label="true"
-                                >
-                                    <div data-slot="main-wrapper" className="h-full flex flex-col">
-                                        <div
-                                            data-slot="input-wrapper"
-                                            className="relative w-full inline-flex tap-highlight-transparent flex-row items-center shadow-sm px-3 gap-3 bg-default-100 data-[hover=true]:bg-default-200 group-data-[focus=true]:bg-default-100 h-unit-10 min-h-unit-10 rounded-medium transition-background motion-reduce:transition-none !duration-150 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background"
-                                            style={{ cursor: "text" }}
-                                        >
-                                            <label
-                                                data-slot="label"
-                                                className="absolute pointer-events-none origin-top-left subpixel-antialiased block text-foreground-500 will-change-auto !duration-200 !ease-out motion-reduce:transition-none transition-[transform,color,left,opacity] group-data-[filled-within=true]:text-foreground group-data-[filled-within=true]:pointer-events-auto pb-0 z-20 top-1/2 -translate-y-1/2 group-data-[filled-within=true]:left-0 left-3 text-small group-data-[filled-within=true]:-translate-y-[calc(100%_+_theme(fontSize.small)/2_+_20px)] pe-2 max-w-full text-ellipsis overflow-hidden"
-                                                id="react-aria1714968914-:r2i:"
-                                                htmlFor="react-aria1714968914-:r2h:"
-                                            >
-                                                Cardholder name
-                                            </label>
-                                            <div
-                                                data-slot="inner-wrapper"
-                                                className="inline-flex w-full items-center h-full box-border"
-                                            >
-                                                <input
-                                                    data-slot="input"
-                                                    className="w-full font-normal bg-transparent !outline-none placeholder:text-foreground-500 focus-visible:outline-none data-[has-start-content=true]:ps-1.5 data-[has-end-content=true]:pe-1.5 text-small group-data-[has-value=true]:text-default-foreground h-full"
-                                                    aria-label="Cardholder name"
-                                                    placeholder="Cardholder name"
-                                                    id="react-aria1714968914-:r2h:"
-                                                    aria-labelledby="react-aria1714968914-:r2h: react-aria1714968914-:r2i:"
-                                                    type="text"
-                                                    defaultValue=""
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Input type="number" label="Card number" placeholder="Card number" labelPlacement="outside" startContent={<FaCreditCard className="text-default-400 mr-1" />} />
+                                <Input type="text" label="Cardholder name" placeholder="Cardholder name" labelPlacement="outside" />
                             </div>
-                            <fieldset className="mt-4">
-                                <legend className="pb-2 text-foreground-500">Billing address</legend>
-                                <label
-                                    className="group relative max-w-fit inline-flex items-center justify-start cursor-pointer tap-highlight-transparent p-2 -m-2"
-                                    data-selected="true"
-                                >
-                                    <div
-                                        style={{
-                                            border: 0,
-                                            clip: "rect(0px, 0px, 0px, 0px)",
-                                            clipPath: "inset(50%)",
-                                            height: 1,
-                                            margin: "-1px",
-                                            overflow: "hidden",
-                                            padding: 0,
-                                            position: "absolute",
-                                            width: 1,
-                                            whiteSpace: "nowrap"
-                                        }}
-                                    >
-                                        <input
-                                            aria-label="Same as shipping address"
-                                            aria-labelledby=":r2m:"
-                                            type="checkbox"
-                                            defaultValue=""
-                                            defaultChecked=""
-                                        />
-                                    </div>
-                                    <span
-                                        aria-hidden="true"
-                                        className="relative inline-flex items-center justify-center flex-shrink-0 overflow-hidden before:content-[''] before:absolute before:inset-0 before:border-solid before:border-2 before:box-border before:border-default after:content-[''] after:absolute after:inset-0 after:scale-50 after:opacity-0 after:origin-center group-data-[selected=true]:after:scale-100 group-data-[selected=true]:after:opacity-100 group-data-[hover=true]:before:bg-default-100 outline-none group-data-[focus-visible=true]:z-10 group-data-[focus-visible=true]:ring-2 group-data-[focus-visible=true]:ring-focus group-data-[focus-visible=true]:ring-offset-2 group-data-[focus-visible=true]:ring-offset-background after:bg-primary after:text-primary-foreground text-primary-foreground w-5 h-5 mr-2 rounded-[calc(theme(borderRadius.medium)*0.6)] before:rounded-[calc(theme(borderRadius.medium)*0.6)] after:rounded-[calc(theme(borderRadius.medium)*0.6)] before:transition-colors group-data-[pressed=true]:scale-95 transition-transform after:transition-transform-opacity after:!ease-linear after:!duration-200 motion-reduce:transition-none"
-                                    >
-                                        <svg
-                                            aria-hidden="true"
-                                            role="presentation"
-                                            viewBox="0 0 17 18"
-                                            className="z-10 opacity-0 group-data-[selected=true]:opacity-100 w-4 h-3 transition-opacity motion-reduce:transition-none"
-                                        >
-                                            <polyline
-                                                fill="none"
-                                                points="1 9 7 14 15 4"
-                                                stroke="currentColor"
-                                                strokeDasharray={22}
-                                                strokeDashoffset={44}
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                style={{ transition: "stroke-dashoffset 250ms linear 0.2s" }}
-                                            />
-                                        </svg>
-                                    </span>
-                                    <span
-                                        id=":r2m:"
-                                        className="relative text-foreground select-none text-medium transition-colors-opacity before:transition-width motion-reduce:transition-none"
-                                    >
-                                        Same as shipping address
-                                    </span>
-                                </label>
-                                <span
-                                    aria-hidden="true"
-                                    className="w-px h-px block"
-                                    style={{ marginLeft: "0.25rem", marginTop: "0.5rem" }}
-                                />
-                            </fieldset>
+                            <CheckboxGroup label="Billing address">
+                                <Checkbox value="true">Same as shipping address</Checkbox>
+                            </CheckboxGroup>
                         </form>
                     </div>
                     <div className="w-full rounded-medium bg-content2 px-2 py-4 dark:bg-content1 md:px-6 md:py-8 lg:w-[340px] lg:flex-none">
