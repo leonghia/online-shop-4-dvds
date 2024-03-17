@@ -23,6 +23,9 @@ import { ImagesModule } from './images/images.module';
 import { Image } from './images/image.entity';
 import { ProductsModule } from './products/products.module';
 import { Product } from './products/product.entity';
+import { CartsModule } from './carts/carts.module';
+import { Cart } from './carts/cart.entity';
+import { CartProduct } from './carts/cart-product.entity';
 
 @Module({
   imports: [
@@ -34,7 +37,7 @@ import { Product } from './products/product.entity';
       username: "postgres",
       password: "fiora",
       database: "onlineshop4dvds",
-      entities: [User, Category, Artist, Album, Movie, Game, Review, Image, Product],
+      entities: [User, Category, Artist, Album, Movie, Game, Review, Image, Product, Cart, CartProduct],
       synchronize: true, // auto migration on save
     }),
     AuthModule,
@@ -48,6 +51,7 @@ import { Product } from './products/product.entity';
     ReviewsModule,
     ImagesModule,
     ProductsModule,
+    CartsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

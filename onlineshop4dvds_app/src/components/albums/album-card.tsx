@@ -11,7 +11,7 @@ export default function AlbumCard({album}: {album: AlbumProduct}) {
             <Button isIconOnly color="default" variant="flat" radius="full" aria-label="Save" className="absolute right-6 top-6 z-20" size="sm">
                 <FaHeart className="text-default-500" />
             </Button>
-            <div className="relative flex h-52 max-h-full w-full flex-col items-center justify-center overflow-visible rounded-medium bg-white">
+            <div className="relative flex h-52 max-h-full w-full flex-col items-center justify-center overflow-visible rounded-medium bg-content2">
                 {/* <div className="flex-col gap-2 px-4 pt-6 hidden">
                     <h3 className="text-xl font-semibold tracking-tight text-default-800">
                         Training shoes

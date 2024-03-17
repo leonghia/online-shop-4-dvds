@@ -3,6 +3,7 @@ import { FaRegCreditCard, FaTentArrowTurnLeft, FaCartShopping, FaRegHeart } from
 import StarRatings from "../star-ratings";
 import ImagesGallery from "../images-gallery";
 import { GameProductDetail } from "@/models/product-detail";
+import AddToCart from "../add-to-cart";
 
 export default function GameViewInfo({ game }: { game: GameProductDetail }) {
 
@@ -87,7 +88,7 @@ export default function GameViewInfo({ game }: { game: GameProductDetail }) {
                     </div>
 
                     <div className="mt-2 flex gap-2">
-                        <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5" />} size="lg">Add to cart</Button>
+                        <AddToCart productId={game.id} />
                         <Button isIconOnly color="secondary" aria-label="Add to favorites" size="lg">
                             <FaRegHeart className="w-5 h-5 text-default-400" />
                         </Button>
