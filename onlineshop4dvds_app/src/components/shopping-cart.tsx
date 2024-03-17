@@ -1,7 +1,7 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { Cart, CartUpdate } from "@/models/cart";
-import { Button, Input, Image } from "@nextui-org/react";
+import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 
 export default function ShoppingCart() {
@@ -125,7 +125,7 @@ export default function ShoppingCart() {
                         </div>
                     </form>
                     <div className="w-full h-auto flex justify-end">
-                        <Button color="primary" className="font-medium mt-10" size="lg">Check out</Button>          
+                        <Button color="primary" className="font-medium mt-10" size="lg" as={Link} href="/checkout">Check out</Button>          
                     </div>
                 </div>
             </div>

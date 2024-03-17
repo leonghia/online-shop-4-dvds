@@ -7,11 +7,11 @@ export enum GenreType {
 export const toString = (genreType: GenreType) => {
     switch (genreType) {
         case GenreType.Game:
-            return "DVD game";
+            return "Game";
         case GenreType.Movie:
-            return "DVD movie";
+            return "Movie";
         case GenreType.Music:
-            return "CD album";
+            return "Album";
         default:
             throw new Error("Invalid genre type");
     }
