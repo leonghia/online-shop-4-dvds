@@ -1,8 +1,13 @@
-import { MoMo } from "@/components/icons/brands";
+import { MoMo, Stripe } from "@/components/icons/brands";
 import PageLayout from "@/components/layouts/page-layout";
-import { Input, RadioGroup, Radio, cn, RadioProps, useRadio, VisuallyHidden } from "@nextui-org/react";
+import { Input, RadioGroup, Radio, cn, RadioProps, useRadio, VisuallyHidden, Image } from "@nextui-org/react";
+import { ReactNode } from "react";
 
-export const MethodRadio = (props: RadioProps) => {
+interface RadioPropsWithIcon extends RadioProps {
+    icon: ReactNode;
+}
+
+export const MethodRadio = (props: RadioPropsWithIcon) => {
     const {
         Component,
         children,
@@ -31,9 +36,9 @@ export const MethodRadio = (props: RadioProps) => {
             <span {...getWrapperProps()}>
                 <span {...getControlProps()} />
             </span>
-            <div className="flex w-full items-center gap-3">
+            <div className="flex w-full items-center gap-2">
                 <div className="item-center flex rounded-small p-1">
-                    <MoMo className="h-6" />
+                    {props.icon}
                 </div>
                 <div {...getLabelWrapperProps()} className="flex flex-col gap-1">
                     {children && <span {...getLabelProps()} className="text-small">{children}</span>}
@@ -94,16 +99,13 @@ export default function CheckoutPage() {
                                 </Radio>
                             </RadioGroup>
                             <RadioGroup label="Payment Method" orientation="horizontal" classNames={{wrapper: "gap-3"}}>
-                                <MethodRadio description="Pay with MoMo" value="momo">
+                                <MethodRadio description="Pay with MoMo" value="momo" icon={<MoMo className="h-6" />}>
                                     MoMo
                                 </MethodRadio>
-                                <MethodRadio description="Pay with VNPAY" value="vnpay">
+                                <MethodRadio description="Pay with VNPAY" value="vnpay" icon={<Image src="https://i.ibb.co/0rV11HV/vnpay-qr-logo.png" className="h-6" removeWrapper alt="VNPAY logo" radius="none" />}>
                                     VNPAY
                                 </MethodRadio>
-                                <MethodRadio
-                                    description="Pay with Stripe"
-                                    value="stripe"
-                                >
+                                <MethodRadio description="Pay with Stripe" value="stripe" icon={<Stripe className="h-5" />}>
                                     Stripe
                                 </MethodRadio>
                             </RadioGroup>
