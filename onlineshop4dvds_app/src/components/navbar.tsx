@@ -73,7 +73,7 @@ export default function MyNavbar() {
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
                     <Link href="/cart">
-                        <Badge color="danger" size="sm" content={cart?.items.length || 0} shape="circle">
+                        <Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
                             <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
                         </Badge>
                     </Link>

@@ -1,15 +1,28 @@
 import { API_URL } from "@/config";
-import { useCart } from "@/contexts/cart-context";
+import { useCart, useCartDispatch } from "@/contexts/cart-context";
+import { Cart, CartUpdateDto } from "@/models/cart";
 import { Button, Input, Image } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 
 export default function ShoppingCart() {
     const initialCart = useCart();
+    const dispatch = useCartDispatch();
     
-    const handleDecrease = (productId: number) => {
-        fetch(`${API_URL}/carts`, {
+    const handleIncrease = (productId: number) => {
+        const payload: CartUpdateDto = {
+            productId,
+            quantity: 1
+        };
 
+        fetch(`${API_URL}/carts`, {
+            method: "PUT",
+            credentials: "include",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload),
         })
+        .then(res => res.json())
+        .then((data: Cart) => dispatch && dispatch({payload: data}))
+        .catch(err => console.error(err));
     }
 
     return (
@@ -24,7 +37,7 @@ export default function ShoppingCart() {
                         <div>
                             <h3 className="sr-only">Items in your cart</h3>
                             <ul>
-                                {initialCart?.items.map(item => (
+                                {initialCart?.items?.map(item => (
                                     <li
                                         className="flex justify-between items-center border-divider py-4"
                                         key={item.id}
@@ -61,8 +74,8 @@ export default function ShoppingCart() {
                                             <Button isIconOnly aria-label="Decrease quantity" variant="light">
                                                 <FaMinus className="w-3 h-3" />
                                             </Button>
-                                            <Input type="number" variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{base: "bg-background"}} />
-                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleDecrease(item.productId)}>
+                                            <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{base: "bg-background"}} />
+                                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.productId)}>
                                                 <FaPlus className="w-3 h-3" />
                                             </Button>
                                         </div>

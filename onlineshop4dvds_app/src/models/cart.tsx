@@ -16,3 +16,8 @@ export interface CartItem {
     stock: number;
     productId: number;
 }
+
+export interface CartUpdateDto {
+    productId: number;
+    quantity: number;
+}

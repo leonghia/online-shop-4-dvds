@@ -15,7 +15,8 @@ export class CartsService {
     public async findById(cartId: number): Promise<Cart | null> {
         return await this.cartRepo.findOne({
             where: {id: cartId},
-            relations: {cartProducts: {product: true}}
+            relations: {cartProducts: {product: true}},
+            order: {cartProducts: {id: "ASC"}},
         });
     }
 
