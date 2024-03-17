@@ -45,7 +45,7 @@ export default function ShoppingCart() {
     }
 
     return (
-        <section className="flex max-w-2xl w-full h-full gap-8 justify-center">
+        <section className="flex max-w-3xl w-full h-full gap-8 justify-center">
             <div className="w-full flex-none py-4">
                 <div className="flex h-full flex-1 flex-col p-4">
                     <form
@@ -61,9 +61,8 @@ export default function ShoppingCart() {
                                         className="flex justify-between items-center border-divider py-4"
                                         key={item.id}
                                     >
-                                        <div className="flex gap-x-4 w-[20rem]">
-                                            <Image alt={item.title} src={item.thumbnailUrl} className="h-20 w-20 object-contain" />
-                                            
+                                        <div className="flex gap-x-4 flex-1 max-w-sm">
+                                            <Image src={item.thumbnailUrl} removeWrapper classNames={{img: "w-24 h-24 object-contain"}} alt={item.title} />                                  
                                             <div className="flex flex-col">
                                                 <h4 className="text-medium font-semibold">
                                                     {item.title}
