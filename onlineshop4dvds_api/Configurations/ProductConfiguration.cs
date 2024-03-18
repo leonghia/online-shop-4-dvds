@@ -103,7 +103,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 11,
-                Title = "Call of Duty: Modern Warfare",
+                Title = "The Witcher 3: Wild Hunt - Complete Edition",
                 Thumbnail = "https://cdn.hmv.com/r/w-640/hmv/files/50/50807dd8-7179-48a1-a4ce-a14fa06a80e3.png",
                 Description = "Play the most polished and complete version of the most awarded game of 2015 - The Witcher 3 Wild Hunt. Now available with all expansions and additional content!Become a professional monster slayer and embark on an adventure of epic proportions! Upon its release, The Witcher 3 Wild Hunt became an instant classic, claiming over 250 Game of the Year awards. Now you can enjoy this huge, over 100-hour long, open-world adventure along with both its story-driven expansions worth an extra 50 hours of gameplay. This edition includes all additional content - new weapons, armour, companion outfits, new game mode and side quests.Play as a Highly Trained Monster Slayer for Hire.",
                 GenreType = GenreType.Game,

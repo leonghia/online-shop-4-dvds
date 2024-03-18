@@ -213,6 +213,30 @@ public class GenreConfiguration : IEntityTypeConfiguration<Genre>
                 Id = 34,
                 Name = "Sports",
                 GenreType = GenreType.Game
+            },
+            new Genre
+            {
+                Id = 35,
+                Name = "Open world",
+                GenreType = GenreType.Game
+            },
+            new Genre
+            {
+                Id = 36,
+                Name = "Story rich",
+                GenreType = GenreType.Game
+            },
+            new Genre
+            {
+                Id = 37,
+                Name = "Western",
+                GenreType = GenreType.Game
+            },
+            new Genre
+            {
+                Id = 38,
+                Name = "FPS",
+                GenreType = GenreType.Game
             }
         );
     }
