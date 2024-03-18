@@ -1,0 +1,6 @@
+@OnlineShop4DVDS_HostAddress = http://localhost:5044
+
+GET {{OnlineShop4DVDS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
