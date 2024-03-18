@@ -33,8 +33,17 @@ public class ShopContext : DbContext
             new { ProductsId = 6, GenresId = 8 },
             new { ProductsId = 7, GenresId = 13 },
             new { ProductsId = 7, GenresId = 8 },
-            new { ProductsId = 8, GenresId = 8 }
-
+            new { ProductsId = 8, GenresId = 8 },
+            new { ProductsId = 9, GenresId = 35 },
+            new { ProductsId = 9, GenresId = 25 },
+            new { ProductsId = 10, GenresId = 35 },
+            new { ProductsId = 10, GenresId = 36 },
+            new { ProductsId = 11, GenresId = 35 },
+            new { ProductsId = 11, GenresId = 19 },
+            new { ProductsId = 11, GenresId = 36 },
+            new { ProductsId = 12, GenresId = 25 },
+            new { ProductsId = 12, GenresId = 38 },
+            new { ProductsId = 12, GenresId = 23 }
         );
     }
 
