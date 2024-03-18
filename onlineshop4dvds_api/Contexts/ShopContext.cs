@@ -15,6 +15,9 @@ public class ShopContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
+        modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        
+        
     }
 
     public DbSet<Genre> Genres {get;set;}
