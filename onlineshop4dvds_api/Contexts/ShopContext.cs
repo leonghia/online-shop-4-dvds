@@ -17,7 +17,25 @@ public class ShopContext : DbContext
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         
-        
+        modelBuilder.Entity("GenreProduct").HasData(
+            new { ProductsId = 1, GenresId = 1 },
+            new { ProductsId = 2, GenresId = 1 },
+            new { ProductsId = 2, GenresId = 3 },
+            new { ProductsId = 3, GenresId = 1 },
+            new { ProductsId = 3, GenresId = 32 },
+            new { ProductsId = 4, GenresId = 1 },
+            new { ProductsId = 4, GenresId = 3 },
+            new { ProductsId = 5, GenresId = 18 },
+            new { ProductsId = 5, GenresId = 8 },
+            new { ProductsId = 5, GenresId = 33 },
+            new { ProductsId = 6, GenresId = 7 },
+            new { ProductsId = 6, GenresId = 13 },
+            new { ProductsId = 6, GenresId = 8 },
+            new { ProductsId = 7, GenresId = 13 },
+            new { ProductsId = 7, GenresId = 8 },
+            new { ProductsId = 8, GenresId = 8 }
+
+        );
     }
 
     public DbSet<Genre> Genres {get;set;}
