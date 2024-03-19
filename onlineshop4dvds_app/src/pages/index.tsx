@@ -4,9 +4,9 @@ import ProductsGrid from "@/components/product/products-grid";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre-type";
 import { Product } from "@/models/product";
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import { GetStaticProps, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
 
-export const getServerSideProps = (async () => {
+export const getStaticProps = (async () => {
   // Fetch data from external API
   const resForAlbums = await fetch(`${API_URL}/product?genreType=${GenreType.Music}`);
   const albums: Product[] = await resForAlbums.json();
@@ -23,9 +23,9 @@ export const getServerSideProps = (async () => {
     movies,
     games,
   }};
-}) satisfies GetServerSideProps<{albums: Product[], movies: Product[], games: Product[]}>;
+}) satisfies GetStaticProps<{albums: Product[], movies: Product[], games: Product[]}>;
 
-export default function HomePage({albums, movies, games}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function HomePage({albums, movies, games}: InferGetStaticPropsType<typeof getStaticProps>) {
 
   return (
     <HomeLayout>

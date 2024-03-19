@@ -6,10 +6,19 @@ using OnlineShop4DVDS.DTOs;
 using OnlineShop4DVDS.Entities;
 using OnlineShop4DVDS.Utils;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                      });
+});
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ShopContext>(optionsAction => optionsAction.UseNpgsql(@"Host=localhost;Username=postgres;Password=fiora;Database=onlineshop4dvds"));
@@ -24,8 +33,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) => {
+app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
+{
     IQueryable<Product> productQuery = context.Products;
     var predicate = PredicateBuilder.New<Product>(true);
     if (genreType is not null) predicate = predicate.And(p => p.GenreType == genreType);
@@ -45,14 +56,14 @@ app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? gen
                                     Ratings = reviews.Any() ? reviews.Select(r => (int)r.Ratings).Average() : 0
                                 })
                             .Select(x => new
-                                {
-                                    x.Product,
-                                    x.NumberOfReviews,
-                                    x.Ratings
-                                })
+                            {
+                                x.Product,
+                                x.NumberOfReviews,
+                                x.Ratings
+                            })
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
-                            .ToListAsync();           
+                            .ToListAsync();
 
     var productsToReturn = products.Select(i => new ProductDto
     {
@@ -68,17 +79,18 @@ app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? gen
     return Results.Ok(productsToReturn);
 });
 
-app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) => {
+app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) =>
+{
     IQueryable<Product> query = context.Products;
     var product = await query
                             .AsNoTracking()
                             .Include(p => p.Genres)
                             .Select(p => new
-                                {
-                                    Product = p,
-                                    NumberOfReviews = p.Reviews!.Count,
-                                    Ratings = p.Reviews.Count > 0 ? p.Reviews.Select(r => (int)r.Ratings).Average() : 0
-                                })
+                            {
+                                Product = p,
+                                NumberOfReviews = p.Reviews!.Count,
+                                Ratings = p.Reviews.Count > 0 ? p.Reviews.Select(r => (int)r.Ratings).Average() : 0
+                            })
                             .FirstOrDefaultAsync(p => p.Product.Id == id);
     if (product is null) return Results.NotFound();
     var productToReturn = new ProductDetailDto
