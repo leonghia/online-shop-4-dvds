@@ -57,7 +57,7 @@ export default function ShoppingCart() {
                                 {initialCart?.items?.map(item => (
                                     <li
                                         className="flex justify-between items-center border-divider py-4"
-                                        key={item.id}
+                                        key={item.productId}
                                     >
                                         <div className="flex gap-x-4 flex-1 max-w-sm">
                                             <Image src={item.thumbnailUrl} removeWrapper classNames={{img: "w-24 h-24 object-contain"}} alt={item.title} />                                  
