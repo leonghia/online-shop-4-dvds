@@ -11,13 +11,13 @@ import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell } from "react-icons/hi2";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { API_URL } from "@/config";
 import { Cart } from "@/models/cart";
-import { useUser } from '@auth0/nextjs-auth0/client';
-import {Avatar} from "@nextui-org/react";
+import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
+import { Avatar } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa6";
-
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User } from "@nextui-org/react";
 
 export default function MyNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
@@ -56,7 +56,7 @@ export default function MyNavbar() {
                             <Acme width={34} height={34} />
                         </div>
                     </NavbarBrand>
-                    <NavbarItem className="hidden md:flex opacity-60" isActive>
+                    <NavbarItem className="hidden md:flex opacity-60">
                         <Link href="/" color="foreground">Home</Link>
                     </NavbarItem>
                     <NavbarItem className="hidden md:flex opacity-50">
@@ -90,9 +90,45 @@ export default function MyNavbar() {
                         <HiOutlineBell className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
                     </NavbarItem>
                     <NavbarItem>
-                        {user.picture ? <Avatar src={user.picture} /> : <Avatar showFallback fallback={
-                            <FaUser className="w-5 h-5 text-default-500" fill="currentColor" />
-                        } />}
+                        {user.picture ? (
+                            <Dropdown placement="bottom-start">
+                                <DropdownTrigger>
+                                    <Avatar isBordered as="button" src={user.picture} className="transition-transform" />
+                                </DropdownTrigger>
+                                <DropdownMenu aria-label="Profile Actions" variant="flat">
+                                    <DropdownItem key="info">
+                                        <User
+                                            name={user.name}
+                                            description={user.email}
+                                            avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
+                                        />
+                                    </DropdownItem>
+                                    <DropdownItem key="profile">Your Profile</DropdownItem>
+                                    <DropdownItem key="logout" color="danger">
+                                        <a href="/api/auth/logout">Logout</a>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>) : (
+                            <Dropdown placement="bottom-start">
+                                <DropdownTrigger>
+                                    <Avatar isBordered as="button" className="transition-transform" showFallback fallback={
+                                        <FaUser className="w-5 h-5 text-default-500" fill="currentColor" />
+                                    } />
+                                </DropdownTrigger>
+                                <DropdownMenu aria-label="Profile Actions" variant="flat">
+                                    <DropdownItem key="info">
+                                        <User
+                                            name={user.name}
+                                            description={user.email}
+                                            avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
+                                        />
+                                    </DropdownItem>
+                                    <DropdownItem key="profile">Your Profile</DropdownItem>
+                                    <DropdownItem key="logout" color="danger">
+                                        <a href="/api/auth/logout">Log Out</a>
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>)}
                     </NavbarItem>
                 </NavbarContent>
             </Navbar>
@@ -115,7 +151,7 @@ export default function MyNavbar() {
                         <Acme width={34} height={34} />
                     </div>
                 </NavbarBrand>
-                <NavbarItem className="hidden md:flex opacity-60" isActive>
+                <NavbarItem className="hidden md:flex opacity-60">
                     <Link href="/" color="foreground">Home</Link>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex opacity-50">
@@ -134,19 +170,16 @@ export default function MyNavbar() {
                     <Link href="/forum" color="foreground">Forum</Link>
                 </NavbarItem>
                 <NavbarItem className="hidden md:flex">
-                    <Badge color="danger" size="sm" content={0} shape="circle">
-                        <HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                    </Badge>
-                </NavbarItem>
-                <NavbarItem className="hidden md:flex">
                     <Link href="/cart">
-                        <Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
+                        {cart?.items.length ? (<Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
                             <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                        </Badge>
+                        </Badge>) : (<HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button href="/auth/login" as={Link} color="primary" variant="solid" radius="full" className="font-medium">Login</Button>
+                    <a href="/api/auth/login">
+                        <Button color="primary" variant="solid" radius="full" className="font-medium">Login</Button>
+                    </a>
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
