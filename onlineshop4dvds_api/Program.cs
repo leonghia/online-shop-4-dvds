@@ -146,8 +146,8 @@ app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopCont
 
     var cartToCreate = new Cart
     {
-        Discount = 0,
-        ShippingFee = 0,
+        Discount = DefaultDiscount,
+        ShippingFee = DefaultShippingFee,
     };
     context.Carts.Add(cartToCreate);
     await context.SaveChangesAsync();

@@ -63,7 +63,7 @@ export default function OrderSummary() {
                     </div>
                     <div className="flex justify-between">
                         <dt className="text-small text-default-500">Discount</dt>
-                        <dd className="text-small font-semibold text-success"> - ${cart?.discount}</dd>
+                        <dd className="text-small font-semibold text-default-700"> - ${cart?.discount}</dd>
                     </div>
                     <hr
                         className="shrink-0 bg-divider border-none w-full h-divider"
@@ -71,7 +71,7 @@ export default function OrderSummary() {
                     />
                     <div className="flex justify-between">
                         <dt className="text-small font-semibold text-default-500">Total</dt>
-                        <dd className="text-small font-semibold text-default-700">
+                        <dd className="text-small font-semibold text-pink-500">
                             ${cart?.total}
                         </dd>
                     </div>

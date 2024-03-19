@@ -3,11 +3,14 @@ import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { Cart, CartItemUpdate } from "@/models/cart";
 import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
+import { useUser } from '@auth0/nextjs-auth0/client';
+import { ReactNode } from "react";
 
 export default function ShoppingCart() {
+    const { user, error, isLoading } = useUser();
     const initialCart = useCart();
     const dispatch = useCartDispatch();
-    
+
     const handleUpdate = (productId: number, quantity: number) => {
         if (quantity < 1) return;
 
@@ -18,12 +21,12 @@ export default function ShoppingCart() {
 
         fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
-        .then(res => res.json())
-        .then((data: Cart) => dispatch && dispatch({payload: data}))
-        .catch(err => console.error(err));
+            .then(res => res.json())
+            .then((data: Cart) => dispatch && dispatch({ payload: data }))
+            .catch(err => console.error(err));
     };
 
     const handleDrop = (productId: number) => {
@@ -34,12 +37,21 @@ export default function ShoppingCart() {
 
         fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         })
-        .then(res => res.json())
-        .then((data: Cart) => dispatch && dispatch({payload: data}))
-        .catch(err => console.error(err));
+            .then(res => res.json())
+            .then((data: Cart) => dispatch && dispatch({ payload: data }))
+            .catch(err => console.error(err));
+    };
+
+    let checkoutButton: ReactNode;
+
+    if (user) {
+        checkoutButton = <Button color="primary" className="font-medium mt-10" size="lg" as={Link} href="/checkout">Check out</Button>;
+    } else {
+        const returnLink = `/api/auth/login?returnTo=${encodeURIComponent("/checkout")}`;
+        checkoutButton = <a href={returnLink}><Button color="primary" className="font-medium mt-10" size="lg">Check out</Button></a>;
     }
 
     return (
@@ -60,7 +72,7 @@ export default function ShoppingCart() {
                                         key={item.productId}
                                     >
                                         <div className="flex gap-x-4 flex-1 max-w-sm">
-                                            <Image src={item.thumbnailUrl} removeWrapper classNames={{img: "w-24 h-24 object-contain"}} alt={item.title} />                                  
+                                            <Image src={item.thumbnailUrl} removeWrapper classNames={{ img: "w-24 h-24 object-contain" }} alt={item.title} />
                                             <div className="flex flex-col">
                                                 <h4 className="text-medium font-semibold">
                                                     {item.title}
@@ -91,7 +103,7 @@ export default function ShoppingCart() {
                                             <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity - 1)}>
                                                 <FaMinus className="w-3 h-3" />
                                             </Button>
-                                            <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{base: "bg-background"}} />
+                                            <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
                                             <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity + 1)}>
                                                 <FaPlus className="w-3 h-3" />
                                             </Button>
@@ -113,7 +125,7 @@ export default function ShoppingCart() {
                                         <dt className="text-small font-semibold text-default-500">
                                             Subtotal
                                         </dt>
-                                        <dd className="text-small font-semibold text-default-700">
+                                        <dd className="text-medium font-semibold text-pink-500">
                                             ${initialCart?.subtotal}
                                         </dd>
                                     </div>
@@ -122,7 +134,7 @@ export default function ShoppingCart() {
                         </div>
                     </form>
                     <div className="w-full h-auto flex justify-end">
-                        <Button color="primary" className="font-medium mt-10" size="lg" as={Link} href="/checkout">Check out</Button>          
+                        {checkoutButton}
                     </div>
                 </div>
             </div>
