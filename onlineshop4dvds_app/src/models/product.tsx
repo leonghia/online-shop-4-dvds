@@ -7,16 +7,3 @@ export interface Product {
     genres: string[];
 }
 
-export interface AlbumProduct extends Product {
-    artist: string;
-    artistAvatar: string;
-}
-
-export interface MovieProduct extends Product {
-    imdbRatings: number;
-}
-
-export interface GameProduct extends Product {
-    console: string;
-}
-

@@ -10,18 +10,3 @@ export interface ProductDetail {
     yearReleased: number;
     stock: number;
 }
-
-export interface AlbumProductDetail extends ProductDetail {
-    artist: string;
-    artistAvatar: string;
-    lengthInSeconds: number;
-}
-
-export interface GameProductDetail extends ProductDetail {
-    console: string;
-}
-
-export interface MovieProductDetail extends ProductDetail {
-    imdbRatings: number;
-    lengthInMinutes: number;
-}
