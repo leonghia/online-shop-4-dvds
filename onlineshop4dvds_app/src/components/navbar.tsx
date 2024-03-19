@@ -27,7 +27,7 @@ export default function MyNavbar() {
             dispatch && dispatch({ payload: null });
             return;
         }
-        fetch(`${API_URL}/carts`, { credentials: "include" })
+        fetch(`${API_URL}/cart/${cookies.cartId}`)
             .then(res => res.json())
             .then((data: Cart) => dispatch && dispatch({ payload: data }))
             .catch(err => console.error(err));

@@ -14,7 +14,7 @@ export default function OrderSummary() {
             <h3 className="sr-only">Items in your cart</h3>
             <ul>
                 {cart?.items?.map(item => (
-                    <li key={item.id} className="flex items-center gap-x-4 border-divider py-4">
+                    <li key={item.productId} className="flex items-center gap-x-4 border-divider py-4">
                         <Image src={item.thumbnailUrl} removeWrapper classNames={{img: "w-20 h-20 object-contain"}} alt={item.title} />
                         <div className="flex flex-1 flex-col">
                             <h4 className="text-small font-semibold">
@@ -58,7 +58,7 @@ export default function OrderSummary() {
                         </dd>
                     </div>
                     <div className="flex justify-between">
-                        <dt className="text-small text-default-500">Delivery</dt>
+                        <dt className="text-small text-default-500">Shipping</dt>
                         <dd className="text-small font-semibold text-default-700">$0.00</dd>
                     </div>
                     <div className="flex justify-between">

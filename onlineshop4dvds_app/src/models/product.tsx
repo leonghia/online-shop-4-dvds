@@ -5,18 +5,7 @@ export interface Product {
     thumbnailUrl: string;
     description: string;
     genres: string[];
-}
-
-export interface AlbumProduct extends Product {
-    artist: string;
-    artistAvatar: string;
-}
-
-export interface MovieProduct extends Product {
-    imdbRatings: number;
-}
-
-export interface GameProduct extends Product {
-    console: string;
+    ratings: number;
+    numbersOfReviews: number;
 }
 

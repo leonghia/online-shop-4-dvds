@@ -1,6 +1,6 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartUpdate } from "@/models/cart";
+import { Cart, CartItemUpdate } from "@/models/cart";
 import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 
@@ -11,14 +11,13 @@ export default function ShoppingCart() {
     const handleUpdate = (productId: number, quantity: number) => {
         if (quantity < 1) return;
 
-        const payload: CartUpdate = {
+        const payload: CartItemUpdate = {
             productId,
             quantity
         };
 
-        fetch(`${API_URL}/carts`, {
+        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            credentials: "include",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload),
         })
@@ -28,14 +27,13 @@ export default function ShoppingCart() {
     };
 
     const handleDrop = (productId: number) => {
-        const payload: CartUpdate = {
+        const payload: CartItemUpdate = {
             productId,
             quantity: 0
         };
 
-        fetch(`${API_URL}/carts`, {
+        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            credentials: "include",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload),
         })
@@ -59,7 +57,7 @@ export default function ShoppingCart() {
                                 {initialCart?.items?.map(item => (
                                     <li
                                         className="flex justify-between items-center border-divider py-4"
-                                        key={item.id}
+                                        key={item.productId}
                                     >
                                         <div className="flex gap-x-4 flex-1 max-w-sm">
                                             <Image src={item.thumbnailUrl} removeWrapper classNames={{img: "w-24 h-24 object-contain"}} alt={item.title} />                                  
