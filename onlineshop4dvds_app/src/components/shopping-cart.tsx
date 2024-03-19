@@ -50,7 +50,8 @@ export default function ShoppingCart() {
     if (user) {
         checkoutButton = <Button color="primary" className="font-medium mt-10" size="lg" as={Link} href="/checkout">Check out</Button>;
     } else {
-        checkoutButton = <a href="/api/auth/login"><Button color="primary" className="font-medium mt-10" size="lg">Check out</Button></a>;
+        const returnLink = `/api/auth/login?returnTo=${encodeURIComponent("/checkout")}`;
+        checkoutButton = <a href={returnLink}><Button color="primary" className="font-medium mt-10" size="lg">Check out</Button></a>;
     }
 
     return (
