@@ -8,15 +8,20 @@ import {
     Badge
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
-import { HiOutlineShoppingCart, HiOutlineHeart } from "react-icons/hi2";
+import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell } from "react-icons/hi2";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
 import { useEffect } from "react";
 import { API_URL } from "@/config";
 import { Cart } from "@/models/cart";
+import { useUser } from '@auth0/nextjs-auth0/client';
+import {Avatar} from "@nextui-org/react";
+import { FaUser } from "react-icons/fa6";
+
 
 export default function MyNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
+    const { user, error, isLoading } = useUser();
 
     const cart = useCart();
     const dispatch = useCartDispatch();
@@ -32,6 +37,67 @@ export default function MyNavbar() {
             .then((data: Cart) => dispatch && dispatch({ payload: data }))
             .catch(err => console.error(err));
     }, []);
+
+    if (user) {
+        console.log(user);
+        return (
+            <Navbar height="54px" classNames={{
+                base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",
+                wrapper: "z-40 flex gap-4 flex-row relative flex-nowrap items-center max-w-[1024px] px-0 w-full justify-center bg-transparent",
+                content: "flex h-full flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 gap-6 rounded-full border-small border-default-200/20 bg-background/60 px-2 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50",
+                brand: "flex basis-0 flex-row flex-grow flex-nowrap justify-start bg-transparent items-center no-underline text-medium whitespace-nowrap box-border mr-2 w-[40vw] md:w-auto md:max-w-fit",
+                item: [
+                    "data-[active=true]:opacity-100"
+                ]
+            }}>
+                <NavbarContent justify="center">
+                    <NavbarBrand>
+                        <div className="rounded-full bg-foreground text-background">
+                            <Acme width={34} height={34} />
+                        </div>
+                    </NavbarBrand>
+                    <NavbarItem className="hidden md:flex opacity-60" isActive>
+                        <Link href="/" color="foreground">Home</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex opacity-50">
+                        <Link href="/music" color="foreground" >Music</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex opacity-50">
+                        <Link href="/movies" color="foreground">Movies</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex opacity-50">
+                        <Link href="/games" color="foreground">Games</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex opacity-50">
+                        <Link href="/news" color="foreground">News</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex opacity-50">
+                        <Link href="/forum" color="foreground">Forum</Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex">
+                        {false ? (<Badge color="danger" size="sm" content={0} shape="circle">
+                            <HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                        </Badge>) : (<HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex">
+                        <Link href="/cart">
+                            {cart?.items.length ? (<Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
+                                <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                            </Badge>) : (<HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
+                        </Link>
+                    </NavbarItem>
+                    <NavbarItem className="hidden md:flex">
+                        <HiOutlineBell className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                    </NavbarItem>
+                    <NavbarItem>
+                        {user.picture ? <Avatar src={user.picture} /> : <Avatar showFallback fallback={
+                            <FaUser className="w-5 h-5 text-default-500" fill="currentColor" />
+                        } />}
+                    </NavbarItem>
+                </NavbarContent>
+            </Navbar>
+        );
+    }
 
     return (
         <Navbar height="54px" classNames={{
@@ -84,6 +150,5 @@ export default function MyNavbar() {
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
-
     );
 }

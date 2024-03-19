@@ -125,7 +125,7 @@ export default function ShoppingCart() {
                                         <dt className="text-small font-semibold text-default-500">
                                             Subtotal
                                         </dt>
-                                        <dd className="text-small font-semibold text-default-700">
+                                        <dd className="text-medium font-semibold text-pink-500">
                                             ${initialCart?.subtotal}
                                         </dd>
                                     </div>
