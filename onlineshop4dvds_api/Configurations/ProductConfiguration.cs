@@ -85,7 +85,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 9,
-                Title = "Grand Theft Auto V: Premium Edition",
+                Title = "Grand Theft Auto V: Premium Edition (PS4)",
                 Thumbnail = "https://i.ibb.co/bgGs0zS/gta-v-dvd.png",
                 Description = "The Grand Theft Auto V: Premium Edition includes the complete Grand Theft Auto V story experience, free access to the ever-evolving Grand Theft Auto Online and all existing gameplay upgrades and content including The Doomsday Heist, Gunrunning, Smuggler's Run, Bikers and much more. You'll also get the Criminal Enterprise Starter Pack, the fastest way to jumpstart your criminal empire in Grand Theft Auto Online.",
                 GenreType = GenreType.Game,
@@ -94,7 +94,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 10,
-                Title = "Red Dead Redemption 2",
+                Title = "Red Dead Redemption 2 (PS4)",
                 Thumbnail = "https://i.ibb.co/5W3N5nB/rdrd2-dvd.png",
                 Description = "Includes: America, 1899. The end of the wild west era has begun as lawmen hunt down the last remaining outlaw gangs. Those who will not surrender or succumb are killed. After a robbery goes badly wrong in the western town of Blackwater, Arthur Morgan and the Van der Linde gang are forced to flee. With federal agents and the best bounty hunters in the nation massing on their heels, the gang must rob, steal and fight their way across the rugged heartland of America in order to survive. As deepening internal divisions threaten to tear the gang apart, Arthur must make a choice between his own ideals and loyalty to the gang who raised him. From the creators of Grand Theft Auto V and Red Dead Redemption, Red Dead Redemption 2 is an epic tale of life in America at the dawn of the modern age. War Horse and Outlaw Survival Kit: This handsome iron-grey-coloured Ardennes War Horse can always be relied on in the heat of the battle. With greater courage and stamina than the average steed, this is a horse that knows how to keep its head under fire. The War Horse is available in Red Dead Redemption 2 Story Mode.The Outlaw Survival Kit contains a collection of key supplies for enduring the rigours of life on the frontier, including items to replenish Health, Dead Eye and more. The Outlaw Survival Kit is available in Red Dead Redemption 2 Story Mode.",
                 GenreType = GenreType.Game,
@@ -103,7 +103,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 11,
-                Title = "The Witcher 3: Wild Hunt - Complete Edition",
+                Title = "The Witcher 3: Wild Hunt - Complete Edition (PS5)",
                 Thumbnail = "https://cdn.hmv.com/r/w-640/hmv/files/50/50807dd8-7179-48a1-a4ce-a14fa06a80e3.png",
                 Description = "Play the most polished and complete version of the most awarded game of 2015 - The Witcher 3 Wild Hunt. Now available with all expansions and additional content!Become a professional monster slayer and embark on an adventure of epic proportions! Upon its release, The Witcher 3 Wild Hunt became an instant classic, claiming over 250 Game of the Year awards. Now you can enjoy this huge, over 100-hour long, open-world adventure along with both its story-driven expansions worth an extra 50 hours of gameplay. This edition includes all additional content - new weapons, armour, companion outfits, new game mode and side quests.Play as a Highly Trained Monster Slayer for Hire.",
                 GenreType = GenreType.Game,
@@ -113,7 +113,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             {
                 Id = 12,
                 Title = "Call of Duty: Modern Warfare",
-                Thumbnail = "https://i.ibb.co/7YMCJ7p/cod-modern-warfare-dvd.png",
+                Thumbnail = "https://i.ibb.co/7YMCJ7p/cod-modern-warfare-dvd.png (PS4)",
                 Description = "The stakes have never been higher as players take on the role of lethal Tier One operators in a heart-racing saga that will affect the global balance of power. Call of Duty: Modern Warfare engulfs fans in an incredibly raw, gritty, provocative narrative that brings unrivaled intensity and shines a light on the changing nature of modern war. Developed by the studio that started it all, Infinity Ward delivers an epic reimagining of the iconic Modern Warfare series from the ground up.",
                 GenreType = GenreType.Game,
                 Price = 21.73M

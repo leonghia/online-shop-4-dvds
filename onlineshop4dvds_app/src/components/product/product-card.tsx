@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa6";
 import { Product } from "@/models/product";
 import StarRatings from "../star-ratings";
 
-export default function MovieCard({product}: {product: Product}) {
+export default function ProductCard({ product }: { product: Product }) {
     return (
         <div
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 p-4 rounded-none bg-transparent shadow-none w-full snap-start"
@@ -24,7 +24,23 @@ export default function MovieCard({product}: {product: Product}) {
                     {product.description}
                 </p>
                 <div className="flex items-center gap-2">
-                    <div><StarRatings ratings={product.ratings} /></div>
+                    <div className="flex items-center gap-3">
+                        <div
+                            className="relative flex flex-col gap-2"
+                            aria-label=" "
+                            role="radiogroup"
+                            aria-orientation="horizontal"
+                            id="react-aria2048226057-:r0:"
+                        >
+                            <div
+                                className="flex flex-col flex-wrap gap-1 data-[orientation=horizontal]:flex-row"
+                                role="presentation"
+                                data-orientation="horizontal"
+                            >
+                                <StarRatings ratings={product.ratings} />
+                            </div>
+                        </div>
+                    </div>
                     <p className="text-small text-default-400">{product.numbersOfReviews} reviews</p>
                 </div>
             </div>
