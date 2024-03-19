@@ -58,4 +58,5 @@ public class ShopContext : DbContext
     public DbSet<Product> Products {get;set;}
     public DbSet<User> Users {get;set;}
     public DbSet<Review> Reviews {get;set;}
+    public DbSet<CartProduct> CartProduct {get;set;}
 }

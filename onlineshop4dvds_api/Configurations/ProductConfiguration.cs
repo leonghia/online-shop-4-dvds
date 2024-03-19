@@ -112,8 +112,8 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 12,
-                Title = "Call of Duty: Modern Warfare",
-                Thumbnail = "https://i.ibb.co/7YMCJ7p/cod-modern-warfare-dvd.png (PS4)",
+                Title = "Call of Duty: Modern Warfare (PS4)",
+                Thumbnail = "https://i.ibb.co/7YMCJ7p/cod-modern-warfare-dvd.png",
                 Description = "The stakes have never been higher as players take on the role of lethal Tier One operators in a heart-racing saga that will affect the global balance of power. Call of Duty: Modern Warfare engulfs fans in an incredibly raw, gritty, provocative narrative that brings unrivaled intensity and shines a light on the changing nature of modern war. Developed by the studio that started it all, Infinity Ward delivers an epic reimagining of the iconic Modern Warfare series from the ground up.",
                 GenreType = GenreType.Game,
                 Price = 21.73M

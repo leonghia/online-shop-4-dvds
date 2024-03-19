@@ -16,9 +16,8 @@ export default function ShoppingCart() {
             quantity
         };
 
-        fetch(`${API_URL}/carts`, {
+        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            credentials: "include",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload),
         })
@@ -33,9 +32,8 @@ export default function ShoppingCart() {
             quantity: 0
         };
 
-        fetch(`${API_URL}/carts`, {
+        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
             method: "PUT",
-            credentials: "include",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(payload),
         })

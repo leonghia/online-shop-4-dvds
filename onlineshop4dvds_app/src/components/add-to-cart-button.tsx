@@ -13,7 +13,7 @@ export default function AddToCartButton({productId}: {productId: number}) {
     const handleAddToCart = (productId: number) => {
         if (!cookies.cartId) {
             const payload: CartCreate = {productId};
-            fetch(`${API_URL}/carts`, {
+            fetch(`${API_URL}/cart`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(payload),
@@ -31,9 +31,8 @@ export default function AddToCartButton({productId}: {productId: number}) {
             if (!item) quantity = 1;
             else quantity = item.quantity + 1;
             const payload: CartItemUpdate = {productId, quantity};
-            fetch(`${API_URL}/carts`, {
+            fetch(`${API_URL}/cart/${cart.id}/items`, {
                 method: "PUT",
-                credentials: "include",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(payload),
             })
