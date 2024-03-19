@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineShop4DVDS.Contexts;
@@ -11,9 +12,11 @@ using OnlineShop4DVDS.Contexts;
 namespace OnlineShop4DVDS.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240319040758_CreateCartProduct")]
+    partial class CreateCartProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -176,12 +179,6 @@ namespace OnlineShop4DVDS.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Discount")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("ShippingFee")
-                        .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
@@ -693,18 +690,16 @@ namespace OnlineShop4DVDS.Migrations
             modelBuilder.Entity("OnlineShop4DVDS.Entities.CartProduct", b =>
                 {
                     b.HasOne("OnlineShop4DVDS.Entities.Cart", null)
-                        .WithMany("CartProducts")
+                        .WithMany()
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineShop4DVDS.Entities.Product", "Product")
+                    b.HasOne("OnlineShop4DVDS.Entities.Product", null)
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Review", b =>
@@ -724,11 +719,6 @@ namespace OnlineShop4DVDS.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.Cart", b =>
-                {
-                    b.Navigation("CartProducts");
                 });
 
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Product", b =>

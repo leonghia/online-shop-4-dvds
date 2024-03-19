@@ -24,4 +24,6 @@ public class Product
     public ICollection<Genre>? Genres {get;set;}
 
     public ICollection<Review>? Reviews {get;set;}
+
+    public ICollection<Cart>? Carts {get;set;}
 }

@@ -4,6 +4,7 @@ export interface Cart {
     subtotal: number;
     discount: number;
     total: number;
+    shippingFee: number;
 }
 
 export interface CartItem {
@@ -17,7 +18,7 @@ export interface CartItem {
     productId: number;
 }
 
-export interface CartUpdate {
+export interface CartItemUpdate {
     productId: number;
     quantity: number;
 }

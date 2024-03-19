@@ -1,6 +1,6 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartCreate, CartUpdate } from "@/models/cart";
+import { Cart, CartCreate, CartItemUpdate } from "@/models/cart";
 import { Button } from "@nextui-org/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { useCookies } from "react-cookie";
@@ -30,7 +30,7 @@ export default function AddToCartButton({productId}: {productId: number}) {
             let quantity: number;
             if (!item) quantity = 1;
             else quantity = item.quantity + 1;
-            const payload: CartUpdate = {productId, quantity};
+            const payload: CartItemUpdate = {productId, quantity};
             fetch(`${API_URL}/carts`, {
                 method: "PUT",
                 credentials: "include",

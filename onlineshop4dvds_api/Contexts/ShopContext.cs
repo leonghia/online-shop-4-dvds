@@ -14,6 +14,12 @@ public class ShopContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<Cart>()
+            .HasMany(c => c.Products)
+            .WithMany(p => p.Carts)
+            .UsingEntity<CartProduct>();
+
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         

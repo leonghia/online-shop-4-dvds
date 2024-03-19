@@ -1,6 +1,6 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartUpdate } from "@/models/cart";
+import { Cart, CartItemUpdate } from "@/models/cart";
 import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 
@@ -11,7 +11,7 @@ export default function ShoppingCart() {
     const handleUpdate = (productId: number, quantity: number) => {
         if (quantity < 1) return;
 
-        const payload: CartUpdate = {
+        const payload: CartItemUpdate = {
             productId,
             quantity
         };
@@ -28,7 +28,7 @@ export default function ShoppingCart() {
     };
 
     const handleDrop = (productId: number) => {
-        const payload: CartUpdate = {
+        const payload: CartItemUpdate = {
             productId,
             quantity: 0
         };

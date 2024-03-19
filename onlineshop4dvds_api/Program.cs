@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
                       });
 });
 builder.Services.AddEndpointsApiExplorer();
@@ -105,6 +105,35 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Stock = product.Product.Stock
     };
     return Results.Ok(productToReturn);
+});
+
+app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) => {
+    var cart = await context.Carts
+                        .AsNoTracking()
+                        .Include(c => c.CartProducts)
+                        .ThenInclude(cp => cp.Product)
+                        .FirstOrDefaultAsync(c => c.Id == id);
+    if (cart is null) return Results.NotFound();
+    var subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList());
+    var cartToReturn = new CartDto
+    {
+        Id = cart.Id,
+        Items = cart.CartProducts.Select(cp => new CartItemDto
+        {
+            Type = cp.Product!.GenreType.ToStringType(),
+            Title = cp.Product.Title,
+            ThumbnailUrl = cp.Product.Thumbnail,
+            Price = cp.Product.Price,
+            Stock = cp.Product.Stock,
+            Quantity = cp.Quantity,
+            ProductId = cp.ProductId
+        }).ToList(),
+        Subtotal = subtotal,
+        Discount = cart.Discount,
+        ShippingFee = cart.ShippingFee,
+        Total = subtotal + cart.ShippingFee - cart.Discount
+    };
+    return Results.Ok(cartToReturn);
 });
 
 app.Run();
