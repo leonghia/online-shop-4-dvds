@@ -5,5 +5,7 @@ export interface Product {
     thumbnailUrl: string;
     description: string;
     genres: string[];
+    ratings: number;
+    numbersOfReviews: number;
 }
 

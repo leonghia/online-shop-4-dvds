@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/react";
 import { FaCartShopping } from "react-icons/fa6";
 import { useCookies } from "react-cookie";
 
-export default function AddToCart({productId}: {productId: number}) {
+export default function AddToCartButton({productId}: {productId: number}) {
     const cart = useCart();
     const cartDispatch = useCartDispatch();
     const [cookies, setCookie] = useCookies(['cartId']);

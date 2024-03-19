@@ -26,25 +26,44 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) => {
-    IQueryable<Product> query = context.Products;
+    IQueryable<Product> productQuery = context.Products;
     var predicate = PredicateBuilder.New<Product>(true);
     if (genreType is not null) predicate = predicate.And(p => p.GenreType == genreType);
     if (genreId is not null && genreId > 0) predicate = predicate.And(p => p.Genres!.Any(g => g.Id == genreId));
-    var products = await query
+    var products = await productQuery
                             .AsNoTracking()
                             .Where(predicate)
                             .Include(p => p.Genres)
+                            .GroupJoin(
+                                context.Reviews,
+                                product => product.Id,
+                                review => review.ProductId,
+                                (product, reviews) => new
+                                {
+                                    Product = product,
+                                    NumberOfReviews = reviews.Count(),
+                                    Ratings = reviews.Any() ? reviews.Select(r => (int)r.Ratings).Average() : 0
+                                })
+                            .Select(x => new
+                                {
+                                    x.Product,
+                                    x.NumberOfReviews,
+                                    x.Ratings
+                                })
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
-                            .ToListAsync();
-    var productsToReturn = products.Select(p => new ProductDto
+                            .ToListAsync();           
+
+    var productsToReturn = products.Select(i => new ProductDto
     {
-        Id = p.Id,
-        Title = p.Title,
-        ThumbnailUrl = p.Thumbnail,
-        Price = p.Price,
-        Genres = p.Genres!.Select(g => g.Name).ToList(),
-        Description = p.Description
+        Id = i.Product.Id,
+        Title = i.Product.Title,
+        ThumbnailUrl = i.Product.Thumbnail,
+        Ratings = Math.Round(i.Ratings, 2),
+        NumbersOfReviews = i.NumberOfReviews,
+        Price = i.Product.Price,
+        Genres = i.Product.Genres!.Select(g => g.Name).ToList(),
+        Description = i.Product.Description
     });
     return Results.Ok(productsToReturn);
 });
@@ -54,16 +73,24 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
     var product = await query
                             .AsNoTracking()
                             .Include(p => p.Genres)
-                            .FirstOrDefaultAsync(p => p.Id == id);
+                            .Select(p => new
+                                {
+                                    Product = p,
+                                    NumberOfReviews = p.Reviews!.Count,
+                                    Ratings = p.Reviews.Count > 0 ? p.Reviews.Select(r => (int)r.Ratings).Average() : 0
+                                })
+                            .FirstOrDefaultAsync(p => p.Product.Id == id);
     if (product is null) return Results.NotFound();
-    var productToReturn = new ProductDto
+    var productToReturn = new ProductDetailDto
     {
-        Id = product.Id,
-        Title = product.Title,
-        ThumbnailUrl = product.Thumbnail,
-        Price = product.Price,
-        Genres = product.Genres!.Select(g => g.Name).ToList(),
-        Description = product.Description
+        Id = product.Product.Id,
+        Title = product.Product.Title,
+        Price = product.Product.Price,
+        Description = product.Product.Description,
+        Genres = product.Product.Genres!.Select(g => g.Name).ToList(),
+        Ratings = Math.Round(product.Ratings, 2),
+        NumbersOfReviews = product.NumberOfReviews,
+        Stock = product.Product.Stock
     };
     return Results.Ok(productToReturn);
 });

@@ -22,4 +22,6 @@ public class Product
     public required decimal Price {get;set;}
 
     public ICollection<Genre>? Genres {get;set;}
+
+    public ICollection<Review>? Reviews {get;set;}
 }
