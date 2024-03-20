@@ -27,7 +27,7 @@ export default function PhoneNumberInput({ countries }: { countries: Country[] }
             >
                 {(country) => <AutocompleteItem key={country.code} textValue={country.name} startContent={<Avatar alt={country.name} className="w-5 h-5" src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`} />}>{country.name} <span className="text-default-500">{country.dial_code}</span></AutocompleteItem>}
             </Autocomplete>
-            <Input type="text" label="Phone number" placeholder="2345 678 901" isRequired labelPlacement="outside" className="basis-3/5" description="Fill your number without the dial code." />
+            <Input type="text" label="Phone number" placeholder="2345 678 901" isRequired labelPlacement="outside" className="basis-3/5" description="Fill your phone number without the dial code." />
         </>
     );
 }

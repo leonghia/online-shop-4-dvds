@@ -14,7 +14,7 @@ export default function PaymentMethods() {
 
     return (
         <>
-            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={handleMethodChange}>
+            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={handleMethodChange} isRequired>
                 <MethodRadio description="Pay with MoMo" value="momo" icon={<MoMo className="h-6" />}>
                     MoMo
                 </MethodRadio>

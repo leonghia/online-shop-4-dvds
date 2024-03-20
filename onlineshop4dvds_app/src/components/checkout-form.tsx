@@ -1,6 +1,6 @@
 import { Input, RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/react";
 import { cn, RadioProps, useRadio, VisuallyHidden } from "@nextui-org/react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import PaymentMethods from "./payment-methods";
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 import PhoneNumberInput from "./phone-number-input";
@@ -57,6 +57,13 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
 
 export default function CheckoutForm({user, countries}: {user: UserProfile, countries: Country[]}) {
 
+    useEffect(() => {
+        fetch("https://maps.googleapis.com/maps/api/place/autocomplete/json?input=8+tôn+thất+thuyết&components=country:vn&language=vi&location=21.02864452394866-105.85256876762162&radius=50000&key=AIzaSyBHmZSWjJa8X1cd3JKsAErDX3wD1ZyfBWw")
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err));
+    }, []);
+
     return (
         <form className="flex flex-col gap-8 py-8">
             <div className="flex flex-col gap-4">
@@ -87,7 +94,7 @@ export default function CheckoutForm({user, countries}: {user: UserProfile, coun
                 <Radio value="home" description="All Day Delivery">
                     Home
                 </Radio>
-                <Radio value="office" description="Delivery Between 9AM - 6PM">
+                <Radio value="office" description="Delivery Between 9AM - 5PM">
                     Office
                 </Radio>
             </RadioGroup>
