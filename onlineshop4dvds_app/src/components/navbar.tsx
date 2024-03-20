@@ -5,7 +5,8 @@ import {
     NavbarItem,
     Link,
     Button,
-    Badge
+    Badge,
+    Image
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell } from "react-icons/hi2";

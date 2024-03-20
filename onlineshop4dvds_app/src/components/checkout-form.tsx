@@ -3,6 +3,8 @@ import { cn, RadioProps, useRadio, VisuallyHidden } from "@nextui-org/react";
 import { ReactNode } from "react";
 import PaymentMethods from "./payment-methods";
 import { UserProfile } from '@auth0/nextjs-auth0/client';
+import PhoneNumberInput from "./phone-number-input";
+import { Country } from "@/utils/country";
 
 interface RadioPropsWithIcon extends RadioProps {
     icon: ReactNode;
@@ -53,7 +55,7 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
     );
 };
 
-export default function CheckoutForm({user}: {user: UserProfile}) {
+export default function CheckoutForm({user, countries}: {user: UserProfile, countries: Country[]}) {
 
     return (
         <form className="flex flex-col gap-8 py-8">
@@ -68,7 +70,9 @@ export default function CheckoutForm({user}: {user: UserProfile}) {
                 </div>                  
                 <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
                     <Input type="email" label="Email" isDisabled labelPlacement="outside" defaultValue={user.email || ""} />
-                    <Input type="text" label="Phone number" placeholder="+1 (555) 555-5555" isRequired labelPlacement="outside" />
+                </div>
+                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
+                    <PhoneNumberInput countries={countries} />
                 </div>
                 <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
                     <Input type="text" label="Address" placeholder="Lane 1, Street 1" isRequired labelPlacement="outside" />
