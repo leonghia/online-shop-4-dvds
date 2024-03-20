@@ -2,8 +2,20 @@ import CheckoutForm from "@/components/checkout-form";
 import PageLayout from "@/components/layouts/page-layout";
 import OrderSummary from "@/components/order-summary";
 import { Button } from "@nextui-org/react";
+import { Session, getSession } from '@auth0/nextjs-auth0';
+import { UserProfile } from "@auth0/nextjs-auth0/client";
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next/types";
 
-export default function CheckoutPage() {
+export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
+    // Fetch data from external API
+    const {user} = await getSession(context.req, context.res) as Session;
+    // Pass data to the page via props
+    return { props: { user } }
+  }) satisfies GetServerSideProps<{ user: UserProfile }>
+
+export default function CheckoutPage({
+    user,
+  }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     return (
         <PageLayout>
@@ -12,7 +24,7 @@ export default function CheckoutPage() {
                     <div className="w-full">
                         <div className="flex flex-col gap-1">
                             <h1 className="text-2xl font-extrabold">Checkout</h1>
-                            <CheckoutForm />
+                            <CheckoutForm user={user} />
                         </div>
 
                     </div>
