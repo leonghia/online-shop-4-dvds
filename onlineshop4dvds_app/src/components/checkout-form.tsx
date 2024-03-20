@@ -71,7 +71,7 @@ export default function CheckoutForm({user, countries}: {user: UserProfile, coun
                 <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
                     <Input type="email" label="Email" isDisabled labelPlacement="outside" defaultValue={user.email || ""} />
                 </div>
-                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
+                <div className="flex flex-wrap items-start gap-4 sm:flex-nowrap">
                     <PhoneNumberInput countries={countries} />
                 </div>
                 <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
