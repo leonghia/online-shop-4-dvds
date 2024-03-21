@@ -2,7 +2,7 @@ import { Input, RadioGroup, Image, RadioProps, useRadio, VisuallyHidden, cn } fr
 import { MoMo, Stripe } from "./icons/brands";
 import { ReactNode, useState } from "react";
 import { FaCreditCard } from "react-icons/fa6";
-import { PaymentMethod } from "@/utils/payment";
+import { PaymentMethodString } from "@/utils/payment";
 
 interface RadioPropsWithIcon extends RadioProps {
     icon: ReactNode;
@@ -56,22 +56,22 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
 export default function PaymentMethods({onChange}: {onChange: Function}) {
     const [isCardFormShown, setIsCardFormShown] = useState(false);
     
-    const handleMethodChange = (method: PaymentMethod): void => {
-        if (method === PaymentMethod.Stripe) setIsCardFormShown(true);
+    const handleMethodChange = (method: PaymentMethodString): void => {
+        if (method === PaymentMethodString.Stripe) setIsCardFormShown(true);
         else setIsCardFormShown(false);
         onChange(method);
     }
 
     return (
         <>
-            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={(value: string) => handleMethodChange(value as PaymentMethod)} isRequired>
-                <MethodRadio description="Pay with MoMo" value={PaymentMethod.MoMo} icon={<MoMo className="h-6" />}>
+            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={(value: string) => handleMethodChange(value as PaymentMethodString)} isRequired>
+                <MethodRadio description="Pay with MoMo" value={PaymentMethodString.MoMo} icon={<MoMo className="h-6" />}>
                     MoMo
                 </MethodRadio>
-                <MethodRadio description="Pay with VNPAY" value={PaymentMethod.VNPAY} icon={<Image src="https://i.ibb.co/0rV11HV/vnpay-qr-logo.png" className="h-6" removeWrapper alt="VNPAY logo" radius="none" />}>
+                <MethodRadio description="Pay with VNPAY" value={PaymentMethodString.VNPAY} icon={<Image src="https://i.ibb.co/0rV11HV/vnpay-qr-logo.png" className="h-6" removeWrapper alt="VNPAY logo" radius="none" />}>
                     VNPAY
                 </MethodRadio>
-                <MethodRadio description="Pay with Stripe" value={PaymentMethod.Stripe} icon={<Stripe className="h-5" />}>
+                <MethodRadio description="Pay with Stripe" value={PaymentMethodString.Stripe} icon={<Stripe className="h-5" />}>
                     Stripe
                 </MethodRadio>
             </RadioGroup>

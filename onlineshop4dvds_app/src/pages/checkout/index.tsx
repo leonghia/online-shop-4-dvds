@@ -7,7 +7,7 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { promises as fs } from 'fs';
 import { Country } from "@/utils/country";
 import { useState } from "react";
-import { PaymentMethod } from "@/utils/payment";
+import { PaymentMethodString } from "@/utils/payment";
 import { createHmac } from "crypto";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
@@ -38,12 +38,12 @@ export default function CheckoutPage({
     countries,
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethodString | null>(null);
 
-    const handleChangePaymentMethod = (method: PaymentMethod) => setPaymentMethod(method);
+    const handleChangePaymentMethod = (method: PaymentMethodString) => setPaymentMethod(method);
 
     const handlePay = async (amount: number) => {
-        if (paymentMethod === PaymentMethod.MoMo) {
+        if (paymentMethod === PaymentMethodString.MoMo) {
             await handleMomoPay(2000);
         }
     };
