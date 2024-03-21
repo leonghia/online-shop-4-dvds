@@ -73,7 +73,7 @@ export default function OrderSummary() {
                     />
                     <div className="flex justify-between">
                         <dt className="text-small font-semibold text-default-500">Total</dt>
-                        <dd className="text-small font-semibold text-pink-500">N/A</dd>
+                        <dd className="text-small font-semibold text-pink-500">${cart?.subtotal.toFixed(2)}</dd>
                     </div>
                 </dl>
             </div>
