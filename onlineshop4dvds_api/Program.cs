@@ -226,21 +226,42 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
     return Results.Ok(cartToReturn);
 });
 
-// app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) => {
-//     // Create user if he does not exist based on UserSub
-//     var user = await context.Users
-//                         .AsNoTracking()
-//                         .FirstOrDefaultAsync(u => u.Sub == orderCreateDto.UserSub);
-//     if (user is null)
-//     {
-//         var userToCreate = new User
-//         {
-//             Sub = orderCreateDto.UserSub,
-//         };
-//     }
-//     // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
-
-//     // Return the orderDetailDto
-// });
+app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) => {
+    // Create user if he does not exist based on UserSub
+    var user = await context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.Sub == orderCreateDto.UserSub);
+    int userId;
+    if (user is null)
+    {
+        var userToCreate = new User{Sub = orderCreateDto.UserSub};
+        context.Users.Add(userToCreate);
+        await context.SaveChangesAsync();
+        userId = userToCreate.Id;
+    }
+    else
+    {
+        userId = user.Id;
+    }
+    // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
+    var cart = await context.Carts
+                        .AsNoTracking()
+                        .Include(c => c.CartProducts)
+                        .FirstOrDefaultAsync(c => c.Id == orderCreateDto.CartId);
+    if (cart is null) return Results.NotFound();
+    var orderToCreate = new Order
+    {
+        OrderId = orderCreateDto.OrderId,
+        Status = OrderStatus.Processing,
+        Subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList()),
+        ShippingFee = orderCreateDto.ShippingFee,
+        UserId = userId,
+        PaymentMethod = orderCreateDto.PaymentMethod
+    };
+    context.Orders.Add(orderToCreate);
+    await context.SaveChangesAsync();
+    // Return the orderDetailDto
+    
+});
 
 app.Run();
