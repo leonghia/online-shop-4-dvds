@@ -20,6 +20,11 @@ public class ShopContext : DbContext
             .WithMany(p => p.Carts)
             .UsingEntity<CartProduct>();
 
+        modelBuilder.Entity<Order>()
+            .HasMany(o => o.Products)
+            .WithMany(p => p.Orders)
+            .UsingEntity<OrderProduct>();
+
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         
@@ -60,4 +65,5 @@ public class ShopContext : DbContext
     public DbSet<Review> Reviews {get;set;}
     public DbSet<CartProduct> CartProduct {get;set;}
     public DbSet<Order> Orders {get;set;}
+    public DbSet<OrderProduct> OrderProduct {get;set;}
 }

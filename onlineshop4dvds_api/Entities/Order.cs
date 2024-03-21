@@ -22,4 +22,7 @@ public class Order
     [ForeignKey(nameof(User))]
     public required int UserId {get;set;}
     public User? User {get;set;}
+
+    public ICollection<Product>? Products {get;set;}
+    public ICollection<OrderProduct>? OrderProducts {get;set;}
 }
