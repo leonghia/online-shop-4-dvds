@@ -226,4 +226,21 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
     return Results.Ok(cartToReturn);
 });
 
+// app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) => {
+//     // Create user if he does not exist based on UserSub
+//     var user = await context.Users
+//                         .AsNoTracking()
+//                         .FirstOrDefaultAsync(u => u.Sub == orderCreateDto.UserSub);
+//     if (user is null)
+//     {
+//         var userToCreate = new User
+//         {
+//             Sub = orderCreateDto.UserSub,
+//         };
+//     }
+//     // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
+
+//     // Return the orderDetailDto
+// });
+
 app.Run();
