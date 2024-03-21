@@ -5,19 +5,20 @@ import {
     NavbarItem,
     Link,
     Button,
-    Badge
+    Badge,
+    Image
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell } from "react-icons/hi2";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
-import { ReactNode, useEffect } from "react";
 import { API_URL } from "@/config";
 import { Cart } from "@/models/cart";
-import { UserProfile, useUser } from '@auth0/nextjs-auth0/client';
 import { Avatar } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa6";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User } from "@nextui-org/react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { useEffect } from "react";
 
 export default function MyNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
@@ -39,7 +40,6 @@ export default function MyNavbar() {
     }, []);
 
     if (user) {
-        console.log(user);
         return (
             <Navbar height="54px" classNames={{
                 base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",

@@ -126,7 +126,7 @@ export default function ShoppingCart() {
                                             Subtotal
                                         </dt>
                                         <dd className="text-medium font-semibold text-pink-500">
-                                            ${initialCart?.subtotal}
+                                            ${initialCart?.subtotal.toFixed(2)}
                                         </dd>
                                     </div>
                                 </dl>

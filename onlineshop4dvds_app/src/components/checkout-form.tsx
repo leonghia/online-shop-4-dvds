@@ -2,7 +2,10 @@ import { Input, RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/r
 import { cn, RadioProps, useRadio, VisuallyHidden } from "@nextui-org/react";
 import { ReactNode } from "react";
 import PaymentMethods from "./payment-methods";
-
+import { UserProfile } from '@auth0/nextjs-auth0/client';
+import PhoneNumberInput from "./phone-number-input";
+import { Country } from "@/utils/country";
+import PlaceSearchAutocomplete from "./place-search-autocomplete";
 
 interface RadioPropsWithIcon extends RadioProps {
     icon: ReactNode;
@@ -53,8 +56,7 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
     );
 };
 
-export default function CheckoutForm() {
-    
+export default function CheckoutForm({user, countries}: {user: UserProfile, countries: Country[]}) {
 
     return (
         <form className="flex flex-col gap-8 py-8">
@@ -62,22 +64,18 @@ export default function CheckoutForm() {
                 <span className="relative text-foreground-500">
                     Shipping Information
                 </span>
-
                 <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
-                    <Input type="text" label="First name" placeholder="Enter your first name" isRequired labelPlacement="outside" />
-                    <Input type="text" label="Last name" placeholder="Enter your last name" isRequired labelPlacement="outside" />
+                    <Input type="text" label="First name" isDisabled labelPlacement="outside" defaultValue={user.name?.split(" ")[0]} />
+                    <Input type="text" label="Last name" isDisabled labelPlacement="outside" defaultValue={user.name?.split(" ")[1]} />
+                </div>                  
+                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
+                    <Input type="email" label="Email" isDisabled labelPlacement="outside" defaultValue={user.email || ""} />
                 </div>
-                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
-                    <Input type="text" label="Address" placeholder="Lane 1, Street 1" isRequired labelPlacement="outside" />
-                    <Input type="text" label="Apt, suite, etc." placeholder="Apartment, studio, or floor" labelPlacement="outside" />
+                <div className="flex flex-wrap items-start gap-4 sm:flex-nowrap">
+                    <PhoneNumberInput countries={countries} />
                 </div>
-                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
-                    <Input type="text" label="City" placeholder="Enter your city" isRequired labelPlacement="outside" />
-                    <Input type="text" label="Country" placeholder="Select country" isRequired labelPlacement="outside" />
-                </div>
-                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
-                    <Input type="text" label="Postal code" placeholder="12345" isRequired labelPlacement="outside" />
-                    <Input type="text" label="Phone number" placeholder="+1 (555) 555-5555" isRequired labelPlacement="outside" />
+                <div className="flex flex-wrap items-center sm:flex-nowrap">
+                    <PlaceSearchAutocomplete />
                 </div>
             </div>
             <RadioGroup
@@ -89,7 +87,7 @@ export default function CheckoutForm() {
                 <Radio value="home" description="All Day Delivery">
                     Home
                 </Radio>
-                <Radio value="office" description="Delivery Between 9AM - 6PM">
+                <Radio value="office" description="Delivery Between 9AM - 5PM">
                     Office
                 </Radio>
             </RadioGroup>
