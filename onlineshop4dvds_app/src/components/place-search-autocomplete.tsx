@@ -6,7 +6,7 @@ import { Input } from "@nextui-org/react";
 
 // const latLngBounds = new LatLngBounds({lat: 21, lng: 105});
 
-export default function PlaceSearchAutocomplete() {
+export default function PlaceSearchAutocomplete({apiKey}: {apiKey: string}) {
     const [value, setValue] = useState<string>("");
     const inputRef = useRef() as any;
 
@@ -26,7 +26,7 @@ export default function PlaceSearchAutocomplete() {
 
     return (
         <LoadScript
-            googleMapsApiKey="AIzaSyBHmZSWjJa8X1cd3JKsAErDX3wD1ZyfBWw"
+            googleMapsApiKey={apiKey}
             libraries={["places"]}
             language="vi"
         >

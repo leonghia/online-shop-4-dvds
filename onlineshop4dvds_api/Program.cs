@@ -8,8 +8,6 @@ using OnlineShop4DVDS.Utils;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 var DefaultQuantity = 1;
-var DefaultDiscount = 0;
-var DefaultShippingFee = 0;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -132,10 +130,7 @@ app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) => 
             Quantity = cp.Quantity,
             ProductId = cp.ProductId
         }).ToList(),
-        Subtotal = subtotal,
-        Discount = cart.Discount,
-        ShippingFee = cart.ShippingFee,
-        Total = subtotal + cart.ShippingFee - cart.Discount
+        Subtotal = subtotal
     };
     return Results.Ok(cartToReturn);
 });
@@ -144,11 +139,7 @@ app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopCont
     var product = await context.Products.FindAsync(cartCreateDto.ProductId);
     if (product is null) return Results.NotFound();
 
-    var cartToCreate = new Cart
-    {
-        Discount = DefaultDiscount,
-        ShippingFee = DefaultShippingFee,
-    };
+    var cartToCreate = new Cart();
     context.Carts.Add(cartToCreate);
     await context.SaveChangesAsync();
     var cartProductToCreate = new CartProduct
@@ -178,9 +169,6 @@ app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopCont
             }
         },
         Subtotal = subtotal,
-        Discount = cartToCreate.Discount,
-        ShippingFee = cartToCreate.ShippingFee,
-        Total = subtotal + cartToCreate.ShippingFee - cartToCreate.Discount
     };
     return Results.Created($"/cart/{cartToCreate.Id}", cartToReturn);
 });
@@ -233,10 +221,7 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
             Quantity = cp.Quantity,
             ProductId = cp.ProductId
         }).ToList(),
-        Subtotal = subtotal,
-        Discount = cart.Discount,
-        ShippingFee = cart.ShippingFee,
-        Total = subtotal + cart.ShippingFee - cart.Discount
+        Subtotal = subtotal
     };
     return Results.Ok(cartToReturn);
 });

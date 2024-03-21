@@ -2,9 +2,6 @@ export interface Cart {
     id: number;
     items: CartItem[];
     subtotal: number;
-    discount: number;
-    total: number;
-    shippingFee: number;
 }
 
 export interface CartItem {

@@ -10,7 +10,4 @@ public class Cart
 
     public ICollection<Product> Products {get;set;} = [];
     public ICollection<CartProduct> CartProducts { get; set; } = [];
-
-    public required decimal Discount {get;set;}
-    public required decimal ShippingFee {get;set;}
 }

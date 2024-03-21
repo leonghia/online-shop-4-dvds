@@ -56,7 +56,7 @@ export const MethodRadio = (props: RadioPropsWithIcon) => {
     );
 };
 
-export default function CheckoutForm({user, countries}: {user: UserProfile, countries: Country[]}) {
+export default function CheckoutForm({user, countries, googleMapsApiKey}: {user: UserProfile, countries: Country[], googleMapsApiKey: string}) {
 
     return (
         <form className="flex flex-col gap-8 py-8">
@@ -75,7 +75,7 @@ export default function CheckoutForm({user, countries}: {user: UserProfile, coun
                     <PhoneNumberInput countries={countries} />
                 </div>
                 <div className="flex flex-wrap items-center sm:flex-nowrap">
-                    <PlaceSearchAutocomplete />
+                    <PlaceSearchAutocomplete apiKey={googleMapsApiKey} />
                 </div>
             </div>
             <RadioGroup

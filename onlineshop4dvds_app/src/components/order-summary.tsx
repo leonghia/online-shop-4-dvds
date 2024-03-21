@@ -1,8 +1,10 @@
 import { useCart } from "@/contexts/cart-context";
 import { Button, Input, Image } from "@nextui-org/react";
+import { useState } from "react";
 
 export default function OrderSummary() {
     const cart = useCart();
+    const [discount, setDiscount] = useState(0);
 
     return (
         <div>
@@ -59,11 +61,11 @@ export default function OrderSummary() {
                     </div>
                     <div className="flex justify-between">
                         <dt className="text-small text-default-500">Shipping</dt>
-                        <dd className="text-small font-semibold text-default-700">$0.00</dd>
+                        <dd className="text-small font-semibold text-default-700">N/A</dd>
                     </div>
                     <div className="flex justify-between">
                         <dt className="text-small text-default-500">Discount</dt>
-                        <dd className="text-small font-semibold text-default-700"> - ${cart?.discount}</dd>
+                        <dd className="text-small font-semibold text-default-700">${discount || 0.00.toFixed(2)}</dd>
                     </div>
                     <hr
                         className="shrink-0 bg-divider border-none w-full h-divider"
@@ -71,9 +73,7 @@ export default function OrderSummary() {
                     />
                     <div className="flex justify-between">
                         <dt className="text-small font-semibold text-default-500">Total</dt>
-                        <dd className="text-small font-semibold text-pink-500">
-                            ${cart?.total.toFixed(2)}
-                        </dd>
+                        <dd className="text-small font-semibold text-pink-500">${cart?.subtotal.toFixed(2)}</dd>
                     </div>
                 </dl>
             </div>
