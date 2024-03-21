@@ -26,9 +26,9 @@ const accessKey = 'F8BBA842ECF85';
 const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
 const orderInfo = 'OnlineShop4DVDS - Pay with MoMo';
 const partnerCode = 'MOMO';
-const redirectUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
-const ipnUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
 const orderId = partnerCode + new Date().getTime();
+const redirectUrl = 'http://localhost:3000/checkout/success?orderId=' + orderId;
+const ipnUrl = redirectUrl;
 const requestId = orderId;
 const extraData = '';
 const requestType = "captureWallet";
@@ -44,7 +44,7 @@ export default function CheckoutPage({
 
     const handlePay = async (amount: number) => {
         if (paymentMethod === PaymentMethod.MoMo) {
-            await handleMomoPay(50000);
+            await handleMomoPay(2000);
         }
     };
 
@@ -72,15 +72,11 @@ export default function CheckoutPage({
             requestId +
             "&requestType=" +
             requestType;
-        //puts raw signature
-        console.log("--------------------RAW SIGNATURE----------------")
-        console.log(rawSignature)
+        
         //signature
         const signature = createHmac('sha256', secretKey)
             .update(rawSignature)
             .digest('hex');
-        console.log("--------------------SIGNATURE----------------")
-        console.log(signature)
 
         //json object send to MoMo endpoint
         const requestBody = JSON.stringify({
