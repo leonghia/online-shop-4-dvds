@@ -252,7 +252,7 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     var orderToCreate = new Order
     {
         OrderId = orderCreateDto.OrderId,
-        Status = OrderStatus.Processing,
+        Status = OrderStatus.AwaitingPayment,
         Subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList()),
         ShippingFee = orderCreateDto.ShippingFee,
         UserId = userId,
@@ -296,6 +296,18 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
         Items = items
     };
     return Results.Created($"/order/{orderToCreate.Id}", orderToReturn);
+});
+
+app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) => {
+    var order = await context.Orders
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(o => o.OrderId == id);
+    if (order is null) return Results.NotFound();
+
+    order.Status = OrderStatus.Pending;
+    context.Orders.Update(order);
+    await context.SaveChangesAsync();
+    return Results.NoContent();
 });
 
 app.Run();
