@@ -9,17 +9,19 @@ import { promises as fs } from 'fs';
 import { Country } from "@/utils/country";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
+    const googleMapsApiKey = process.env.GG_MAPS_API_KEY;
     // Fetch data from external API
     const {user} = await getSession(context.req, context.res) as Session;
     const file = await fs.readFile(process.cwd() + "/countries.json", "utf-8");
     const countries: Country[] = await JSON.parse(file);
     // Pass data to the page via props
-    return { props: { user, countries } }
+    return { props: { user, countries, googleMapsApiKey } }
   }) satisfies GetServerSideProps<{ user: UserProfile }>
 
 export default function CheckoutPage({
     user,
-    countries
+    countries,
+    googleMapsApiKey
   }: InferGetServerSidePropsType<typeof getServerSideProps>) {
 
     return (
@@ -29,7 +31,7 @@ export default function CheckoutPage({
                     <div className="w-full">
                         <div className="flex flex-col gap-1">
                             <h1 className="text-2xl font-extrabold">Checkout</h1>
-                            <CheckoutForm user={user} countries={countries} />
+                            <CheckoutForm user={user} countries={countries} googleMapsApiKey={googleMapsApiKey!} />
                         </div>
                     </div>
                     <div className="w-full rounded-medium bg-content2 px-2 py-4 dark:bg-content1 md:px-6 md:py-8 lg:w-[340px] lg:flex-none">
