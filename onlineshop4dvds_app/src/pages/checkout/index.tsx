@@ -21,25 +21,17 @@ export const getServerSideProps = (async (context: GetServerSidePropsContext) =>
 }) satisfies GetServerSideProps<{ user: UserProfile }>;
 
 
-const partnerCode = "MOMO";
-const accessKey = "F8BBA842ECF85";
-const secretkey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
-// chuỗi ngẫu nhiên để phân biệt cái request
-const requestId = partnerCode + new Date().getTime() + "id";
-// mã đặt đơn
-const orderId = new Date().getTime() + ":0123456778";
-//
-const orderInfo = "Thanh toán qua ví MoMo";
-// cung cấp họ về một cái pages sau khi thanh toán sẽ trở về trang nớ
-const redirectUrl = "https://clever-tartufo-c324cd.netlify.app/pages/home.html";
-// Trang thank you
-const ipnUrl = "https://clever-tartufo-c324cd.netlify.app/pages/home.html";
-// const ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
-// số tiền
-// const requestType = "payWithATM";
-// show cái thông tin thẻ, cái dưới quét mã, cái trên điền form
+//parameters
+const accessKey = 'F8BBA842ECF85';
+const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
+const orderInfo = 'OnlineShop4DVDS - Pay with MoMo';
+const partnerCode = 'MOMO';
+const redirectUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
+const ipnUrl = 'https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b';
+const orderId = partnerCode + new Date().getTime();
+const requestId = orderId;
+const extraData = '';
 const requestType = "captureWallet";
-const extraData = ""; //pass empty value if your merchant does not have stores
 
 export default function CheckoutPage({
     user,
@@ -63,7 +55,7 @@ export default function CheckoutPage({
             "accessKey=" +
             accessKey +
             "&amount=" +
-            amount.toString() +
+            amount +
             "&extraData=" +
             extraData +
             "&ipnUrl=" +
@@ -81,21 +73,30 @@ export default function CheckoutPage({
             "&requestType=" +
             requestType;
         //puts raw signature
+        console.log("--------------------RAW SIGNATURE----------------")
+        console.log(rawSignature)
         //signature
-        const signature = createHmac('sha256', secretkey).update(rawSignature).digest('hex');
+        const signature = createHmac('sha256', secretKey)
+            .update(rawSignature)
+            .digest('hex');
+        console.log("--------------------SIGNATURE----------------")
+        console.log(signature)
+
+        //json object send to MoMo endpoint
         const requestBody = JSON.stringify({
-            partnerCode,
-            partnerName: "Test",
-            storeId: "MomoTestStore",
-            requestId,
-            amount: amount.toString(),
-            orderId,
-            orderInfo,
-            redirectUrl,
-            ipnUrl,
-            extraData,
-            signature
-        });
+            partnerCode: partnerCode,
+            accessKey: accessKey,
+            requestId: requestId,
+            amount: amount,
+            orderId: orderId,
+            orderInfo: orderInfo,
+            redirectUrl: redirectUrl,
+            ipnUrl: ipnUrl,
+            extraData: extraData,
+            requestType: requestType,
+            signature: signature,
+            lang: "en",
+          });
 
         try {
             const res = await fetch("/api/checkout/momo", {
