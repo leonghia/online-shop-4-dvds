@@ -5,6 +5,7 @@ import PaymentMethods from "./payment-methods";
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 import PhoneNumberInput from "./phone-number-input";
 import { Country } from "@/utils/country";
+import PlaceSearchAutocomplete from "./place-search-autocomplete";
 
 interface RadioPropsWithIcon extends RadioProps {
     icon: ReactNode;
@@ -73,8 +74,8 @@ export default function CheckoutForm({user, countries}: {user: UserProfile, coun
                 <div className="flex flex-wrap items-start gap-4 sm:flex-nowrap">
                     <PhoneNumberInput countries={countries} />
                 </div>
-                <div className="flex flex-wrap items-center gap-4 sm:flex-nowrap">
-                    <Input type="text" label="Address" placeholder="Lane 1, Street 1" isRequired labelPlacement="outside" />
+                <div className="flex flex-wrap items-center sm:flex-nowrap">
+                    <PlaceSearchAutocomplete />
                 </div>
             </div>
             <RadioGroup
