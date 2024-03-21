@@ -2,9 +2,9 @@ import ScrollingBanner from "@/components/scrolling-banner";
 import HomeLayout from "@/components/layouts/home-layout";
 import ProductsGrid from "@/components/product/products-grid";
 import { API_URL } from "@/config";
-import { GenreType } from "@/utils/genre-type";
+import { GenreType } from "@/utils/genre";
 import { Product } from "@/models/product";
-import { GetStaticProps, InferGetServerSidePropsType, InferGetStaticPropsType } from "next";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
 
 export const getStaticProps = (async () => {
   // Fetch data from external API
