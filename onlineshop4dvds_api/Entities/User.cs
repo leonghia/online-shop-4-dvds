@@ -15,4 +15,5 @@ public class User
 
     public required string Avatar {get;set;}
 
+    public ICollection<Order>? Orders {get;set;}
 }

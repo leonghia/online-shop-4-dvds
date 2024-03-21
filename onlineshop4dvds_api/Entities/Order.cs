@@ -18,4 +18,8 @@ public class Order
     public required decimal Subtotal {get;set;}
     public required decimal ShippingFee {get;set;}
     public decimal? Discount {get;set;}
+
+    [ForeignKey(nameof(User))]
+    public required int UserId {get;set;}
+    public User? User {get;set;}
 }
