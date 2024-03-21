@@ -260,8 +260,42 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     };
     context.Orders.Add(orderToCreate);
     await context.SaveChangesAsync();
+    var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
+    {
+        Quantity = cp.Quantity,
+        ProductId = cp.ProductId,
+        OrderId = orderToCreate.Id
+    });
+    context.OrderProduct.AddRange(orderProductsToCreate);
+    await context.SaveChangesAsync();
     // Return the orderDetailDto
-    
+    var orderProducts = await context.OrderProduct
+                        .AsNoTracking()
+                        .Include(op => op.Product)
+                        .Where(op => op.OrderId == orderToCreate.Id)
+                        .ToListAsync();
+    var items = orderProducts.Select(op => new OrderItemDto
+    {
+        Type = op.Product!.GenreType.ToStringType(),
+        Title = op.Product.Title,
+        ThumbnailUrl = op.Product.Thumbnail,
+        Quantity = op.Quantity,
+        ProductId = op.ProductId,
+        Price = op.Product.Price
+    }).ToList();
+    var orderToReturn = new OrderDto
+    {
+        Id = orderToCreate.Id,
+        CreatedAt = orderToCreate.CreatedAt,
+        OrderId = orderToCreate.OrderId,
+        Status = orderToCreate.Status.ToString(),
+        Subtotal = orderToCreate.Subtotal,
+        ShippingFee = orderToCreate.ShippingFee,
+        Discount = orderToCreate.Discount ??= 0,
+        PaymentMethod = orderToCreate.PaymentMethod.ToString(),
+        Items = items
+    };
+    return Results.Created($"/order/{orderToCreate.Id}", orderToReturn);
 });
 
 app.Run();
