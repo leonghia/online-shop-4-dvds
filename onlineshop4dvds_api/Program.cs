@@ -226,4 +226,118 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
     return Results.Ok(cartToReturn);
 });
 
+app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) => {
+    // Create user if he does not exist based on UserSub
+    var user = await context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.Sub == orderCreateDto.UserSub);
+    int userId;
+    if (user is null)
+    {
+        var userToCreate = new User{Sub = orderCreateDto.UserSub};
+        context.Users.Add(userToCreate);
+        await context.SaveChangesAsync();
+        userId = userToCreate.Id;
+    }
+    else
+    {
+        userId = user.Id;
+    }
+    // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
+    var cart = await context.Carts
+                        .AsNoTracking()
+                        .Include(c => c.CartProducts)
+                        .ThenInclude(cp => cp.Product)
+                        .FirstOrDefaultAsync(c => c.Id == orderCreateDto.CartId);
+    if (cart is null) return Results.NotFound();
+    var orderToCreate = new Order
+    {
+        OrderId = orderCreateDto.OrderId,
+        Status = OrderStatus.AwaitingPayment,
+        Subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList()),
+        ShippingFee = orderCreateDto.ShippingFee,
+        UserId = userId,
+        PaymentMethod = orderCreateDto.PaymentMethod
+    };
+    context.Orders.Add(orderToCreate);
+    await context.SaveChangesAsync();
+    var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
+    {
+        Quantity = cp.Quantity,
+        ProductId = cp.ProductId,
+        OrderId = orderToCreate.Id
+    });
+    context.OrderProduct.AddRange(orderProductsToCreate);
+    await context.SaveChangesAsync();
+
+    // Return the orderDetailDto
+    // var orderProducts = await context.OrderProduct
+    //                     .AsNoTracking()
+    //                     .Include(op => op.Product)
+    //                     .Where(op => op.OrderId == orderToCreate.Id)
+    //                     .ToListAsync();
+    // var items = orderProducts.Select(op => new OrderItemDto
+    // {
+    //     Type = op.Product!.GenreType.ToStringType(),
+    //     Title = op.Product.Title,
+    //     ThumbnailUrl = op.Product.Thumbnail,
+    //     Quantity = op.Quantity,
+    //     ProductId = op.ProductId,
+    //     Price = op.Product.Price
+    // }).ToList();
+    // var orderToReturn = new OrderDto
+    // {
+    //     Id = orderToCreate.Id,
+    //     CreatedAt = orderToCreate.CreatedAt,
+    //     OrderId = orderToCreate.OrderId,
+    //     Status = orderToCreate.Status.ToString(),
+    //     Subtotal = orderToCreate.Subtotal,
+    //     ShippingFee = orderToCreate.ShippingFee,
+    //     Discount = orderToCreate.Discount ??= 0,
+    //     PaymentMethod = orderToCreate.PaymentMethod.ToString(),
+    //     Items = items
+    // };
+    // return Results.Created($"/order/{orderToCreate.Id}", orderToReturn);
+
+    return Results.Accepted();
+});
+
+app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) => {
+    var order = await context.Orders
+                        .AsNoTracking()
+                        .Include(o => o.OrderProducts!)
+                        .ThenInclude(op => op.Product)
+                        .FirstOrDefaultAsync(o => o.OrderId == id);
+    if (order is null) return Results.NotFound();
+
+    order.Status = OrderStatus.Pending;
+    context.Orders.Update(order);
+    await context.SaveChangesAsync();
+    
+    var items = order.OrderProducts!.Select(op => new OrderItemDto
+    {
+        Type = op.Product!.GenreType.ToStringType(),
+        Title = op.Product.Title,
+        ThumbnailUrl = op.Product.Thumbnail,
+        Quantity = op.Quantity,
+        ProductId = op.ProductId,
+        Price = op.Product.Price
+    }).ToList();
+
+    var orderToReturn = new OrderDto
+    {
+        Id = order.Id,
+        OrderId = order.OrderId,
+        CreatedAt = order.CreatedAt,
+        Status = order.Status.ToString(),
+        Subtotal = order.Subtotal,
+        ShippingFee = order.ShippingFee,
+        Discount = order.Discount ??= 0,
+        PaymentMethod = order.PaymentMethod.ToString(),
+        Items = items
+    };
+
+    return Results.Ok(orderToReturn);
+});
+
 app.Run();

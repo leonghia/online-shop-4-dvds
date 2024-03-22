@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { StandaloneSearchBox, LoadScript } from "@react-google-maps/api";
+import { StandaloneSearchBox, LoadScript, Libraries } from "@react-google-maps/api";
 import { Input } from "@nextui-org/react";
 
 // const {LatLngBounds} = await google.maps.importLibrary("core") as any;
@@ -9,6 +9,7 @@ import { Input } from "@nextui-org/react";
 export default function PlaceSearchAutocomplete({apiKey}: {apiKey: string}) {
     const [value, setValue] = useState<string>("");
     const inputRef = useRef() as any;
+    const [ libraries ] = useState<Libraries>(['places']);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setValue(event.target.value);
@@ -27,7 +28,7 @@ export default function PlaceSearchAutocomplete({apiKey}: {apiKey: string}) {
     return (
         <LoadScript
             googleMapsApiKey={apiKey}
-            libraries={["places"]}
+            libraries={libraries}
             language="vi"
         >
             <div className="w-full">

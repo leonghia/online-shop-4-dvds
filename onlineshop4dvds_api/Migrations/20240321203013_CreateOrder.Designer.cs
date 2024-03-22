@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineShop4DVDS.Contexts;
@@ -11,9 +12,11 @@ using OnlineShop4DVDS.Contexts;
 namespace OnlineShop4DVDS.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240321203013_CreateOrder")]
+    partial class CreateOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -469,9 +472,6 @@ namespace OnlineShop4DVDS.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("integer");
-
                     b.Property<decimal>("ShippingFee")
                         .HasColumnType("numeric");
 
@@ -481,32 +481,9 @@ namespace OnlineShop4DVDS.Migrations
                     b.Property<decimal>("Subtotal")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.OrderProduct", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.HasKey("OrderId", "ProductId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("OrderProduct");
                 });
 
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Product", b =>
@@ -706,7 +683,19 @@ namespace OnlineShop4DVDS.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Avatar")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Sub")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -747,34 +736,6 @@ namespace OnlineShop4DVDS.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.Order", b =>
-                {
-                    b.HasOne("OnlineShop4DVDS.Entities.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.OrderProduct", b =>
-                {
-                    b.HasOne("OnlineShop4DVDS.Entities.Order", null)
-                        .WithMany("OrderProducts")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("OnlineShop4DVDS.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Review", b =>
                 {
                     b.HasOne("OnlineShop4DVDS.Entities.Product", "Product")
@@ -799,19 +760,9 @@ namespace OnlineShop4DVDS.Migrations
                     b.Navigation("CartProducts");
                 });
 
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.Order", b =>
-                {
-                    b.Navigation("OrderProducts");
-                });
-
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Product", b =>
                 {
                     b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("OnlineShop4DVDS.Entities.User", b =>
-                {
-                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }

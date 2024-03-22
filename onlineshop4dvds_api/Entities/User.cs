@@ -9,10 +9,5 @@ public class User
 
     public required string Sub {get;set;}
 
-    public required string FullName {get;set;}
-
-    public required string Username {get;set;}
-
-    public required string Avatar {get;set;}
-
+    public ICollection<Order>? Orders {get;set;}
 }

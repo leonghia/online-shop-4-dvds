@@ -1,62 +1,11 @@
 import { Input, RadioGroup, Radio, CheckboxGroup, Checkbox } from "@nextui-org/react";
-import { cn, RadioProps, useRadio, VisuallyHidden } from "@nextui-org/react";
-import { ReactNode } from "react";
 import PaymentMethods from "./payment-methods";
 import { UserProfile } from '@auth0/nextjs-auth0/client';
 import PhoneNumberInput from "./phone-number-input";
 import { Country } from "@/utils/country";
 import PlaceSearchAutocomplete from "./place-search-autocomplete";
 
-interface RadioPropsWithIcon extends RadioProps {
-    icon: ReactNode;
-}
-
-export const MethodRadio = (props: RadioPropsWithIcon) => {
-    const {
-        Component,
-        children,
-        isSelected,
-        description,
-        getBaseProps,
-        getWrapperProps,
-        getInputProps,
-        getLabelProps,
-        getLabelWrapperProps,
-        getControlProps,
-    } = useRadio(props);
-
-    return (
-        <Component
-            {...getBaseProps()}
-            className={cn(
-                "group inline-flex items-center hover:opacity-70 active:opacity-50 justify-between flex-row-reverse tap-highlight-transparent",
-                "max-w-[300px] cursor-pointer !border-medium border-default-100 rounded-lg gap-4 p-4 bg-content2 dark:bg-content1",
-                "data-[selected=true]:border-primary",
-            )}
-        >
-            <VisuallyHidden>
-                <input {...getInputProps()} />
-            </VisuallyHidden>
-            <span {...getWrapperProps()}>
-                <span {...getControlProps()} />
-            </span>
-            <div className="flex w-full items-center gap-2">
-                <div className="item-center flex rounded-small p-1">
-                    {props.icon}
-                </div>
-                <div {...getLabelWrapperProps()} className="flex flex-col gap-1">
-                    {children && <span {...getLabelProps()} className="text-small">{children}</span>}
-                    {description && (
-                        <span className="text-tiny text-default-400">{description}</span>
-                    )}
-                </div>
-            </div>
-
-        </Component>
-    );
-};
-
-export default function CheckoutForm({user, countries, googleMapsApiKey}: {user: UserProfile, countries: Country[], googleMapsApiKey: string}) {
+export default function CheckoutForm({user, countries, googleMapsApiKey, onChangePaymentMethod}: {user: UserProfile, countries: Country[], googleMapsApiKey: string, onChangePaymentMethod: Function}) {
 
     return (
         <form className="flex flex-col gap-8 py-8">
@@ -91,7 +40,7 @@ export default function CheckoutForm({user, countries, googleMapsApiKey}: {user:
                     Office
                 </Radio>
             </RadioGroup>
-            <PaymentMethods />
+            <PaymentMethods onChangePaymentMethod={onChangePaymentMethod} />
             <CheckboxGroup label="Billing address">
                 <Checkbox value="true">Same as shipping address</Checkbox>
             </CheckboxGroup>

@@ -1,27 +1,77 @@
-import { Input, RadioGroup, Image } from "@nextui-org/react";
-import { MethodRadio } from "./checkout-form";
+import { Input, RadioGroup, Image, RadioProps, useRadio, VisuallyHidden, cn } from "@nextui-org/react";
 import { MoMo, Stripe } from "./icons/brands";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { FaCreditCard } from "react-icons/fa6";
+import { PaymentMethod } from "@/utils/payment";
 
-export default function PaymentMethods() {
+interface RadioPropsWithIcon extends RadioProps {
+    icon: ReactNode;
+}
+
+export const MethodRadio = (props: RadioPropsWithIcon) => {
+    const {
+        Component,
+        children,
+        isSelected,
+        description,
+        getBaseProps,
+        getWrapperProps,
+        getInputProps,
+        getLabelProps,
+        getLabelWrapperProps,
+        getControlProps,
+    } = useRadio(props);
+
+    return (
+        <Component
+            {...getBaseProps()}
+            className={cn(
+                "group inline-flex items-center hover:opacity-70 active:opacity-50 justify-between flex-row-reverse tap-highlight-transparent",
+                "max-w-[300px] cursor-pointer !border-medium border-default-100 rounded-lg gap-4 p-4 bg-content2 dark:bg-content1",
+                "data-[selected=true]:border-primary",
+            )}
+        >
+            <VisuallyHidden>
+                <input {...getInputProps()} />
+            </VisuallyHidden>
+            <span {...getWrapperProps()}>
+                <span {...getControlProps()} />
+            </span>
+            <div className="flex w-full items-center gap-2">
+                <div className="item-center flex rounded-small p-1">
+                    {props.icon}
+                </div>
+                <div {...getLabelWrapperProps()} className="flex flex-col gap-1">
+                    {children && <span {...getLabelProps()} className="text-small">{children}</span>}
+                    {description && (
+                        <span className="text-tiny text-default-400">{description}</span>
+                    )}
+                </div>
+            </div>
+
+        </Component>
+    );
+};
+
+export default function PaymentMethods({onChangePaymentMethod}: {onChangePaymentMethod: Function}) {
     const [isCardFormShown, setIsCardFormShown] = useState(false);
     
-    const handleMethodChange = (value: string): void => {
-        if (value === "stripe") setIsCardFormShown(true);
+    const handleMethodChange = (method: PaymentMethod): void => {
+        if (method === PaymentMethod.Stripe) setIsCardFormShown(true);
         else setIsCardFormShown(false);
+        onChangePaymentMethod(method);
     }
 
     return (
         <>
-            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={handleMethodChange} isRequired>
-                <MethodRadio description="Pay with MoMo" value="momo" icon={<MoMo className="h-6" />}>
+            <RadioGroup label="Payment Method" orientation="horizontal" classNames={{ wrapper: "gap-3" }} onValueChange={(value: string) => handleMethodChange(Number(value))} isRequired>
+                <MethodRadio description="Pay with MoMo" value={PaymentMethod.MoMo.toString()} icon={<MoMo className="h-6" />}>
                     MoMo
                 </MethodRadio>
-                <MethodRadio description="Pay with VNPAY" value="vnpay" icon={<Image src="https://i.ibb.co/0rV11HV/vnpay-qr-logo.png" className="h-6" removeWrapper alt="VNPAY logo" radius="none" />}>
+                <MethodRadio description="Pay with VNPAY" value={PaymentMethod.VNPAY.toString()} icon={<Image src="https://i.ibb.co/0rV11HV/vnpay-qr-logo.png" className="h-6" removeWrapper alt="VNPAY logo" radius="none" />}>
                     VNPAY
                 </MethodRadio>
-                <MethodRadio description="Pay with Stripe" value="stripe" icon={<Stripe className="h-5" />}>
+                <MethodRadio description="Pay with Stripe" value={PaymentMethod.Stripe.toString()} icon={<Stripe className="h-5" />}>
                     Stripe
                 </MethodRadio>
             </RadioGroup>
