@@ -82,6 +82,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "scrolling-banner": "scrolling-banner var(--duration) linear infinite",
+        "ping-slow": "ping 2s cubic-bezier(0, 0, 0.2, 1) infinite"
       },
       backgroundImage: {
         "radial": "radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.8),rgba(25,8,43,.5))",
