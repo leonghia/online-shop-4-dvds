@@ -11,4 +11,5 @@ public class ProductDetailDto
     public required int NumbersOfReviews { get; set; }
     public required int Stock { get; set; }
     public required ICollection<string> Images {get;set;}
+    public required string Type {get;set;}
 }

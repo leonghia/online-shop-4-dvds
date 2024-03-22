@@ -4,9 +4,9 @@ export interface ProductDetail {
     price: number;
     description: string;
     genres: string[];
-    ratings: number | null;
+    ratings: number;
     numbersOfReviews: number;
-    images: string[];
-    yearReleased: number;
     stock: number;
+    images: string[];
+    type: string;
 }

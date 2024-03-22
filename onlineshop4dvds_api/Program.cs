@@ -104,7 +104,8 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Ratings = Math.Round(product.Ratings, 2),
         NumbersOfReviews = product.NumberOfReviews,
         Stock = product.Product.Stock,
-        Images = new List<string>{product.Product.Thumbnail}
+        Images = new List<string>{product.Product.Thumbnail},
+        Type = product.Product.GenreType.ToStringType()
     };
     return Results.Ok(productToReturn);
 });
