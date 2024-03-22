@@ -301,13 +301,39 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
 app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) => {
     var order = await context.Orders
                         .AsNoTracking()
+                        .Include(o => o.OrderProducts!)
+                        .ThenInclude(op => op.Product)
                         .FirstOrDefaultAsync(o => o.OrderId == id);
     if (order is null) return Results.NotFound();
 
     order.Status = OrderStatus.Pending;
     context.Orders.Update(order);
     await context.SaveChangesAsync();
-    return Results.NoContent();
+    
+    var items = order.OrderProducts!.Select(op => new OrderItemDto
+    {
+        Type = op.Product!.GenreType.ToStringType(),
+        Title = op.Product.Title,
+        ThumbnailUrl = op.Product.Thumbnail,
+        Quantity = op.Quantity,
+        ProductId = op.ProductId,
+        Price = op.Product.Price
+    }).ToList();
+
+    var orderToReturn = new OrderDto
+    {
+        Id = order.Id,
+        OrderId = order.OrderId,
+        CreatedAt = order.CreatedAt,
+        Status = order.Status.ToString(),
+        Subtotal = order.Subtotal,
+        ShippingFee = order.ShippingFee,
+        Discount = order.Discount ??= 0,
+        PaymentMethod = order.PaymentMethod.ToString(),
+        Items = items
+    };
+
+    return Results.Ok(orderToReturn);
 });
 
 app.Run();
