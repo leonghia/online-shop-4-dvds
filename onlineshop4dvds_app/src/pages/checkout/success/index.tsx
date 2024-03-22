@@ -4,15 +4,19 @@ import { HiCheckCircle } from "react-icons/hi2";
 import { Snippet, Button } from "@nextui-org/react";
 import GradientHeading from "@/components/gradient-heading";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
+import { API_URL } from "@/config";
+import { Order } from "@/models/order";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
     // Update the order status to be paid
     const orderId = context.query["orderId"] as string;
+    const res = await fetch(`${API_URL}/order/${orderId}/pay`, {method: "PUT"});
+    const order: Order = await res.json();
 
-    return { props: {orderId} };
-}) satisfies GetServerSideProps<{orderId: string}>;
+    return { props: {order} };
+}) satisfies GetServerSideProps<{order: Order}>;
 
-export default function CheckoutSuccessPage({orderId}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function CheckoutSuccessPage({order}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <PageLayout>
             <div className="flex items-center justify-center p-10">
@@ -28,28 +32,28 @@ export default function CheckoutSuccessPage({orderId}: InferGetServerSidePropsTy
                     <p className="text-medium text-default-500 text-center mt-4">Your payment has been processed!<br />Details of transaction are included below</p>
                     <div className="mt-8 flex justify-center w-full items-center gap-x-4">
                         <p className="text-primary font-semibold text-small">Order ID:</p>
-                        <Snippet hideSymbol>{orderId}</Snippet>
+                        <Snippet hideSymbol>{order.orderId}</Snippet>
                     </div>
                     <dl className="flex flex-col gap-4 py-4 mt-10">
                         <div className="flex justify-between">
                             <dt className="text-small text-default-500">Payment method</dt>
-                            <dd className="text-small font-semibold text-default-700">MoMo</dd>
+                            <dd className="text-small font-semibold text-default-700">{order.paymentMethod}</dd>
                         </div>
                         <div className="flex justify-between">
                             <dt className="text-small text-default-500">Transaction time</dt>
-                            <dd className="text-small font-semibold text-default-700">08:17 22/3/2024</dd>
+                            <dd className="text-small font-semibold text-default-700">{order.createdAt.toLocaleString("vi-VN")}</dd>
                         </div>
                         <div className="flex justify-between">
                             <dt className="text-small text-default-500">Subtotal</dt>
-                            <dd className="text-small font-semibold text-default-700">$159.96</dd>
+                            <dd className="text-small font-semibold text-default-700">${order.subtotal.toFixed(2)}</dd>
                         </div>
                         <div className="flex justify-between">
                             <dt className="text-small text-default-500">Shipping fee</dt>
-                            <dd className="text-small font-semibold text-default-700">$0.00</dd>
+                            <dd className="text-small font-semibold text-default-700">${order.shippingFee.toFixed(2)}</dd>
                         </div>
                         <div className="flex justify-between">
                             <dt className="text-small text-default-500">Discount</dt>
-                            <dd className="text-small font-semibold text-default-700"> N/A</dd>
+                            <dd className="text-small font-semibold text-default-700">${order.shippingFee.toFixed(2)}</dd>
                         </div>
                         <hr
                             className="shrink-0 bg-divider border-none w-full h-divider"
@@ -57,7 +61,7 @@ export default function CheckoutSuccessPage({orderId}: InferGetServerSidePropsTy
                         />
                         <div className="flex justify-between">
                             <dt className="text-small font-semibold text-default-500">Total</dt>
-                            <dd className="text-small font-semibold text-pink-500">$172.96</dd>
+                            <dd className="text-small font-semibold text-pink-500">${(order.subtotal + order.shippingFee - order.discount).toFixed(2)}</dd>
                         </div>
                     </dl>
                     <div className="flex justify-end mt-6">
