@@ -11,7 +11,7 @@ export interface OrderCreate {
 
 export interface Order {
    id: number;
-   createdAt: Date;
+   createdAt: string;
    orderId: string;
    status: string;
    subtotal: number;

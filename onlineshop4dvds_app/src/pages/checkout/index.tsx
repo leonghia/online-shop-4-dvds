@@ -11,6 +11,7 @@ import { createHmac } from "crypto";
 import { OrderCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
 import { API_URL } from "@/config";
+import { useCookies } from "react-cookie";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
     const googleMapsApiKey = process.env.GG_MAPS_API_KEY;
@@ -29,7 +30,7 @@ const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
 const orderInfo = 'OnlineShop4DVDS - Pay with MoMo';
 const partnerCode = 'MOMO';
 const orderId = partnerCode + new Date().getTime();
-const redirectUrl = 'http://localhost:3000/checkout/success?orderId=' + orderId;
+const redirectUrl = 'http://localhost:3000/checkout/success';
 const ipnUrl = redirectUrl;
 const requestId = orderId;
 const extraData = '';
@@ -41,6 +42,7 @@ export default function CheckoutPage({
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
+    const [cookies, setCookie, removeCookie] = useCookies(["cartId"]);
 
     const handlePay = async ({ amount, cartId }: { amount: number, cartId: number }) => {
         // request to create order in backend server
@@ -54,18 +56,23 @@ export default function CheckoutPage({
         };
 
         try {
-            await fetch(`${API_URL}/checkout`, {
+            const res = await fetch(`${API_URL}/checkout`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(orderCreate)
             });
+
+            if (!res.ok) return;
+
+            // Clear cartId in browser cookie
+            removeCookie("cartId");
 
             // request to 3rd party payment services
             if (paymentMethod === PaymentMethod.MoMo) {
                 await handleMomoPay(1000);
             }
 
-            
+
         } catch (err) {
             console.error(err);
         }
@@ -123,7 +130,7 @@ export default function CheckoutPage({
                 body: requestBody,
             });
             const data = await res.json();
-            console.log(data);
+            window.location.replace(data.payUrl);
 
         } catch (err) {
             console.error(err);

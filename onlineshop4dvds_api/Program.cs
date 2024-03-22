@@ -247,6 +247,7 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     var cart = await context.Carts
                         .AsNoTracking()
                         .Include(c => c.CartProducts)
+                        .ThenInclude(cp => cp.Product)
                         .FirstOrDefaultAsync(c => c.Id == orderCreateDto.CartId);
     if (cart is null) return Results.NotFound();
     var orderToCreate = new Order
@@ -268,34 +269,37 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     });
     context.OrderProduct.AddRange(orderProductsToCreate);
     await context.SaveChangesAsync();
+
     // Return the orderDetailDto
-    var orderProducts = await context.OrderProduct
-                        .AsNoTracking()
-                        .Include(op => op.Product)
-                        .Where(op => op.OrderId == orderToCreate.Id)
-                        .ToListAsync();
-    var items = orderProducts.Select(op => new OrderItemDto
-    {
-        Type = op.Product!.GenreType.ToStringType(),
-        Title = op.Product.Title,
-        ThumbnailUrl = op.Product.Thumbnail,
-        Quantity = op.Quantity,
-        ProductId = op.ProductId,
-        Price = op.Product.Price
-    }).ToList();
-    var orderToReturn = new OrderDto
-    {
-        Id = orderToCreate.Id,
-        CreatedAt = orderToCreate.CreatedAt,
-        OrderId = orderToCreate.OrderId,
-        Status = orderToCreate.Status.ToString(),
-        Subtotal = orderToCreate.Subtotal,
-        ShippingFee = orderToCreate.ShippingFee,
-        Discount = orderToCreate.Discount ??= 0,
-        PaymentMethod = orderToCreate.PaymentMethod.ToString(),
-        Items = items
-    };
-    return Results.Created($"/order/{orderToCreate.Id}", orderToReturn);
+    // var orderProducts = await context.OrderProduct
+    //                     .AsNoTracking()
+    //                     .Include(op => op.Product)
+    //                     .Where(op => op.OrderId == orderToCreate.Id)
+    //                     .ToListAsync();
+    // var items = orderProducts.Select(op => new OrderItemDto
+    // {
+    //     Type = op.Product!.GenreType.ToStringType(),
+    //     Title = op.Product.Title,
+    //     ThumbnailUrl = op.Product.Thumbnail,
+    //     Quantity = op.Quantity,
+    //     ProductId = op.ProductId,
+    //     Price = op.Product.Price
+    // }).ToList();
+    // var orderToReturn = new OrderDto
+    // {
+    //     Id = orderToCreate.Id,
+    //     CreatedAt = orderToCreate.CreatedAt,
+    //     OrderId = orderToCreate.OrderId,
+    //     Status = orderToCreate.Status.ToString(),
+    //     Subtotal = orderToCreate.Subtotal,
+    //     ShippingFee = orderToCreate.ShippingFee,
+    //     Discount = orderToCreate.Discount ??= 0,
+    //     PaymentMethod = orderToCreate.PaymentMethod.ToString(),
+    //     Items = items
+    // };
+    // return Results.Created($"/order/{orderToCreate.Id}", orderToReturn);
+
+    return Results.Accepted();
 });
 
 app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) => {
