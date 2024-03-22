@@ -1,10 +1,18 @@
-// Extract the orderId from query params, then request to backend server to update the status of that order to be paid
+// Extract the orderId from query params, then request to backend server to update the status of that order to be paid, get the order detail and pass into page props
 import PageLayout from "@/components/layouts/page-layout";
 import { HiCheckCircle } from "react-icons/hi2";
 import { Snippet, Button } from "@nextui-org/react";
 import GradientHeading from "@/components/gradient-heading";
+import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 
-export default function CheckoutSuccess() {
+export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
+    // Update the order status to be paid
+    const orderId = context.query["orderId"] as string;
+
+    return { props: {orderId} };
+}) satisfies GetServerSideProps<{orderId: string}>;
+
+export default function CheckoutSuccessPage({orderId}: InferGetServerSidePropsType<typeof getServerSideProps>) {
     return (
         <PageLayout>
             <div className="flex items-center justify-center p-10">
@@ -20,7 +28,7 @@ export default function CheckoutSuccess() {
                     <p className="text-medium text-default-500 text-center mt-4">Your payment has been processed!<br />Details of transaction are included below</p>
                     <div className="mt-8 flex justify-center w-full items-center gap-x-4">
                         <p className="text-primary font-semibold text-small">Order ID:</p>
-                        <Snippet hideSymbol>MOMO434235525465</Snippet>
+                        <Snippet hideSymbol>{orderId}</Snippet>
                     </div>
                     <dl className="flex flex-col gap-4 py-4 mt-10">
                         <div className="flex justify-between">

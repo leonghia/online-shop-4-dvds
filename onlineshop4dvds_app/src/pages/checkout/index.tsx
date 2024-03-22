@@ -7,8 +7,10 @@ import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsT
 import { promises as fs } from 'fs';
 import { Country } from "@/utils/country";
 import { useState } from "react";
-import { PaymentMethodString } from "@/utils/payment";
 import { createHmac } from "crypto";
+import { OrderCreate } from "@/models/order";
+import { PaymentMethod } from "@/utils/payment";
+import { API_URL } from "@/config";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
     const googleMapsApiKey = process.env.GG_MAPS_API_KEY;
@@ -38,13 +40,34 @@ export default function CheckoutPage({
     countries,
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    const [paymentMethod, setPaymentMethod] = useState<PaymentMethodString | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
 
-    const handleChangePaymentMethod = (method: PaymentMethodString) => setPaymentMethod(method);
+    const handlePay = async ({ amount, cartId }: { amount: number, cartId: number }) => {
+        // request to create order in backend server
+        const orderCreate: OrderCreate = {
+            userSub: user.sub,
+            orderId,
+            cartId,
+            shippingFee: 0,
+            discount: 0,
+            paymentMethod: paymentMethod!
+        };
 
-    const handlePay = async (amount: number) => {
-        if (paymentMethod === PaymentMethodString.MoMo) {
-            await handleMomoPay(2000);
+        try {
+            await fetch(`${API_URL}/checkout`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(orderCreate)
+            });
+
+            // request to 3rd party payment services
+            if (paymentMethod === PaymentMethod.MoMo) {
+                await handleMomoPay(1000);
+            }
+
+            
+        } catch (err) {
+            console.error(err);
         }
     };
 
@@ -72,7 +95,7 @@ export default function CheckoutPage({
             requestId +
             "&requestType=" +
             requestType;
-        
+
         //signature
         const signature = createHmac('sha256', secretKey)
             .update(rawSignature)
@@ -92,7 +115,7 @@ export default function CheckoutPage({
             requestType: requestType,
             signature: signature,
             lang: "en",
-          });
+        });
 
         try {
             const res = await fetch("/api/checkout/momo", {
@@ -114,7 +137,7 @@ export default function CheckoutPage({
                     <div className="w-full">
                         <div className="flex flex-col gap-1">
                             <h1 className="text-2xl font-extrabold">Checkout</h1>
-                            <CheckoutForm user={user} countries={countries} googleMapsApiKey={googleMapsApiKey!} onChangePaymentMethod={handleChangePaymentMethod} />
+                            <CheckoutForm user={user} countries={countries} googleMapsApiKey={googleMapsApiKey!} onChangePaymentMethod={(method: PaymentMethod) => setPaymentMethod(method)} />
                         </div>
                     </div>
                     <OrderSummary onPay={handlePay} />

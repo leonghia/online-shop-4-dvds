@@ -40,7 +40,7 @@ export default function CheckoutForm({user, countries, googleMapsApiKey, onChang
                     Office
                 </Radio>
             </RadioGroup>
-            <PaymentMethods onChange={onChangePaymentMethod} />
+            <PaymentMethods onChangePaymentMethod={onChangePaymentMethod} />
             <CheckboxGroup label="Billing address">
                 <Checkbox value="true">Same as shipping address</Checkbox>
             </CheckboxGroup>

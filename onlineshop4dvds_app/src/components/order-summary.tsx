@@ -80,7 +80,7 @@ export default function OrderSummary({ onPay }: { onPay: Function }) {
                 </div>
             </div>
             <div className="mt-4">
-                <Button color="primary" className="font-medium" fullWidth onPress={() => onPay(cart?.subtotal)}>Pay now</Button>
+                <Button color="primary" className="font-medium" fullWidth onPress={() => onPay({amount: cart?.subtotal! - discount, cartId: cart?.id})}>Pay now</Button>
             </div>
         </div>
 
