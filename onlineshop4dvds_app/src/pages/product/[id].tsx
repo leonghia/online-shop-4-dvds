@@ -1,5 +1,5 @@
 import PageLayout from '@/components/layouts/page-layout';
-import ProductInfo from '@/components/product/product-info';
+import ProductInfo from '@/components/products/product-info';
 import { API_URL } from '@/config';
 import { ProductDetail } from '@/models/product-detail';
 import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react';

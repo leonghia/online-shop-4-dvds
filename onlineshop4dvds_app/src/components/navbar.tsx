@@ -72,7 +72,7 @@ export default function MyNavbar() {
                         <Link href="/news" color="foreground">News</Link>
                     </NavbarItem>
                 </NavbarContent>
-                <Input type="text" radius="full" color="default" placeholder="Search for DVD..." labelPlacement="outside" startContent={
+                <Input type="text" radius="full" color="default" variant="bordered" placeholder="Search for DVD..." labelPlacement="outside" startContent={
                     <HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                 } />
                 <NavbarContent justify="end">
@@ -98,16 +98,16 @@ export default function MyNavbar() {
                                     <Avatar isBordered as="button" src={user.picture} className="transition-transform" />
                                 </DropdownTrigger>
                                 <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                    <DropdownItem key="info">
+                                    <DropdownItem key="info" textValue="info">
                                         <User
                                             name={user.name}
                                             description={user.email}
                                             avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
                                         />
                                     </DropdownItem>
-                                    <DropdownItem key="profile">Your profile</DropdownItem>
-                                    <DropdownItem key="orders">Orders history</DropdownItem>
-                                    <DropdownItem key="logout" color="danger">
+                                    <DropdownItem key="profile" href="/profile" textValue="profile"><Link color="foreground" href="/profile" size="sm">My Profile</Link></DropdownItem>
+                                    <DropdownItem key="orders" href="/orders" textValue="orders"><Link color="foreground" href="/orders" size="sm">Orders History</Link></DropdownItem>
+                                    <DropdownItem key="logout" color="danger" textValue="logout">
                                         <a href="/api/auth/logout">Logout</a>
                                     </DropdownItem>
                                 </DropdownMenu>
@@ -170,7 +170,7 @@ export default function MyNavbar() {
                     <Link href="/news" color="foreground">News</Link>
                 </NavbarItem>
             </NavbarContent>
-            <Input type="text" radius="full" color="default" placeholder="Search for DVD..." labelPlacement="outside" startContent={
+            <Input type="text" radius="full" color="default" variant="bordered" placeholder="Search for DVD..." labelPlacement="outside" startContent={
                 <HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
             } />
             <NavbarContent justify="end">

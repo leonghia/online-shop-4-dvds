@@ -104,7 +104,8 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Ratings = Math.Round(product.Ratings, 2),
         NumbersOfReviews = product.NumberOfReviews,
         Stock = product.Product.Stock,
-        Images = new List<string>{product.Product.Thumbnail}
+        Images = new List<string>{product.Product.Thumbnail},
+        Type = product.Product.GenreType.ToStringType()
     };
     return Results.Ok(productToReturn);
 });
@@ -310,7 +311,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
                         .FirstOrDefaultAsync(o => o.OrderId == id);
     if (order is null) return Results.NotFound();
 
-    order.Status = OrderStatus.Pending;
+    order.Status = OrderStatus.Processing;
     context.Orders.Update(order);
     await context.SaveChangesAsync();
     
@@ -329,7 +330,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
         Id = order.Id,
         OrderId = order.OrderId,
         CreatedAt = order.CreatedAt,
-        Status = order.Status.ToString(),
+        Status = order.Status,
         Subtotal = order.Subtotal,
         ShippingFee = order.ShippingFee,
         Discount = order.Discount ??= 0,
@@ -338,6 +339,43 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
     };
 
     return Results.Ok(orderToReturn);
+});
+
+app.MapGet("/api/order", async ([FromQuery(Name="sub")] string sub, ShopContext context) => {
+    if (sub is null) return Results.BadRequest();
+    var user = await context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.Sub == sub);
+    if (user is null) return Results.NotFound();
+    var orders = await context.Orders
+                        .AsNoTracking()
+                        .Include(o => o.OrderProducts!)
+                        .ThenInclude(op => op.Product)
+                        .Where(o => o.UserId == user.Id)
+                        .ToListAsync();
+
+    var ordersToReturn = orders.Select(o => new OrderDto
+    {
+        Subtotal = o.Subtotal,
+        Status = o.Status,
+        ShippingFee = o.ShippingFee,
+        PaymentMethod = o.PaymentMethod.ToString(),
+        OrderId = o.OrderId,
+        Items = o.OrderProducts!.Select(op => new OrderItemDto
+        {
+            Type = op.Product!.GenreType.ToStringType(),
+            Title = op.Product.Title,
+            ThumbnailUrl = op.Product.Thumbnail,
+            Quantity = op.Quantity,
+            ProductId = op.ProductId,
+            Price = op.Product.Price
+        }).ToList(),
+        Id = o.Id,
+        Discount = o.Discount ??= 0,
+        CreatedAt = o.CreatedAt
+    });
+
+    return Results.Ok(ordersToReturn);
 });
 
 app.Run();
