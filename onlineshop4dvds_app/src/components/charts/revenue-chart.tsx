@@ -17,7 +17,7 @@ export default function RevenueChart({className}: {className?: string}) {
     return (
         <div className={cn("h-full flex flex-col gap-2", className)}>
             <div className="flex justify-between">
-                <h3 className="text-xl font-semibold text-primary">Revenue</h3>
+                <h3 className="text-xl font-semibold text-foreground">Revenue</h3>
                 <div className="flex gap-x-2">
                     <Select
                         labelPlacement="outside"
