@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import MyNavbar from "../navbar";
+import UserNavbar from "../navbars/user-navbar";
 import MyFooter from "../footer";
 import UserLayout from "./user-layout";
 
@@ -8,7 +8,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
         <UserLayout>
             <div className="bg-radial min-h-screen">
                 <div className="flex items-center justify-center">
-                    <MyNavbar />
+                    <UserNavbar />
                 </div>
                 <div>
                     <main>

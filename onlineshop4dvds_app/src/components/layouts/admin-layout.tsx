@@ -1,16 +1,23 @@
 import { ReactNode } from "react";
 import Layout from "./layout";
 import Sidebar from "../sidebar";
+import AdminNavbar from "../navbars/admin-navbar";
 
-export default function AdminLayout({children}: {children: ReactNode}) {
+export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <Layout>
-            <div className="flex">
-                <Sidebar />
-                <main className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
-                    {children}
-                </main>
+            <div className="bg-radial min-h-screen">
+                <div className="flex">
+                    <Sidebar />
+                    <div className="flex-1">
+                        <AdminNavbar />
+                        <main className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden p-10">
+                            {children}
+                        </main>
+                    </div>
+                </div>
             </div>
+
         </Layout>
     );
 }

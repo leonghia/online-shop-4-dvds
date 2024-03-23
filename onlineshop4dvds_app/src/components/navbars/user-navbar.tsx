@@ -8,7 +8,7 @@ import {
     Badge,
     Input
 } from "@nextui-org/react";
-import { Acme } from "./icons/brands";
+import { Acme } from "../icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell, HiMagnifyingGlass, HiChevronRight } from "react-icons/hi2";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
@@ -20,8 +20,9 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User } from "@ne
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import AvatarDropdown from "../avatar-dropdown";
 
-export default function MyNavbar() {
+export default function UserNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
     const { user, error, isLoading } = useUser();
     const router = useRouter();
@@ -78,46 +79,10 @@ export default function MyNavbar() {
                         <Link href="/cart"><HiOutlineShoppingCart className="w-6 h-6 text-default-500" /></Link>
                     </NavbarItem>
                     <NavbarItem className="flex items-center">
-                        <Link href="/favorites"><HiOutlineBell className="w-6 h-6 text-default-500" /></Link>
+                        <HiOutlineBell className="w-6 h-6 text-default-500" />
                     </NavbarItem>
                     <NavbarItem>
-                        {user.picture ? (
-                            <Dropdown placement="bottom-start">
-                                <DropdownTrigger>
-                                    <Avatar isBordered as="button" src={user.picture} className="transition-transform" />
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                    <DropdownItem key="info" textValue="info">
-                                        <User
-                                            name={user.name}
-                                            description={user.email}
-                                            avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
-                                        />
-                                    </DropdownItem>
-                                    <DropdownItem key="profile" href="/profile" textValue="profile">My Profile</DropdownItem>
-                                    <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>
-                                    <DropdownItem key="logout" color="danger" textValue="logout" href="/api/auth/logout">Logout</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>) : (
-                            <Dropdown placement="bottom-start">
-                                <DropdownTrigger>
-                                    <Avatar isBordered as="button" className="transition-transform" showFallback fallback={
-                                        <FaUser className="w-5 h-5 text-default-500" fill="currentColor" />
-                                    } />
-                                </DropdownTrigger>
-                                <DropdownMenu aria-label="Profile Actions" variant="flat">
-                                    <DropdownItem key="info">
-                                        <User
-                                            name={user.name}
-                                            description={user.email}
-                                            avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
-                                        />
-                                    </DropdownItem>
-                                    <DropdownItem key="profile" href="/profile" textValue="profile">My Profile</DropdownItem>
-                                    <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>
-                                    <DropdownItem key="logout" color="danger" textValue="logout" href="/api/auth/logout">Logout</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>)}
+                        <AvatarDropdown user={user} />
                     </NavbarItem>
                 </NavbarContent>
             </Navbar>
