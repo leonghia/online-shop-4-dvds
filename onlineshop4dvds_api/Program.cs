@@ -311,7 +311,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
                         .FirstOrDefaultAsync(o => o.OrderId == id);
     if (order is null) return Results.NotFound();
 
-    order.Status = OrderStatus.Pending;
+    order.Status = OrderStatus.Processing;
     context.Orders.Update(order);
     await context.SaveChangesAsync();
     
@@ -339,6 +339,43 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
     };
 
     return Results.Ok(orderToReturn);
+});
+
+app.MapGet("/api/order", async ([FromQuery(Name="sub")] string sub, ShopContext context) => {
+    if (sub is null) return Results.BadRequest();
+    var user = await context.Users
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(u => u.Sub == sub);
+    if (user is null) return Results.NotFound();
+    var orders = await context.Orders
+                        .AsNoTracking()
+                        .Include(o => o.OrderProducts!)
+                        .ThenInclude(op => op.Product)
+                        .Where(o => o.UserId == user.Id)
+                        .ToListAsync();
+
+    var ordersToReturn = orders.Select(o => new OrderDto
+    {
+        Subtotal = o.Subtotal,
+        Status = o.Status.ToString(),
+        ShippingFee = o.ShippingFee,
+        PaymentMethod = o.PaymentMethod.ToString(),
+        OrderId = o.OrderId,
+        Items = o.OrderProducts!.Select(op => new OrderItemDto
+        {
+            Type = op.Product!.GenreType.ToStringType(),
+            Title = op.Product.Title,
+            ThumbnailUrl = op.Product.Thumbnail,
+            Quantity = op.Quantity,
+            ProductId = op.ProductId,
+            Price = op.Product.Price
+        }).ToList(),
+        Id = o.Id,
+        Discount = o.Discount ??= 0,
+        CreatedAt = o.CreatedAt
+    });
+
+    return Results.Ok(ordersToReturn);
 });
 
 app.Run();
