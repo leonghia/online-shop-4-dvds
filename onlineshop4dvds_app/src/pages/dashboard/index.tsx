@@ -1,3 +1,10 @@
+import AdminLayout from "@/components/layouts/admin-layout";
+import Sidebar from "@/components/sidebar";
+
 export default function Page() {
-    return (<div>Dashboard</div>);
+    return (
+        <AdminLayout>
+            <div className="">Dashboard</div>
+        </AdminLayout>
+    );
 }
