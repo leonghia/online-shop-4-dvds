@@ -9,7 +9,7 @@ import {
     Input
 } from "@nextui-org/react";
 import { Acme } from "./icons/brands";
-import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell, HiMagnifyingGlass } from "react-icons/hi2";
+import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell, HiMagnifyingGlass, HiChevronRight } from "react-icons/hi2";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
 import { API_URL } from "@/config";
@@ -19,10 +19,14 @@ import { FaUser } from "react-icons/fa6";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User } from "@nextui-org/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function MyNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
     const { user, error, isLoading } = useUser();
+    const router = useRouter();
+
+    const isHomepage = router.pathname === "/";
 
     const cart = useCart();
     const dispatch = useCartDispatch();
@@ -40,57 +44,41 @@ export default function MyNavbar() {
     }, []);
 
     if (user) {
-        console.log(user);
         return (
-            <Navbar height="54px" classNames={{
-                base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",
-                wrapper: "z-40 flex gap-4 flex-row relative flex-nowrap items-center max-w-4xl px-0 w-full justify-center rounded-full border-small border-default-200/20 bg-background/60 px-2 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50",
-                content: "flex h-full flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 gap-5",
-                brand: "flex basis-0 flex-row flex-grow flex-nowrap justify-start bg-transparent items-center no-underline text-medium whitespace-nowrap box-border mr-2 w-[40vw] md:w-auto md:max-w-fit",
-                item: [
-                    "data-[active=true]:opacity-100"
-                ]
-            }}>
-                <NavbarContent justify="start">
-                    <NavbarBrand>
-                        <div className="rounded-full bg-foreground text-background">
-                            <Acme width={34} height={34} />
-                        </div>
-                    </NavbarBrand>
-                    <NavbarItem className="hidden md:flex opacity-60">
-                        <Link href="/" color="foreground">Home</Link>
+            <Navbar maxWidth="full" isBordered={!isHomepage} isBlurred={isHomepage}>
+                <NavbarBrand>
+                    <Acme width={34} height={34} />
+                    <p className="font-bold text-inherit text-small">ONLINESHOP4DVDS</p>
+                </NavbarBrand>
+                <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                    <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/">Home</Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex opacity-50">
-                        <Link href="/music" color="foreground" >Music</Link>
+                    <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/">Albums</Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex opacity-50">
-                        <Link href="/movies" color="foreground">Movies</Link>
+                    <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/">Movies</Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex opacity-50">
-                        <Link href="/games" color="foreground">Games</Link>
+                    <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/">Games</Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex opacity-50">
-                        <Link href="/news" color="foreground">News</Link>
+                    <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/">News</Link>
+                    </NavbarItem>
+                    <NavbarItem>
+                        <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
                     </NavbarItem>
                 </NavbarContent>
-                <Input type="text" radius="full" color="default" variant="bordered" placeholder="Search for DVD..." labelPlacement="outside" startContent={
-                    <HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-                } />
                 <NavbarContent justify="end">
-                    <NavbarItem className="hidden md:flex">
-                        {false ? (<Badge color="danger" size="sm" content={0} shape="circle">
-                            <HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                        </Badge>) : (<HiOutlineHeart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
+                    <NavbarItem className="flex items-center">
+                        <Link href="/favorites"><HiOutlineHeart className="w-6 h-6 text-default-500" /></Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <Link href="/cart">
-                            {cart?.items.length ? (<Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
-                                <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                            </Badge>) : (<HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
-                        </Link>
+                    <NavbarItem className="flex items-center">
+                        <Link href="/cart"><HiOutlineShoppingCart className="w-6 h-6 text-default-500" /></Link>
                     </NavbarItem>
-                    <NavbarItem className="hidden md:flex">
-                        <HiOutlineBell className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
+                    <NavbarItem className="flex items-center">
+                        <Link href="/favorites"><HiOutlineBell className="w-6 h-6 text-default-500" /></Link>
                     </NavbarItem>
                     <NavbarItem>
                         {user.picture ? (
@@ -106,11 +94,9 @@ export default function MyNavbar() {
                                             avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
                                         />
                                     </DropdownItem>
-                                    <DropdownItem key="profile" href="/profile" textValue="profile"><Link color="foreground" href="/profile" size="sm">My Profile</Link></DropdownItem>
-                                    <DropdownItem key="orders" href="/orders" textValue="orders"><Link color="foreground" href="/orders" size="sm">Orders History</Link></DropdownItem>
-                                    <DropdownItem key="logout" color="danger" textValue="logout">
-                                        <a href="/api/auth/logout">Logout</a>
-                                    </DropdownItem>
+                                    <DropdownItem key="profile" href="/profile" textValue="profile">My Profile</DropdownItem>
+                                    <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>
+                                    <DropdownItem key="logout" color="danger" textValue="logout" href="/api/auth/logout">Logout</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>) : (
                             <Dropdown placement="bottom-start">
@@ -127,10 +113,9 @@ export default function MyNavbar() {
                                             avatarProps={user.picture ? { src: user.picture, size: "sm" } : { size: "sm", showFallback: true, fallback: <FaUser className="w-5 h-5 text-default-500" fill="currentColor" /> }}
                                         />
                                     </DropdownItem>
-                                    <DropdownItem key="profile">Your Profile</DropdownItem>
-                                    <DropdownItem key="logout" color="danger">
-                                        <a href="/api/auth/logout">Log Out</a>
-                                    </DropdownItem>
+                                    <DropdownItem key="profile" href="/profile" textValue="profile">My Profile</DropdownItem>
+                                    <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>
+                                    <DropdownItem key="logout" color="danger" textValue="logout" href="/api/auth/logout">Logout</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>)}
                     </NavbarItem>
@@ -140,52 +125,39 @@ export default function MyNavbar() {
     }
 
     return (
-        <Navbar height="54px" classNames={{
-            base: "flex z-40 w-full h-auto items-center justify-center data-[menu-open=true]:border-none sticky top-0 inset-x-0 backdrop-blur-lg data-[menu-open=true]:backdrop-blur-xl backdrop-saturate-150 py-4 backdrop-filter-none bg-transparent",
-            wrapper: "z-40 flex gap-4 flex-row relative flex-nowrap items-center max-w-4xl px-0 w-full justify-center rounded-full border-small border-default-200/20 bg-background/60 px-2 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50",
-            content: "flex h-full flex-row flex-nowrap items-center data-[justify=start]:justify-start data-[justify=start]:flex-grow data-[justify=start]:basis-0 data-[justify=center]:justify-center data-[justify=end]:justify-end data-[justify=end]:flex-grow data-[justify=end]:basis-0 gap-5",
-            brand: "flex basis-0 flex-row flex-grow flex-nowrap justify-start bg-transparent items-center no-underline text-medium whitespace-nowrap box-border mr-2 w-[40vw] md:w-auto md:max-w-fit",
-            item: [
-                "data-[active=true]:opacity-100"
-            ]
-        }}>
-            <NavbarContent justify="start">
-                <NavbarBrand>
-                    <div className="rounded-full bg-foreground text-background">
-                        <Acme width={34} height={34} />
-                    </div>
-                </NavbarBrand>
-                <NavbarItem className="hidden md:flex opacity-60">
-                    <Link href="/" color="foreground">Home</Link>
-                </NavbarItem>
-                <NavbarItem className="hidden md:flex opacity-50">
-                    <Link href="/music" color="foreground" >Music</Link>
-                </NavbarItem>
-                <NavbarItem className="hidden md:flex opacity-50">
-                    <Link href="/movies" color="foreground">Movies</Link>
-                </NavbarItem>
-                <NavbarItem className="hidden md:flex opacity-50">
-                    <Link href="/games" color="foreground">Games</Link>
-                </NavbarItem>
-                <NavbarItem className="hidden md:flex opacity-50">
-                    <Link href="/news" color="foreground">News</Link>
-                </NavbarItem>
-            </NavbarContent>
-            <Input type="text" radius="full" color="default" variant="bordered" placeholder="Search for DVD..." labelPlacement="outside" startContent={
-                <HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
-            } />
-            <NavbarContent justify="end">
-                <NavbarItem className="hidden md:flex">
-                    <Link href="/cart">
-                        {cart?.items.length ? (<Badge color="danger" size="sm" content={cart?.items?.length || 0} shape="circle">
-                            <HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />
-                        </Badge>) : (<HiOutlineShoppingCart className="w-6 h-6 text-default-500 cursor-pointer hover:text-default-600" />)}
-                    </Link>
+        <Navbar maxWidth="full" isBordered={!isHomepage} isBlurred={isHomepage}>
+            <NavbarBrand>
+                <Acme width={34} height={34} />
+                <p className="font-bold text-inherit text-small">ONLINESHOP4DVDS</p>
+            </NavbarBrand>
+            <NavbarContent className="hidden sm:flex gap-4" justify="center">
+                <NavbarItem>
+                    <Link className="text-default-500 text-small font-medium" href="/">Home</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <a href="/api/auth/login">
-                        <Button color="primary" variant="solid" radius="full" className="font-medium">Login</Button>
-                    </a>
+                    <Link className="text-default-500 text-small font-medium" href="/">Albums</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link className="text-default-500 text-small font-medium" href="/">Movies</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link className="text-default-500 text-small font-medium" href="/">Games</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link className="text-default-500 text-small font-medium" href="/">News</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                </NavbarItem>
+            </NavbarContent>
+            <NavbarContent justify="end">
+                <NavbarItem className="flex items-center">
+                    <Link href="/cart"><HiOutlineShoppingCart className="w-6 h-6 text-default-500" /></Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Button as={Link} color="primary" href="/api/auth/login" className="font-medium" endContent={<HiChevronRight />}>
+                        Login
+                    </Button>
                 </NavbarItem>
             </NavbarContent>
         </Navbar>
