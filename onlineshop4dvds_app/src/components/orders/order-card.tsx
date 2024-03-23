@@ -1,18 +1,18 @@
 import { Order } from "@/models/order";
-import { getInfo } from "@/utils/order";
+import { OrderStatus, getInfo } from "@/utils/order";
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Popover, PopoverContent, PopoverTrigger, Image } from "@nextui-org/react";
 import { HiMiniQuestionMarkCircle } from "react-icons/hi2";
 
 export default function OrderCard({order: o}: {order: Order}) {
     return (
-        <Card key={o.id}>
+        <Card>
             <CardHeader className="flex justify-between">
                 <div className="flex gap-x-2 items-center">
                     <p className="text-default-500 font-medium text-small">Order ID</p>
                     <Chip color="primary" variant="flat">{o.orderId}</Chip>
                 </div>
                 <div className="flex items-center">
-                    <span className="text-small text-default-500 font-medium">{o.status}</span>
+                    <span className="text-small text-default-500 font-medium">{OrderStatus[o.status]}</span>
                     <Popover placement="right-start" classNames={{ base: "max-w-64" }}>
                         <PopoverTrigger>
                             <Button isIconOnly variant="light"><HiMiniQuestionMarkCircle className="h-5 w-5 text-default-500" /></Button>

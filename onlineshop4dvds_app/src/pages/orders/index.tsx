@@ -1,10 +1,23 @@
 import PageLayout from "@/components/layouts/page-layout";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { Tabs, Tab } from "@nextui-org/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { API_URL } from "@/config";
 import { Order } from "@/models/order";
 import OrderCard from "@/components/orders/order-card";
+import { OrderStatus } from "@/utils/order";
+import { HiDocumentText } from "react-icons/hi2";
+
+const EmptyList = (): ReactElement => {
+    return (
+        <div className="w-full h-64 flex justify-center items-center">
+            <div className="flex flex-col items-center gap-2">
+                <HiDocumentText className="w-10 h-10 text-default-400" />
+                <p className="font-medium text-default-500">No orders</p>
+            </div>
+        </div>
+    );
+}
 
 export default function Page() {
     const { user, error, isLoading } = useUser();
@@ -28,51 +41,39 @@ export default function Page() {
                             <Tab key="all" title="All Orders">
                                 <div className="space-y-4">
                                     {orders?.map(o => (
-                                        <OrderCard order={o} />
+                                        <OrderCard key={o.id} order={o} />
                                     ))}
                                 </div>
                             </Tab>
                             <Tab key="awaiting" title="Awaiting Payment">
-                                <Card>
-                                    <CardBody>
-                                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.AwaitingPayment).length ? orders?.filter(o => o.status === OrderStatus.AwaitingPayment).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                             <Tab key="processing" title="Processing">
-                                <Card>
-                                    <CardBody>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.Processing).length ? orders?.filter(o => o.status === OrderStatus.Processing).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                             <Tab key="shipping" title="Shipping">
-                                <Card>
-                                    <CardBody>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.Shipped).length ? orders?.filter(o => o.status === OrderStatus.Shipped).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                             <Tab key="delivered" title="Delivered">
-                                <Card>
-                                    <CardBody>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.Delivered).length ? orders?.filter(o => o.status === OrderStatus.Delivered).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                             <Tab key="cancelled" title="Cancelled">
-                                <Card>
-                                    <CardBody>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.Cancelled).length ? orders?.filter(o => o.status === OrderStatus.Cancelled).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                             <Tab key="refunded" title="Refunded">
-                                <Card>
-                                    <CardBody>
-                                        Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                                    </CardBody>
-                                </Card>
+                                <div className="space-y-4">
+                                    {orders?.filter(o => o.status === OrderStatus.Refunded).length ? orders?.filter(o => o.status === OrderStatus.Refunded).map(o => <OrderCard key={o.id} order={o} />) : <EmptyList />}
+                                </div>
                             </Tab>
                         </Tabs>
                     </div>
