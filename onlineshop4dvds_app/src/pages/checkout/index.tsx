@@ -1,6 +1,6 @@
 import CheckoutForm from "@/components/checkout-form";
 import PageLayout from "@/components/layouts/page-layout";
-import OrderSummary from "@/components/order-summary";
+import OrderSummary from "@/components/orders/order-summary";
 import { Session, getSession } from '@auth0/nextjs-auth0';
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next/types";

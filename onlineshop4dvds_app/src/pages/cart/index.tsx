@@ -1,5 +1,5 @@
 import PageLayout from "@/components/layouts/page-layout";
-import ShoppingCart from "@/components/shopping-cart";
+import ShoppingCart from "@/components/carts/shopping-cart";
 
 export default function CartPage() {
 
