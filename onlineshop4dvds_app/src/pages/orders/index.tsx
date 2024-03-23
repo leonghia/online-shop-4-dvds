@@ -1,9 +1,10 @@
 import PageLayout from "@/components/layouts/page-layout";
-import { Tabs, Tab, Card, CardBody, CardHeader, CardFooter, Divider, Link, Image, Chip } from "@nextui-org/react";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect, useState } from "react";
 import { API_URL } from "@/config";
 import { Order } from "@/models/order";
+import OrderCard from "@/components/orders/order-card";
 
 export default function Page() {
     const { user, error, isLoading } = useUser();
@@ -27,31 +28,7 @@ export default function Page() {
                             <Tab key="all" title="All Orders">
                                 <div className="space-y-4">
                                     {orders?.map(o => (
-                                        <Card>
-                                            <CardHeader className="flex justify-between">
-                                                <div className="flex gap-x-2 items-center">
-                                                    <p className="text-default-500 font-medium text-small">Order ID</p>
-                                                    <Chip color="primary" variant="flat">{o.orderId}</Chip>
-                                                </div>
-                                                <p className="text-small text-default-500 font-medium">{o.status}</p>
-                                            </CardHeader>
-                                            <Divider />
-                                            <CardBody className="space-y-4">
-                                                {o.items.map(i => (
-                                                    <div className="flex justify-between">
-                                                        <div className="flex gap-x-2">
-                                                            <Image src={i.thumbnailUrl} removeWrapper classNames={{ img: "w-20 h-20 object-contain" }} alt={i.title} />
-                                                            <div>
-                                                                <h4 className="text-medium font-semibold">
-                                                                    {i.title}
-                                                                </h4>
-                                                                <p className="text-small text-default-500">x {i.quantity}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </CardBody>
-                                        </Card>
+                                        <OrderCard order={o} />
                                     ))}
                                 </div>
                             </Tab>

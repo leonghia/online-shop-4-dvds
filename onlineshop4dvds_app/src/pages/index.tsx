@@ -1,6 +1,6 @@
 import ScrollingBanner from "@/components/scrolling-banner";
 import HomeLayout from "@/components/layouts/home-layout";
-import ProductsGrid from "@/components/product/products-grid";
+import ProductsGrid from "@/components/products/products-grid";
 import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre";
 import { Product } from "@/models/product";

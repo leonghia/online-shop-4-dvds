@@ -330,7 +330,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
         Id = order.Id,
         OrderId = order.OrderId,
         CreatedAt = order.CreatedAt,
-        Status = order.Status.ToString(),
+        Status = order.Status,
         Subtotal = order.Subtotal,
         ShippingFee = order.ShippingFee,
         Discount = order.Discount ??= 0,
@@ -357,7 +357,7 @@ app.MapGet("/api/order", async ([FromQuery(Name="sub")] string sub, ShopContext 
     var ordersToReturn = orders.Select(o => new OrderDto
     {
         Subtotal = o.Subtotal,
-        Status = o.Status.ToString(),
+        Status = o.Status,
         ShippingFee = o.ShippingFee,
         PaymentMethod = o.PaymentMethod.ToString(),
         OrderId = o.OrderId,
