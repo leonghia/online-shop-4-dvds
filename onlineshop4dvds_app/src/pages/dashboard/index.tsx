@@ -5,8 +5,8 @@ import AdminLayout from "@/components/layouts/admin-layout";
 export default function Page() {
     return (
         <AdminLayout>
-            <Header title="Dashboard" description="Manage everything in your store" />
-            <Dashboard className="max-w-5xl" />
+            <Header title="Home" />
+            <Dashboard />
         </AdminLayout>
     );
 }
