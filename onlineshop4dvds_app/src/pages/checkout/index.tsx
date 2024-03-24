@@ -10,7 +10,7 @@ import { useState } from "react";
 import { createHmac } from "crypto";
 import { OrderCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
-import { API_URL } from "@/config";
+import { API_URL, APP_URL } from "@/config";
 import { useCookies } from "react-cookie";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
@@ -72,7 +72,7 @@ export default function CheckoutPage({
             //     await handleMomoPay(1000);
             // }
 
-            window.location.replace("http://localhost:3000");
+            window.location.replace(APP_URL);
 
 
         } catch (err) {
