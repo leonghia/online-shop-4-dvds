@@ -4,7 +4,7 @@ import { Input } from "@nextui-org/react";
 import { HiMiniFunnel } from "react-icons/hi2";
 
 const Chart = dynamic(
-    () => import("../charts/steam").then((mod) => mod.Steam),
+    () => import("./revenue").then((mod) => mod.Revenue),
     {
         ssr: false,
     }
@@ -12,6 +12,8 @@ const Chart = dynamic(
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const years = ["2022", "2023", "2024"];
+
+const now = new Date();
 
 export default function RevenueChart({className}: {className?: string}) {
     return (
@@ -23,9 +25,11 @@ export default function RevenueChart({className}: {className?: string}) {
                         labelPlacement="outside"
                         className="w-36"
                         placeholder="Select month"
+                        aria-label="Month"
+                        defaultSelectedKeys={[months[now.getMonth()]]}
                     >
                         {months.map((month) => (
-                            <SelectItem key={month} value={month}>
+                            <SelectItem key={month} value={month} aria-label={month}>
                                 {month}
                             </SelectItem>
                         ))}
@@ -34,9 +38,11 @@ export default function RevenueChart({className}: {className?: string}) {
                         labelPlacement="outside"
                         className="w-36"
                         placeholder="Select year"
+                        defaultSelectedKeys={[now.getFullYear().toString()]}
+                        aria-label="Year"
                     >
                         {years.map((year) => (
-                            <SelectItem key={year} value={year}>
+                            <SelectItem key={year} value={year} aria-label={year}>
                                 {year}
                             </SelectItem>
                         ))}
