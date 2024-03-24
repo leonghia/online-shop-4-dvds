@@ -6,7 +6,7 @@ export default function TransactionsCard({className}: {className?: string}) {
     return (
         <Card className={cn(className)}>
             <CardHeader className="flex justify-center">
-                <h4 className="font-semibold text-foreground">Recent Transactions</h4>
+                <h3 className="text-xl font-semibold text-foreground">Recent Transactions</h3>
             </CardHeader>
             <CardBody className="space-y-4">
                 <div className="flex gap-x-4 items-center">
