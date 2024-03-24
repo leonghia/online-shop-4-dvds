@@ -1,8 +1,12 @@
+import { APP_URL } from "@/config";
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, User } from "@nextui-org/react";
 import { FaUser } from "react-icons/fa6";
 
 export default function AvatarDropdown({user}: {user: UserProfile | undefined}) {
+    const roles = user?.[`${APP_URL}/roles`] as string[];
+    const isAdmin = roles?.includes("Admin");
+
     return (
         <Dropdown placement="bottom-start">
             <DropdownTrigger>
@@ -17,7 +21,7 @@ export default function AvatarDropdown({user}: {user: UserProfile | undefined}) 
                     />
                 </DropdownItem>
                 <DropdownItem key="profile" href="/profile" textValue="profile">My Profile</DropdownItem>
-                <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>
+                {!isAdmin && <DropdownItem key="orders" href="/orders" textValue="orders">Orders History</DropdownItem>}
                 <DropdownItem key="logout" color="danger" textValue="logout" href="/api/auth/logout">Logout</DropdownItem>
             </DropdownMenu>
         </Dropdown>

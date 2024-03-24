@@ -7,7 +7,7 @@ export default function AdminNavbar() {
     const { user, error, isLoading } = useUser();
 
     return (
-        <Navbar classNames={{base: "bg-transparent backdrop-filter-none justify-end"}}>
+        <Navbar classNames={{base: "justify-end"}} isBordered>
             <NavbarContent justify="end">
                 <NavbarItem>
                     <Input type="text" labelPlacement="outside" placeholder="Search..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
