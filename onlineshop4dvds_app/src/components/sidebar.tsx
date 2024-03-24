@@ -1,4 +1,4 @@
-import { Spacer } from "@nextui-org/react";
+import { Spacer, cn } from "@nextui-org/react";
 import { HiOutlineFolder, HiOutlineDocumentText, HiOutlineCircleStack, HiOutlineUsers } from "react-icons/hi2";
 import { Acme } from "./icons/brands";
 import { Listbox, ListboxItem } from "@nextui-org/react";
@@ -9,10 +9,10 @@ const itemsClasses = {
     base: "py-3"
 }
 
-export default function Sidebar() {
+export default function Sidebar({className}: {className?: string}) {
 
     return (
-        <aside className="h-dvh">
+        <aside className={cn("h-dvh", className)}>
             <div className="relative flex h-full w-72 flex-1 flex-col border-r-small border-divider p-6">
                 <div className="flex items-center gap-2 px-2">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground">
@@ -23,7 +23,7 @@ export default function Sidebar() {
                 <Spacer y={6} />
                 <Listbox
                     aria-label="Menu"
-                    classNames={{base: "py-6 pr-6", list: "gap-3"}}
+                    classNames={{base: "py-6", list: "gap-3"}}
                     
                 >
                     <ListboxItem key="dashboard" startContent={<HiOutlineFolder className={iconClasses} />} classNames={itemsClasses}>Dashboard</ListboxItem>

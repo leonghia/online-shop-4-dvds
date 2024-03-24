@@ -7,8 +7,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     return (
         <Layout>
             <div className="bg-radial min-h-screen">
-                <div className="flex">
-                    <Sidebar />
+                <div className="flex relative">
+                    <Sidebar className="sticky top-0"  />
                     <div className="flex-1">
                         <AdminNavbar />
                         <main className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden p-10">
