@@ -31,7 +31,7 @@ const options: Props["options"] = {
             show: false,
         },
     },
-    colors: ["#ec4899"],
+    colors: ["#22c55e"],
     dataLabels: { enabled: false },
     xaxis: {
         labels: {
