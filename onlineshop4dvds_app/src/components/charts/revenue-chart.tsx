@@ -13,7 +13,7 @@ const now = new Date();
 
 const options: Props["options"] = {
     chart: {
-        type: "line",
+        type: "area",
         animations: {
             easing: "linear",
             speed: 300,
@@ -31,16 +31,15 @@ const options: Props["options"] = {
             show: false,
         },
     },
-
     colors: ["#ec4899"],
-
+    dataLabels: { enabled: false },
     xaxis: {
         labels: {
             // show: false,
             style: {
                 colors: "hsl(var(--nextui-default-800))",
             },
-            
+
         },
         axisBorder: {
             color: "hsl(var(--nextui-nextui-default-200))",
@@ -62,7 +61,13 @@ const options: Props["options"] = {
         },
     },
     tooltip: {
-        enabled: false,
+        enabled: true,
+        y: {
+            title: {formatter: (seriesName: string) => "Total:"}
+        },
+        x: {
+            formatter: (val) => new Date(val).toLocaleDateString("vi-VN")
+        }
     },
     grid: {
         show: true,
@@ -71,15 +76,13 @@ const options: Props["options"] = {
         position: "back",
     },
     stroke: {
-        curve: "straight",
+        curve: "smooth",
         fill: {
             colors: ["red"],
         },
     },
     // @ts-ignore
-    markers: {size: 1},
-    dataLabels: {enabled: true},
-}; 
+};
 
 export default function RevenueChart({ className }: { className?: string }) {
     const [series, setSeries] = useState<Props["series"]>(undefined);
@@ -87,7 +90,7 @@ export default function RevenueChart({ className }: { className?: string }) {
     useEffect(() => {
         fetch(`${API_URL}/revenue?month=${now.getMonth() + 1}&year=${now.getFullYear()}`)
             .then(res => res.json())
-            .then((revenues: Revenue[]) => setSeries([{data: revenues.map(r => ({x: new Date(r.date).getTime(), y: r.revenue}))}]))
+            .then((revenues: Revenue[]) => setSeries([{ data: revenues.map(r => ({ x: new Date(r.date).getTime(), y: r.revenue })) }]))
             .catch(err => console.error(err));
     }, []);
 
@@ -127,7 +130,7 @@ export default function RevenueChart({ className }: { className?: string }) {
             <div className="w-full bg-default-50 shadow-lg rounded-2xl p-6 ">
                 <div className="w-full z-20">
                     <div id="chart">
-                        {series && <Chart options={options} series={series} height={425} />}
+                        {series && <Chart options={options} series={series} height={425} type="area" />}
                     </div>
                 </div>
             </div>
