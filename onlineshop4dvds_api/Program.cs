@@ -266,6 +266,7 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     };
     context.Orders.Add(orderToCreate);
     await context.SaveChangesAsync();
+
     var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
     {
         Quantity = cp.Quantity,
@@ -273,6 +274,10 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
         OrderId = orderToCreate.Id
     });
     context.OrderProduct.AddRange(orderProductsToCreate);
+
+    // Delete the cart from database
+    context.Carts.Remove(cart);
+
     await context.SaveChangesAsync();
 
     // Return the orderDetailDto

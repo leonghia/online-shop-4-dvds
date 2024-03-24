@@ -14,9 +14,6 @@ import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
 import { API_URL } from "@/config";
 import { Cart } from "@/models/cart";
-import { Avatar } from "@nextui-org/react";
-import { FaUser } from "react-icons/fa6";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, User } from "@nextui-org/react";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -76,7 +73,11 @@ export default function UserNavbar() {
                         <Link href="/favorites"><HiOutlineHeart className="w-6 h-6 text-default-500" /></Link>
                     </NavbarItem>
                     <NavbarItem className="flex items-center">
-                        <Link href="/cart"><HiOutlineShoppingCart className="w-6 h-6 text-default-500" /></Link>
+                        <Link href="/cart">
+                            <Badge content={cart?.items.length} color="danger">
+                                <HiOutlineShoppingCart className="w-6 h-6 text-default-500" />
+                            </Badge>
+                        </Link>
                     </NavbarItem>
                     <NavbarItem className="flex items-center">
                         <HiOutlineBell className="w-6 h-6 text-default-500" />

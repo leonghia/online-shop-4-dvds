@@ -68,9 +68,9 @@ export default function CheckoutPage({
             removeCookie("cartId");
 
             // request to 3rd party payment services
-            if (paymentMethod === PaymentMethod.MoMo) {
-                await handleMomoPay(1000);
-            }
+            // if (paymentMethod === PaymentMethod.MoMo) {
+            //     await handleMomoPay(1000);
+            // }
 
 
         } catch (err) {
