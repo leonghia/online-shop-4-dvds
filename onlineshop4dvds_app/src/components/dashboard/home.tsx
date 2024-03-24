@@ -14,7 +14,7 @@ export default function Home({ className }: { className?: string }) {
       </div>
       <div className="flex w-full gap-x-8">
         <TopSelling className="basis-2/5 h-auto" />
-        <RevenueChart className="basis-3/5" />
+        
       </div>
       <QuickActions />
     </div>

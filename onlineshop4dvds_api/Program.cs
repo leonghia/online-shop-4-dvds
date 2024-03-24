@@ -398,8 +398,9 @@ app.MapGet("/api/revenue", async ([FromQuery(Name = "month")] int month, [FromQu
 
     var revenue = orders
                         .GroupBy(o => o.CreatedAt.Date)
-                        .Select(g => new {Revenue = g.Sum(o => o.Subtotal + o.ShippingFee - o.Discount), Date = g.Key})
-                        .ToDictionary(x => x.Date.ToString("yyyy-MM-dd"), x => x.Revenue);
+                        .Select(g => new RevenueDto{Date = g.Key, Revenue = g.Sum(o => o.Subtotal + o.ShippingFee - o.Discount)})
+                        .OrderBy(rd => rd.Date)
+                        .ToList();
 
     return Results.Ok(revenue);
 });
