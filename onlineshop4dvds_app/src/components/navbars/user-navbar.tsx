@@ -70,7 +70,7 @@ export default function UserNavbar() {
                 </NavbarContent>
                 <NavbarContent justify="end">
                     <NavbarItem className="flex items-center">
-                        <Link href="/favorites"><HiOutlineHeart className="w-6 h-6 text-default-500" /></Link>
+                        <HiOutlineHeart className="w-6 h-6 text-default-500" />
                     </NavbarItem>
                     <NavbarItem className="flex items-center">
                         <Link href="/cart">

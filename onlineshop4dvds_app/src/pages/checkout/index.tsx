@@ -72,6 +72,8 @@ export default function CheckoutPage({
             //     await handleMomoPay(1000);
             // }
 
+            window.location.replace("http://localhost:3000");
+
 
         } catch (err) {
             console.error(err);
