@@ -55,6 +55,9 @@ export default function UserNavbar() {
                         <Link className="text-default-500 text-small font-medium" href="/">Home</Link>
                     </NavbarItem>
                     <NavbarItem>
+                        <Link className="text-default-500 text-small font-medium" href="/products">All Products</Link>
+                    </NavbarItem>
+                    <NavbarItem>
                         <Link className="text-default-500 text-small font-medium" href="/">Albums</Link>
                     </NavbarItem>
                     <NavbarItem>
@@ -101,6 +104,9 @@ export default function UserNavbar() {
             <NavbarContent className="hidden sm:flex gap-4" justify="center">
                 <NavbarItem>
                     <Link className="text-default-500 text-small font-medium" href="/">Home</Link>
+                </NavbarItem>
+                <NavbarItem>
+                    <Link className="text-default-500 text-small font-medium" href="/products">All Products</Link>
                 </NavbarItem>
                 <NavbarItem>
                     <Link className="text-default-500 text-small font-medium" href="/">Albums</Link>
