@@ -5,6 +5,7 @@ import { ReactElement, useState } from "react";
 import StarRatings from "./star-ratings";
 import { Product } from "@/models/product";
 import useDebounce from "@/hooks/use-debounce";
+import { API_URL } from "@/config";
 
 const EmptyState = (): ReactElement => {
     return (
@@ -37,7 +38,13 @@ export default function SearchModal() {
     const [items, setItems] = useState<Product[]>([]);
 
     useDebounce(() => {
-        
+        fetch(`${API_URL}/product?q=${query}`)
+            .then(res => res.json())
+            .then((data: Product[]) => {
+                setItems(data);
+                console.log(data);
+            })
+            .catch(err => console.error(err));
     }, [query], 2000);
 
     return (

@@ -36,12 +36,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
+app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, [FromQuery(Name = "q")] string? query, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
 {
     IQueryable<Product> productQuery = context.Products;
     var predicate = PredicateBuilder.New<Product>(true);
     if (genreType is not null) predicate = predicate.And(p => p.GenreType == genreType);
     if (genreId is not null && genreId > 0) predicate = predicate.And(p => p.Genres!.Any(g => g.Id == genreId));
+    if (query is not null && !string.IsNullOrWhiteSpace(query)) predicate = predicate.And(p => p.Title.ToUpper().Contains(query.ToUpper()));
     var products = await productQuery
                             .AsNoTracking()
                             .Where(predicate)
