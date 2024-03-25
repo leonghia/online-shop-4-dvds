@@ -29,9 +29,9 @@ export default function HomePage({albums, movies, games}: InferGetStaticPropsTyp
 
   return (
     <HomeLayout>
-      <div className="flex items-center justify-center p-4">
+      {/* <div className="flex items-center justify-center p-4">
         <ScrollingBanner />
-      </div>
+      </div> */}
       <div className="flex items-center justify-center p-4">
         <div className="my-auto flex w-full max-w-7xl flex-col items-start gap-2">
           <ProductsGrid products={albums} />

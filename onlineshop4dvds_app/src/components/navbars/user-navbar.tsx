@@ -6,7 +6,6 @@ import {
     Link,
     Button,
     Badge,
-    Input,
     Kbd
 } from "@nextui-org/react";
 import { Acme } from "../icons/brands";
@@ -19,6 +18,8 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import AvatarDropdown from "../avatar-dropdown";
+import SearchModal from "../search-modal";
+
 
 export default function UserNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
@@ -66,7 +67,7 @@ export default function UserNavbar() {
                         <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Button startContent={<HiMagnifyingGlass className="w-5 h-5" />} variant="flat" className="text-default-500" endContent={<Kbd keys={["ctrl"]}>K</Kbd>}>Quick search...</Button>
+                        <SearchModal />
                     </NavbarItem>
                 </NavbarContent>
                 <NavbarContent justify="end">
@@ -114,7 +115,7 @@ export default function UserNavbar() {
                     <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button startContent={<HiMagnifyingGlass className="w-5 h-5" />} variant="flat" className="text-default-500" endContent={<Kbd keys={["ctrl"]}>K</Kbd>}>Quick search...</Button>
+                    <SearchModal />
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
