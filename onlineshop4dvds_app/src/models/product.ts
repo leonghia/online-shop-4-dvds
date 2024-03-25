@@ -7,5 +7,6 @@ export interface Product {
     genres: string[];
     ratings: number;
     numbersOfReviews: number;
+    type: string;
 }
 

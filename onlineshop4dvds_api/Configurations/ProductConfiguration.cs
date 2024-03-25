@@ -13,7 +13,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 1,
-                Title = "1989 (Taylor's Version)",
+                Title = "1989 (Taylor's Version) - Taylor Swift",
                 Thumbnail = "https://product.hstatic.net/1000304920/product/taylor-swift-1989-taylor-s-version-vinyl-2lp-dia-than_1d691bd1340a4c90a72d0ee2d292da30.png",
                 Description = "1989 (Taylor’s Version) CD 21 Songs Including 5 previously unreleased songs from The Vault Collectible CD album in jewel case with unique front and back cover art 1 Disc album with unique collectible disc artwork A collectible lyric booklet with never-before-seen photos 10”x10” double-sided Foldable Poster Side 1 includes full size photograph of Taylor Swift Side 2 includes a print of the original handwritten lyrics of “Welcome to New York” Limit 4 per customer. U.S. Customers Only This product is only available to customers shipping to a U.S. address. Depiction of this product is a digital rendering and for illustrative purposes only. Actual product detailing may vary. Ships on or about October 27, 2023 © 2023 Taylor Swift Taylor Swift® Used By Permission. All Rights Reserved.",
                 GenreType = GenreType.Music,
@@ -22,7 +22,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 2,
-                Title = "Harry's House",
+                Title = "Harry's House - Harry Styles",
                 Thumbnail = "https://www.urbanrecords.com.au/cdn/shop/products/harrys_house_vinyl_transparent_1200x_753c33cc-36f7-4e8a-b6c3-c632cb0e3827.webp?v=1652506957",
                 Description = "Limited 180gm vinyl LP pressing housed in gatefold jacket. Includes printed inner sleeve, postcard, and 12 page booklet. 2022 release. Harry's House is the third solo studio album from Grammy award-winning global superstar Harry Styles. The 13-track full-length album was recorded in multiple locations across the UK, Los Angeles, and Tokyo from 2020 to 2021. It was written by Harry alongside frequent collaborators Kid Harpoon, Tyler Johnson, and Mitch Rowland.",
                 GenreType = GenreType.Music,
@@ -31,7 +31,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 3,
-                Title = "Reputation",
+                Title = "Reputation - Taylor Swift",
                 Thumbnail = "https://thesoundofvinyl.us/cdn/shop/files/TaylorSwift-Reputation-1LP-Vinyl_700x700.png?v=1690581381",
                 Description = "Reputation is the sixth studio album by the biggest pop star in the world, Taylor Swift. Certified 3x Platinum.",
                 GenreType = GenreType.Music,
@@ -40,7 +40,7 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             new Product
             {
                 Id = 4,
-                Title = "Lover",
+                Title = "Lover - Taylor Swift",
                 Thumbnail = "https://storeca.taylorswift.com/cdn/shop/products/SharedImage-130517.png?v=1658348062",
                 Description = "Taylor Swift releases her highly anticipated 7th album, Lover featuring the hit singles \"You Need To Calm Down\" and \"ME!\" feat. Brendon Urie of Panic! At The Disco.",
                 GenreType = GenreType.Music,

@@ -21,7 +21,7 @@ const item = (product: Product): ReactElement => {
                 <Image className="w-24 h-24 object-contain" removeWrapper src={product.thumbnailUrl} alt={product.title} />
                 <div className="space-y-1">
                     <p className="font-semibold">{product.title}</p>
-                    <p className="text-small text-default-500"></p>
+                    <p className="text-small text-default-500">{product.type}</p>
                     <div className="flex gap-x-1"><StarRatings ratings={product.ratings} /></div>
                 </div>
             </div>
@@ -44,7 +44,7 @@ export default function SearchModal() {
                                 <Input autoFocus type="text" placeholder="Search for albums, movies, games, etc" labelPlacement="outside" startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
                             </ModalHeader>
                             <ModalBody>
-
+                                <EmptyState />
                             </ModalBody>
                         </>
                     )}
