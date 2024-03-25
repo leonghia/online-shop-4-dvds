@@ -10,4 +10,5 @@ public class ProductDto
     public required ICollection<string> Genres { get; set; }
     public required double Ratings { get; set; }
     public required int NumbersOfReviews { get; set; }
+    public required string Type { get; set; }
 }

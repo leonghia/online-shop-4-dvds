@@ -66,16 +66,17 @@ app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? gen
                             .Take(pageSize)
                             .ToListAsync();
 
-    var productsToReturn = products.Select(i => new ProductDto
+    var productsToReturn = products.Select(p => new ProductDto
     {
-        Id = i.Product.Id,
-        Title = i.Product.Title,
-        ThumbnailUrl = i.Product.Thumbnail,
-        Ratings = Math.Round(i.Ratings, 2),
-        NumbersOfReviews = i.NumberOfReviews,
-        Price = i.Product.Price,
-        Genres = i.Product.Genres!.Select(g => g.Name).ToList(),
-        Description = i.Product.Description
+        Id = p.Product.Id,
+        Title = p.Product.Title,
+        ThumbnailUrl = p.Product.Thumbnail,
+        Ratings = Math.Round(p.Ratings, 2),
+        NumbersOfReviews = p.NumberOfReviews,
+        Price = p.Product.Price,
+        Genres = p.Product.Genres!.Select(g => g.Name).ToList(),
+        Description = p.Product.Description,
+        Type = p.Product.GenreType.ToStringType()
     });
     return Results.Ok(productsToReturn);
 });
