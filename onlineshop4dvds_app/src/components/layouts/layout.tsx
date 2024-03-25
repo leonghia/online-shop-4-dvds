@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Layout({ children }: { children: ReactNode }) {
 
     return (
-        <NextThemesProvider attribute="class" defaultTheme="dark">
+        <NextThemesProvider attribute="class">
             <div className={`text-foreground bg-background ${inter.className}`}>
                 {children}
             </div>
