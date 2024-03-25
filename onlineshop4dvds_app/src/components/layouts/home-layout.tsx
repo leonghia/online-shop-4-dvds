@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import MyNavbar from "../navbar";
+import UserNavbar from "../navbars/user-navbar";
 import MyFooter from "../footer";
 import Hero from "../hero";
 import CurvedContainer from "../curved-container";
@@ -14,7 +14,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                         <div className="absolute top-0 h-full w-full bg-shadow z-0"></div>
                         <div className="relative z-[999]">
                             <div className="flex items-center justify-center">
-                                <MyNavbar />
+                                <UserNavbar />
                             </div>
                             <div className="flex items-center justify-center p-4">
                                 <Hero />

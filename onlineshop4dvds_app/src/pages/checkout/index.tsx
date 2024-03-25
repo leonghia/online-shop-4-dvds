@@ -1,6 +1,6 @@
 import CheckoutForm from "@/components/checkout-form";
 import PageLayout from "@/components/layouts/page-layout";
-import OrderSummary from "@/components/order-summary";
+import OrderSummary from "@/components/orders/order-summary";
 import { Session, getSession } from '@auth0/nextjs-auth0';
 import { UserProfile } from "@auth0/nextjs-auth0/client";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next/types";
@@ -10,7 +10,7 @@ import { useState } from "react";
 import { createHmac } from "crypto";
 import { OrderCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
-import { API_URL } from "@/config";
+import { API_URL, APP_URL } from "@/config";
 import { useCookies } from "react-cookie";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
@@ -68,9 +68,11 @@ export default function CheckoutPage({
             removeCookie("cartId");
 
             // request to 3rd party payment services
-            if (paymentMethod === PaymentMethod.MoMo) {
-                await handleMomoPay(1000);
-            }
+            // if (paymentMethod === PaymentMethod.MoMo) {
+            //     await handleMomoPay(1000);
+            // }
+
+            window.location.replace(APP_URL);
 
 
         } catch (err) {

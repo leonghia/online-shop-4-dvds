@@ -17,7 +17,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
+                          policy.WithOrigins("http://localhost:3000", "http://onlineshop4dvds.com").AllowAnyHeader().AllowAnyMethod();
                       });
 });
 builder.Services.AddEndpointsApiExplorer();
@@ -104,13 +104,14 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Ratings = Math.Round(product.Ratings, 2),
         NumbersOfReviews = product.NumberOfReviews,
         Stock = product.Product.Stock,
-        Images = new List<string>{product.Product.Thumbnail},
+        Images = new List<string> { product.Product.Thumbnail },
         Type = product.Product.GenreType.ToStringType()
     };
     return Results.Ok(productToReturn);
 });
 
-app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) => {
+app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) =>
+{
     var cart = await context.Carts
                         .AsNoTracking()
                         .Include(c => c.CartProducts)
@@ -136,7 +137,8 @@ app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) => 
     return Results.Ok(cartToReturn);
 });
 
-app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopContext context) => {
+app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopContext context) =>
+{
     var product = await context.Products.FindAsync(cartCreateDto.ProductId);
     if (product is null) return Results.NotFound();
 
@@ -151,8 +153,8 @@ app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopCont
     };
     context.CartProduct.Add(cartProductToCreate);
     await context.SaveChangesAsync();
-    
-    var subtotal = Calculator.CalculateSubtotal(new List<CartProduct>{cartProductToCreate});
+
+    var subtotal = Calculator.CalculateSubtotal(new List<CartProduct> { cartProductToCreate });
     var cartToReturn = new CartDto
     {
         Id = cartToCreate.Id,
@@ -174,7 +176,8 @@ app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopCont
     return Results.Created($"/cart/{cartToCreate.Id}", cartToReturn);
 });
 
-app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemUpdateDto, [FromRoute] int id, ShopContext context) => {
+app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemUpdateDto, [FromRoute] int id, ShopContext context) =>
+{
     var cart = await context.Carts.FindAsync(id);
     if (cart is null) return Results.NotFound();
     var product = await context.Products.FindAsync(cartItemUpdateDto.ProductId);
@@ -183,7 +186,7 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
     var cartItemsToUpdate = await context.CartProduct
                                 .AsNoTracking()
                                 .FirstOrDefaultAsync(cp => cp.CartId == id && cp.ProductId == cartItemUpdateDto.ProductId);
-    
+
     // If item is not in the cart, we create it with default quantity = 1
     if (cartItemsToUpdate is null)
     {
@@ -227,7 +230,8 @@ app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemU
     return Results.Ok(cartToReturn);
 });
 
-app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) => {
+app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) =>
+{
     // Create user if he does not exist based on UserSub
     var user = await context.Users
                         .AsNoTracking()
@@ -235,7 +239,7 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     int userId;
     if (user is null)
     {
-        var userToCreate = new User{Sub = orderCreateDto.UserSub};
+        var userToCreate = new User { Sub = orderCreateDto.UserSub };
         context.Users.Add(userToCreate);
         await context.SaveChangesAsync();
         userId = userToCreate.Id;
@@ -262,6 +266,7 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     };
     context.Orders.Add(orderToCreate);
     await context.SaveChangesAsync();
+
     var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
     {
         Quantity = cp.Quantity,
@@ -269,6 +274,10 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
         OrderId = orderToCreate.Id
     });
     context.OrderProduct.AddRange(orderProductsToCreate);
+
+    // Delete the cart from database
+    context.Carts.Remove(cart);
+
     await context.SaveChangesAsync();
 
     // Return the orderDetailDto
@@ -303,7 +312,8 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     return Results.Accepted();
 });
 
-app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) => {
+app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext context) =>
+{
     var order = await context.Orders
                         .AsNoTracking()
                         .Include(o => o.OrderProducts!)
@@ -314,7 +324,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
     order.Status = OrderStatus.Processing;
     context.Orders.Update(order);
     await context.SaveChangesAsync();
-    
+
     var items = order.OrderProducts!.Select(op => new OrderItemDto
     {
         Type = op.Product!.GenreType.ToStringType(),
@@ -333,7 +343,7 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
         Status = order.Status,
         Subtotal = order.Subtotal,
         ShippingFee = order.ShippingFee,
-        Discount = order.Discount ??= 0,
+        Discount = order.Discount,
         PaymentMethod = order.PaymentMethod.ToString(),
         Items = items
     };
@@ -341,7 +351,8 @@ app.MapPut("/api/order/{id}/pay", async ([FromRoute] string id, ShopContext cont
     return Results.Ok(orderToReturn);
 });
 
-app.MapGet("/api/order", async ([FromQuery(Name="sub")] string sub, ShopContext context) => {
+app.MapGet("/api/order", async ([FromQuery(Name = "sub")] string sub, ShopContext context) =>
+{
     if (sub is null) return Results.BadRequest();
     var user = await context.Users
                         .AsNoTracking()
@@ -371,11 +382,27 @@ app.MapGet("/api/order", async ([FromQuery(Name="sub")] string sub, ShopContext 
             Price = op.Product.Price
         }).ToList(),
         Id = o.Id,
-        Discount = o.Discount ??= 0,
+        Discount = o.Discount,
         CreatedAt = o.CreatedAt
     });
 
     return Results.Ok(ordersToReturn);
+});
+
+app.MapGet("/api/revenue", async ([FromQuery(Name = "month")] int month, [FromQuery(Name = "year")] int year, ShopContext context) =>
+{
+    var orders = await context.Orders
+                        .AsNoTracking()
+                        .Where(o => o.CreatedAt.Year == year && o.CreatedAt.Month == month)
+                        .ToListAsync();
+
+    var revenue = orders
+                        .GroupBy(o => o.CreatedAt.Date)
+                        .Select(g => new RevenueDto{Date = g.Key, Revenue = g.Sum(o => o.Subtotal + o.ShippingFee - o.Discount)})
+                        .OrderBy(rd => rd.Date)
+                        .ToList();
+
+    return Results.Ok(revenue);
 });
 
 app.Run();

@@ -142,3 +142,8 @@
   border-radius: inherit;
   background: linear-gradient(to right, rgba(33, 13, 22, 1) 16%, rgb(40, 184, 83, 1), rgb(9, 229, 112, 1), rgba(40, 184, 83, 1), rgba(33, 13, 22, 1) 84%);
 }
+
+.apexcharts-tooltip {
+  background: #f3f3f3;
+  color: #374151;
+}

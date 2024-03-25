@@ -1,19 +1,21 @@
 import { ReactNode } from "react";
-import MyNavbar from "../navbar";
+import UserNavbar from "../navbars/user-navbar";
 import MyFooter from "../footer";
 import UserLayout from "./user-layout";
 
 export default function PageLayout({ children }: { children: ReactNode }) {
     return (
         <UserLayout>
-            <div className="bg-radial min-h-screen">
-                <div className="flex items-center justify-center">
-                    <MyNavbar />
-                </div>
+            <div className="bg-radial min-h-screen flex flex-col justify-between">
                 <div>
-                    <main>
-                        {children}
-                    </main>
+                    <div className="flex items-center justify-center">
+                        <UserNavbar />
+                    </div>
+                    <div>
+                        <main className="flex items-center justify-center p-10">
+                            {children}
+                        </main>
+                    </div>
                 </div>
                 <div className="flex items-center justify-center p-4">
                     <MyFooter />
