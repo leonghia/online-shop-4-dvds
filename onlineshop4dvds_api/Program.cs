@@ -88,6 +88,7 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
     var product = await query
                             .AsNoTracking()
                             .Include(p => p.Genres)
+                            .Include(p => p.Images)
                             .Select(p => new
                             {
                                 Product = p,
@@ -96,6 +97,8 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
                             })
                             .FirstOrDefaultAsync(p => p.Product.Id == id);
     if (product is null) return Results.NotFound();
+    var images = new List<string>{product.Product.Thumbnail};
+    images.AddRange(product.Product.Images.Select(i => i.Url));
     var productToReturn = new ProductDetailDto
     {
         Id = product.Product.Id,
@@ -106,7 +109,7 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Ratings = Math.Round(product.Ratings, 2),
         NumbersOfReviews = product.NumberOfReviews,
         Stock = product.Product.Stock,
-        Images = new List<string> { product.Product.Thumbnail },
+        Images = images,
         Type = product.Product.GenreType.ToStringType()
     };
     return Results.Ok(productToReturn);
