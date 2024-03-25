@@ -6,7 +6,8 @@ import {
     Link,
     Button,
     Badge,
-    Input
+    Input,
+    Kbd
 } from "@nextui-org/react";
 import { Acme } from "../icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell, HiMagnifyingGlass, HiChevronRight } from "react-icons/hi2";
@@ -65,7 +66,7 @@ export default function UserNavbar() {
                         <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                        <Button startContent={<HiMagnifyingGlass className="w-5 h-5" />} variant="flat" className="text-default-500" endContent={<Kbd keys={["ctrl"]}>K</Kbd>}>Quick search...</Button>
                     </NavbarItem>
                 </NavbarContent>
                 <NavbarContent justify="end">
@@ -113,7 +114,7 @@ export default function UserNavbar() {
                     <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                    <Button startContent={<HiMagnifyingGlass className="w-5 h-5" />} variant="flat" className="text-default-500" endContent={<Kbd keys={["ctrl"]}>K</Kbd>}>Quick search...</Button>
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">
