@@ -125,7 +125,7 @@
   border-top-left-radius: 50% 100%;
   border-top-right-radius: 50% 100%;
   border-bottom: none;
-  background: linear-gradient(to right, #12091A, #100D20, #12091A);
+  background: linear-gradient(to right, #12091A, #0d0b14, #12091A);
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
 }

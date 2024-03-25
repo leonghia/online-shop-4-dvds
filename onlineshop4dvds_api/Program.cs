@@ -36,12 +36,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
+app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, [FromQuery(Name = "q")] string? query, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
 {
     IQueryable<Product> productQuery = context.Products;
     var predicate = PredicateBuilder.New<Product>(true);
     if (genreType is not null) predicate = predicate.And(p => p.GenreType == genreType);
     if (genreId is not null && genreId > 0) predicate = predicate.And(p => p.Genres!.Any(g => g.Id == genreId));
+    if (query is not null && !string.IsNullOrWhiteSpace(query)) predicate = predicate.And(p => p.Title.ToUpper().Contains(query.ToUpper()));
     var products = await productQuery
                             .AsNoTracking()
                             .Where(predicate)
@@ -66,16 +67,17 @@ app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? gen
                             .Take(pageSize)
                             .ToListAsync();
 
-    var productsToReturn = products.Select(i => new ProductDto
+    var productsToReturn = products.Select(p => new ProductDto
     {
-        Id = i.Product.Id,
-        Title = i.Product.Title,
-        ThumbnailUrl = i.Product.Thumbnail,
-        Ratings = Math.Round(i.Ratings, 2),
-        NumbersOfReviews = i.NumberOfReviews,
-        Price = i.Product.Price,
-        Genres = i.Product.Genres!.Select(g => g.Name).ToList(),
-        Description = i.Product.Description
+        Id = p.Product.Id,
+        Title = p.Product.Title,
+        ThumbnailUrl = p.Product.Thumbnail,
+        Ratings = Math.Round(p.Ratings, 2),
+        NumbersOfReviews = p.NumberOfReviews,
+        Price = p.Product.Price,
+        Genres = p.Product.Genres!.Select(g => g.Name).ToList(),
+        Description = p.Product.Description,
+        Type = p.Product.GenreType.ToStringType()
     });
     return Results.Ok(productsToReturn);
 });

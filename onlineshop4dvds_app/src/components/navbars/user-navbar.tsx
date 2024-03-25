@@ -6,7 +6,7 @@ import {
     Link,
     Button,
     Badge,
-    Input
+    Kbd
 } from "@nextui-org/react";
 import { Acme } from "../icons/brands";
 import { HiOutlineShoppingCart, HiOutlineHeart, HiOutlineBell, HiMagnifyingGlass, HiChevronRight } from "react-icons/hi2";
@@ -18,6 +18,8 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import AvatarDropdown from "../avatar-dropdown";
+import SearchModal from "../search-modal";
+
 
 export default function UserNavbar() {
     const [cookies, setCookie] = useCookies(["cartId"]);
@@ -65,7 +67,7 @@ export default function UserNavbar() {
                         <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                     </NavbarItem>
                     <NavbarItem>
-                        <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                        <SearchModal />
                     </NavbarItem>
                 </NavbarContent>
                 <NavbarContent justify="end">
@@ -113,7 +115,7 @@ export default function UserNavbar() {
                     <Link className="text-default-500 text-small font-medium" href="/">News</Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Input type="text" labelPlacement="outside" placeholder="Search for DVD..." startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                    <SearchModal />
                 </NavbarItem>
             </NavbarContent>
             <NavbarContent justify="end">

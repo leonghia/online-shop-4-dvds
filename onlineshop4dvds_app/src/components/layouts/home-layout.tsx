@@ -12,7 +12,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                 <div className="bg-hero bg-center bg-no-repeat bg-cover relative">
                     <div>
                         <div className="absolute top-0 h-full w-full bg-shadow z-0"></div>
-                        <div className="relative z-[999]">
+                        <div className="relative">
                             <div className="flex items-center justify-center">
                                 <UserNavbar />
                             </div>
