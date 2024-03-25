@@ -66,4 +66,5 @@ public class ShopContext : DbContext
     public DbSet<CartProduct> CartProduct {get;set;}
     public DbSet<Order> Orders {get;set;}
     public DbSet<OrderProduct> OrderProduct {get;set;}
+    public DbSet<Image> Images {get;set;}
 }
