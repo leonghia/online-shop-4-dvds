@@ -12,7 +12,7 @@ export default function PageLayout({ children }: { children: ReactNode }) {
                         <UserNavbar />
                     </div>
                     <div>
-                        <main>
+                        <main className="flex items-center justify-center p-10">
                             {children}
                         </main>
                     </div>
