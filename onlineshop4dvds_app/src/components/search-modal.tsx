@@ -1,9 +1,10 @@
 import { Modal, ModalContent, ModalHeader, ModalBody, Button, Kbd, useDisclosure, Input, Image, Divider } from "@nextui-org/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaFolderOpen } from "react-icons/fa6";
-import { ReactElement } from "react";
+import { ReactElement, useState } from "react";
 import StarRatings from "./star-ratings";
 import { Product } from "@/models/product";
+import useDebounce from "@/hooks/use-debounce";
 
 const EmptyState = (): ReactElement => {
     return (
@@ -32,6 +33,12 @@ const item = (product: Product): ReactElement => {
 
 export default function SearchModal() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [query, setQuery] = useState<string>("");
+    const [items, setItems] = useState<Product[]>([]);
+
+    useDebounce(() => {
+        
+    }, [query], 2000);
 
     return (
         <>
@@ -41,10 +48,10 @@ export default function SearchModal() {
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">
-                                <Input autoFocus type="text" placeholder="Search for albums, movies, games, etc" labelPlacement="outside" startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} />
+                                <Input autoFocus type="text" placeholder="Search for albums, movies, games, etc" labelPlacement="outside" startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} onValueChange={(value: string) => setQuery(value)} value={query} />
                             </ModalHeader>
                             <ModalBody>
-                                <EmptyState />
+                                {items.length ? <div></div> : <EmptyState />}
                             </ModalBody>
                         </>
                     )}
