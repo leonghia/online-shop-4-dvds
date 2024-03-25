@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, Button, Kbd, useDisclosure, Input, Image, Divider } from "@nextui-org/react";
+import { Modal, ModalContent, ModalHeader, ModalBody, Button, Kbd, useDisclosure, Input, Image, Divider, cn } from "@nextui-org/react";
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { FaFolderOpen } from "react-icons/fa6";
 import { ReactElement, useState } from "react";
@@ -6,6 +6,7 @@ import StarRatings from "./star-ratings";
 import { Product } from "@/models/product";
 import useDebounce from "@/hooks/use-debounce";
 import { API_URL } from "@/config";
+import Link from "next/link";
 
 const EmptyState = (): ReactElement => {
     return (
@@ -16,9 +17,9 @@ const EmptyState = (): ReactElement => {
     );
 }
 
-const item = (product: Product): ReactElement => {
+const Item = ({product, className}: {product: Product, className?: string}): ReactElement => {
     return (
-        <div className="flex justify-between items-center">
+        <div className={cn("flex justify-between items-center", className)}>
             <div className="flex gap-x-2 items-center">
                 <Image className="w-24 h-24 object-contain" removeWrapper src={product.thumbnailUrl} alt={product.title} />
                 <div className="space-y-1">
@@ -35,17 +36,20 @@ const item = (product: Product): ReactElement => {
 export default function SearchModal() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [query, setQuery] = useState<string>("");
-    const [items, setItems] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product[]>([]);
 
     useDebounce(() => {
+        if (query === "") {
+            setProducts([]);
+            return;
+        }
         fetch(`${API_URL}/product?q=${query}`)
             .then(res => res.json())
             .then((data: Product[]) => {
-                setItems(data);
-                console.log(data);
+                setProducts(data);
             })
             .catch(err => console.error(err));
-    }, [query], 2000);
+    }, [query], 500);
 
     return (
         <>
@@ -58,7 +62,7 @@ export default function SearchModal() {
                                 <Input autoFocus type="text" placeholder="Search for albums, movies, games, etc" labelPlacement="outside" startContent={<HiMagnifyingGlass className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />} onValueChange={(value: string) => setQuery(value)} value={query} />
                             </ModalHeader>
                             <ModalBody>
-                                {items.length ? <div></div> : <EmptyState />}
+                                {products.length ? (products.map(p => <Link href={`/product/${p.id}`} key={p.id}><Item product={p} /></Link>)) : <EmptyState />}
                             </ModalBody>
                         </>
                     )}
