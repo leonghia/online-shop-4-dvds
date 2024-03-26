@@ -1,7 +1,12 @@
 import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider } from "@nextui-org/react";
+import { useState } from "react";
 import { HiChevronDown } from "react-icons/hi2";
 
+const defaultPriceRange: number[] = [0, 1000];
+
 export default function ProductsFilters() {
+    const [priceRange, setPriceRange] = useState<number[] | number>([0, 500]);
+
     return (
         <header className="relative z-20 flex flex-col gap-2 rounded-medium bg-default-50 px-4 pb-3 pt-2 md:pt-3">
             <div className="flex items-center gap-1 md:hidden md:gap-2">
@@ -31,18 +36,19 @@ export default function ProductsFilters() {
                                         step={50}
                                         minValue={0}
                                         maxValue={1000}
-                                        defaultValue={[0, 500]}
+                                        value={priceRange}
+                                        onChange={setPriceRange}
                                         formatOptions={{ style: "currency", currency: "USD" }}
-                                        className="max-w-md"
+                                        
                                     />
                                     <div className="flex items-center">
-                                        <Input type="number" labelPlacement="outside" startContent={
+                                        <Input type="number" min={0} max={1000} step={50} value={(priceRange as number[])[0].toString()} onValueChange={(value: string) => setPriceRange([parseInt(value), (priceRange as number[])[1]])} labelPlacement="outside" startContent={
                                             <div className="pointer-events-none flex items-center">
                                                 <span className="text-default-400">$</span>
                                             </div>
                                         } />
                                         <Divider className="mx-2 w-2" />
-                                        <Input type="number" labelPlacement="outside" startContent={
+                                        <Input type="number" min={0} max={1000} step={50} value={(priceRange as number[])[1].toString()} onValueChange={(value: string) => setPriceRange([(priceRange as number[])[0], parseInt(value)])} labelPlacement="outside" startContent={
                                             <div className="pointer-events-none flex items-center">
                                                 <span className="text-default-400">$</span>
                                             </div>
@@ -52,7 +58,7 @@ export default function ProductsFilters() {
                             </div>
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
-                                <Button size="sm" variant="flat" className="font-medium">Reset</Button>
+                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setPriceRange(defaultPriceRange)}>Reset</Button>
                                 <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                             </div>
                         </PopoverContent>
