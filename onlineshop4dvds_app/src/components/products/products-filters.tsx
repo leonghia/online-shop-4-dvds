@@ -1,8 +1,10 @@
+import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
 import { ProductType } from "@/utils/product";
-import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio } from "@nextui-org/react";
-import { ReactElement, useState } from "react";
+import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio, CheckboxGroup } from "@nextui-org/react";
+import { ReactElement, useEffect, useState } from "react";
 import { HiChevronDown, HiMiniFunnel } from "react-icons/hi2";
+import GenreCheckbox from "../genre-checkbox";
 
 const defaultPriceRange: number[] = [0, 1000];
 
@@ -17,8 +19,17 @@ const EmptyGenres = (): ReactElement => {
 
 export default function ProductsFilters() {
     const [genres, setGenres] = useState<Genre[] | null>(null);
-    const [priceRange, setPriceRange] = useState<number[] | number>([0, 500]);
-    const [productType, setProductType] = useState<ProductType>(ProductType.All);
+    const [selectedPriceRange, setSelectedPriceRange] = useState<number[] | number>([0, 500]);
+    const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
+    const [selectedGenresIds, setSelectedGenresIds] = useState<number[]>([]);
+
+    useEffect(() => {
+        if (selectedProductType === ProductType.All) return;
+        fetch(`${API_URL}/genre?type=${selectedProductType}`)
+            .then(res => res.json())
+            .then((data: Genre[]) => setGenres(data))
+            .catch(err => console.error(err));
+    }, [selectedProductType]);
 
     return (
         <header className="relative z-20 flex flex-col gap-2 rounded-medium bg-default-50 px-4 pb-3 pt-2 md:pt-3">
@@ -43,7 +54,7 @@ export default function ProductsFilters() {
                                 Product Type
                             </span>
                             <div className="w-full px-2">
-                                <RadioGroup value={productType?.toString()} onValueChange={(value: string) => setProductType(parseInt(value))} >
+                                <RadioGroup value={selectedProductType?.toString()} onValueChange={(value: string) => setSelectedProductType(parseInt(value))} >
                                     <Radio value={ProductType.Album.toString()}>{ProductType[ProductType.Album]}</Radio>
                                     <Radio value={ProductType.Movie.toString()}>{ProductType[ProductType.Movie]}</Radio>
                                     <Radio value={ProductType.Game.toString()}>{ProductType[ProductType.Game]}</Radio>
@@ -52,7 +63,7 @@ export default function ProductsFilters() {
                             </div>
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
-                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setProductType(ProductType.All)}>Reset</Button>
+                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedProductType(ProductType.All)}>Reset</Button>
                                 <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                             </div>
                         </PopoverContent>
@@ -66,11 +77,18 @@ export default function ProductsFilters() {
                                 Genres
                             </span>
                             <div className="w-full px-2">
-                                {productType === ProductType.All && <EmptyGenres />}
+                                <CheckboxGroup
+                                    className="gap-1"
+                                    orientation="horizontal"
+                                    value={selectedGenresIds.map(id => id.toString())}
+                                    onChange={(value: string[]) => setSelectedGenresIds(value.map(v => parseInt(v)))}
+                                >
+                                    {genres?.map(g => <GenreCheckbox key={g.id} value={g.id.toString()}>{g.name}</GenreCheckbox>)}
+                                </CheckboxGroup>
                             </div>
-                            {productType !== ProductType.All && <><Divider className="mt-3 bg-default-100" />
+                            {selectedProductType !== ProductType.All && <><Divider className="mt-3 bg-default-100" />
                                 <div className="flex w-full justify-end gap-2 py-2">
-                                    <Button size="sm" variant="flat" className="font-medium" onPress={() => setProductType(ProductType.All)}>Reset</Button>
+                                    <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedGenresIds([])}>Reset</Button>
                                     <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                                 </div></>}
                         </PopoverContent>
@@ -90,19 +108,19 @@ export default function ProductsFilters() {
                                         step={50}
                                         minValue={0}
                                         maxValue={1000}
-                                        value={priceRange}
-                                        onChange={setPriceRange}
+                                        value={selectedPriceRange}
+                                        onChange={setSelectedPriceRange}
                                         formatOptions={{ style: "currency", currency: "USD" }}
 
                                     />
                                     <div className="flex items-center">
-                                        <Input type="number" min={0} max={1000} step={50} value={(priceRange as number[])[0].toString()} onValueChange={(value: string) => setPriceRange([parseInt(value), (priceRange as number[])[1]])} labelPlacement="outside" startContent={
+                                        <Input type="number" min={0} max={1000} step={50} value={(selectedPriceRange as number[])[0].toString()} onValueChange={(value: string) => setSelectedPriceRange([parseInt(value), (selectedPriceRange as number[])[1]])} labelPlacement="outside" startContent={
                                             <div className="pointer-events-none flex items-center">
                                                 <span className="text-default-400">$</span>
                                             </div>
                                         } />
                                         <Divider className="mx-2 w-2" />
-                                        <Input type="number" min={0} max={1000} step={50} value={(priceRange as number[])[1].toString()} onValueChange={(value: string) => setPriceRange([(priceRange as number[])[0], parseInt(value)])} labelPlacement="outside" startContent={
+                                        <Input type="number" min={0} max={1000} step={50} value={(selectedPriceRange as number[])[1].toString()} onValueChange={(value: string) => setSelectedPriceRange([(selectedPriceRange as number[])[0], parseInt(value)])} labelPlacement="outside" startContent={
                                             <div className="pointer-events-none flex items-center">
                                                 <span className="text-default-400">$</span>
                                             </div>
@@ -112,7 +130,7 @@ export default function ProductsFilters() {
                             </div>
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
-                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setPriceRange(defaultPriceRange)}>Reset</Button>
+                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedPriceRange(defaultPriceRange)}>Reset</Button>
                                 <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                             </div>
                         </PopoverContent>

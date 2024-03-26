@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/api/genre", async ([FromQuery(Name = "genreType")] GenreType? genreType, ShopContext context) => {
+app.MapGet("/api/genre", async ([FromQuery(Name = "type")] GenreType? genreType, ShopContext context) => {
     var predicate = PredicateBuilder.New<Genre>(true);
     if (genreType is not null)
     {
