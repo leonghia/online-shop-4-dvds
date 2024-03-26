@@ -8,7 +8,7 @@ public class ProductDto
     public required string ThumbnailUrl { get; set; }
     public required string Description { get; set; }
     public required ICollection<string> Genres { get; set; }
-    public required double Ratings { get; set; }
+    public required decimal? Ratings { get; set; }
     public required int NumbersOfReviews { get; set; }
     public required string Type { get; set; }
 }

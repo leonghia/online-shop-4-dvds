@@ -19,4 +19,5 @@ public class Product
     public ICollection<Cart> Carts {get;set;} = [];
     public ICollection<Order> Orders {get;set;} = [];
     public ICollection<Image> Images {get;set;} = [];
+    public decimal? Rating {get;set;}
 }
