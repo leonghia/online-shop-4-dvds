@@ -1,3 +1,4 @@
+import { Genre } from "@/models/genre";
 import { ProductType } from "@/utils/product";
 import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio } from "@nextui-org/react";
 import { ReactElement, useState } from "react";
@@ -15,6 +16,7 @@ const EmptyGenres = (): ReactElement => {
 }
 
 export default function ProductsFilters() {
+    const [genres, setGenres] = useState<Genre[] | null>(null);
     const [priceRange, setPriceRange] = useState<number[] | number>([0, 500]);
     const [productType, setProductType] = useState<ProductType>(ProductType.All);
 

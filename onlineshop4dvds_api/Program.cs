@@ -36,6 +36,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
+app.MapGet("/api/genre", async ([FromQuery(Name = "genreType")] GenreType? genreType, ShopContext context) => {
+    var predicate = PredicateBuilder.New<Genre>(true);
+    if (genreType is not null)
+    {
+        predicate = predicate.And(g => g.GenreType == genreType);
+    }
+    var genres = await context.Genres
+                        .AsNoTracking()
+                        .Where(predicate)
+                        .ToListAsync();
+    var genresToReturn = genres.Select(g => new GenreDto
+    {
+        Name = g.Name,
+        Id = g.Id
+    });
+    return Results.Ok(genresToReturn);
+});
+
 app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, [FromQuery(Name = "q")] string? query, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
 {
     IQueryable<Product> productQuery = context.Products;
