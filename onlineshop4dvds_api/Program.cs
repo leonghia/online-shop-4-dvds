@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -81,11 +82,21 @@ app.MapGet("/api/product", async (HttpRequest request, [FromQuery(Name = "type")
             case ProductSort.MostPopular:
                 orderBy = productQuery => productQuery.OrderByDescending(p => p.Orders.Select(o => o.OrderProducts!.Where(op => op.ProductId == p.Id).Sum(op => op.Quantity)));
                 break;
-
-        }
+            case ProductSort.PriceHighestToLowest:
+                orderBy = productQuery => productQuery.OrderByDescending(p => p.Price);
+                break;
+            case ProductSort.PriceLowestToHighest:
+                orderBy = productQuery => productQuery.OrderBy(p => p.Price);
+                break;
+            case ProductSort.TopRated:
+                orderBy = productQuery => productQuery.OrderBy(p => p.Rating);
+                break;
+            default:
+                throw new SwitchExpressionException(nameof(sort));
+        }   
     }
 
-    var products = await productQuery
+    var products = await orderBy(productQuery)
                             .AsNoTracking()
                             .Where(predicate)
                             .Include(p => p.Genres)

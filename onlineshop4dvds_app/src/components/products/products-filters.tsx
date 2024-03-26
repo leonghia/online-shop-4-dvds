@@ -20,7 +20,7 @@ const EmptyGenres = (): ReactElement => {
     );
 }
 
-export default function ProductsFilters() {
+export default function ProductsFilters({onApply}: {onApply: Function}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, 500]);
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
@@ -38,10 +38,10 @@ export default function ProductsFilters() {
     }, [selectedProductType]);
 
     useEffect(() => {
-        fetch(url).then(res => res.json()).then((data: Product[]) => console.log(data)).catch(err => console.error(err));
+        fetch(url).then(res => res.json()).then((data: Product[]) => onApply(data)).catch(err => console.error(err));
     }, [url]);
 
-    const handleFilter = () => {
+    const handleFilter = (sortOrder?: ProductSortOrder) => {
         const newUrl = new URL(`${API_URL}/product`);
         if (selectedPriceRange[0] >= 0 && selectedPriceRange[0] < selectedPriceRange[1]) {
             newUrl.searchParams.set("price_from", selectedPriceRange[0].toString());
@@ -56,7 +56,7 @@ export default function ProductsFilters() {
         if (selectedRating > 0) {
             newUrl.searchParams.set("rating", selectedRating.toString());
         }
-        newUrl.searchParams.set("sort", selectedSortOrder.toString());
+        newUrl.searchParams.set("sort", sortOrder?.toString() || selectedSortOrder.toString());
         setUrl(newUrl);
     }
 
@@ -205,7 +205,7 @@ export default function ProductsFilters() {
                                 selectionMode="single"
                                 onAction={(key) => {
                                     setSelectedSortOrder(parseInt(key as string));
-                                    handleFilter();
+                                    handleFilter(parseInt(key as string));
                                 }}
                             >
                                 <ListboxItem key={ProductSortOrder.Newest}>{orderToString(ProductSortOrder.Newest)}</ListboxItem>
