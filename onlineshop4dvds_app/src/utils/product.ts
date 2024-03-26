@@ -5,7 +5,7 @@ export enum ProductType {
     All
 }
 
-export enum ProductOrder {
+export enum ProductSortOrder {
     Newest,
     PriceLowestToHighest,
     PriceHighestToLowest,
@@ -13,17 +13,17 @@ export enum ProductOrder {
     MostPopular
 }
 
-export const orderToString = (productOrder: ProductOrder): string => {
+export const orderToString = (productOrder: ProductSortOrder): string => {
     switch (productOrder) {
-        case ProductOrder.Newest || 0:
+        case ProductSortOrder.Newest || 0:
             return "Newest";
-        case ProductOrder.PriceLowestToHighest || 1:
+        case ProductSortOrder.PriceLowestToHighest || 1:
             return "Price: Lowest to highest";
-        case ProductOrder.PriceHighestToLowest || 2:
+        case ProductSortOrder.PriceHighestToLowest || 2:
             return "Price: Highest to lowest";
-        case ProductOrder.TopRated || 3:
+        case ProductSortOrder.TopRated || 3:
             return "Top Rated";
-        case ProductOrder.MostPopular || 4:
+        case ProductSortOrder.MostPopular || 4:
             return "Most Popular";
         default:
             console.log(productOrder);

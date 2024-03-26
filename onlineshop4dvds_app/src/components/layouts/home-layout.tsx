@@ -24,7 +24,7 @@ export default function HomeLayout({ children }: { children: ReactNode }) {
                     <CurvedContainer />
                 </div>
                 <div>
-                    <main className="space-y-10">
+                    <main className="space-y-6">
                         {children}
                     </main>
                 </div>

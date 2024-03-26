@@ -5,16 +5,23 @@ import { API_URL } from "@/config";
 import { GenreType } from "@/utils/genre";
 import { Product } from "@/models/product";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { AcceptHeaders } from "@/utils/header";
 
 export const getStaticProps = (async () => {
   // Fetch data from external API
-  const resForAlbums = await fetch(`${API_URL}/product?genreType=${GenreType.Music}`);
+  const resForAlbums = await fetch(`${API_URL}/product?type=${GenreType.Music}`, {
+    headers: {"Accept": AcceptHeaders.ProductWithDescription}
+  });
   const albums: Product[] = await resForAlbums.json();
 
-  const resForMovies = await fetch(`${API_URL}/product?genreType=${GenreType.Movie}`);
+  const resForMovies = await fetch(`${API_URL}/product?type=${GenreType.Movie}`, {
+    headers: {"Accept": AcceptHeaders.ProductWithDescription}
+  });
   const movies: Product[] = await resForMovies.json();
 
-  const resForGames = await fetch(`${API_URL}/product?genreType=${GenreType.Game}`);
+  const resForGames = await fetch(`${API_URL}/product?type=${GenreType.Game}`, {
+    headers: {"Accept": AcceptHeaders.ProductWithDescription}
+  });
   const games: Product[] = await resForGames.json();
 
   // Pass data to the page via props

@@ -1,11 +1,13 @@
 import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
-import { ProductOrder, ProductType, orderToString } from "@/utils/product";
+import { ProductSortOrder, ProductType, orderToString } from "@/utils/product";
 import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio, CheckboxGroup, Listbox, ListboxItem } from "@nextui-org/react";
 import { MouseEvent, ReactElement, useEffect, useState } from "react";
 import { HiChevronDown, HiMiniFunnel } from "react-icons/hi2";
 import GenreCheckbox from "../genre-checkbox";
 import StarRatings from "../star-ratings";
+import { Product } from "@/models/product";
+import { AcceptHeaders } from "@/utils/header";
 
 const defaultPriceRange: number[] = [0, 1000];
 
@@ -20,11 +22,12 @@ const EmptyGenres = (): ReactElement => {
 
 export default function ProductsFilters() {
     const [genres, setGenres] = useState<Genre[] | null>(null);
-    const [selectedPriceRange, setSelectedPriceRange] = useState<number[] | number>([0, 500]);
+    const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, 500]);
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
     const [selectedGenresIds, setSelectedGenresIds] = useState<number[]>([]);
     const [selectedRating, setSelectedRating] = useState<number>(0);
-    const [selectedOrder, setSelectedOrder] = useState<ProductOrder>(ProductOrder.Newest);
+    const [selectedSortOrder, setSelectedSortOrder] = useState<ProductSortOrder>(ProductSortOrder.Newest);
+    const [url, setUrl] = useState<URL>(new URL(`${API_URL}/product`));
 
     useEffect(() => {
         if (selectedProductType === ProductType.All) return;
@@ -33,6 +36,29 @@ export default function ProductsFilters() {
             .then((data: Genre[]) => setGenres(data))
             .catch(err => console.error(err));
     }, [selectedProductType]);
+
+    useEffect(() => {
+        fetch(url).then(res => res.json()).then((data: Product[]) => console.log(data)).catch(err => console.error(err));
+    }, [url]);
+
+    const handleFilter = () => {
+        const newUrl = new URL(`${API_URL}/product`);
+        if (selectedPriceRange[0] >= 0 && selectedPriceRange[0] < selectedPriceRange[1]) {
+            newUrl.searchParams.set("price_from", selectedPriceRange[0].toString());
+            newUrl.searchParams.set("price_to", selectedPriceRange[1].toString());
+        }
+        if (selectedProductType !== ProductType.All) {
+            newUrl.searchParams.set("type", selectedProductType.toString());
+        }
+        if (selectedGenresIds.length > 0) {
+            newUrl.searchParams.set("genres", selectedGenresIds.join(","));
+        }
+        if (selectedRating > 0) {
+            newUrl.searchParams.set("rating", selectedRating.toString());
+        }
+        newUrl.searchParams.set("sort", selectedSortOrder.toString());
+        setUrl(newUrl);
+    }
 
     return (
         <header className="relative z-20 flex flex-col gap-2 rounded-medium bg-default-50 px-4 pb-3 pt-2 md:pt-3">
@@ -67,7 +93,7 @@ export default function ProductsFilters() {
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedProductType(ProductType.All)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
@@ -94,7 +120,7 @@ export default function ProductsFilters() {
                             {selectedProductType !== ProductType.All && <><Divider className="mt-3 bg-default-100" />
                                 <div className="flex w-full justify-end gap-2 py-2">
                                     <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedGenresIds([])}>Reset</Button>
-                                    <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
+                                    <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
                                 </div></>}
                         </PopoverContent>
                     </Popover>
@@ -136,7 +162,7 @@ export default function ProductsFilters() {
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedPriceRange(defaultPriceRange)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
@@ -163,13 +189,13 @@ export default function ProductsFilters() {
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedRating(0)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
                     <Popover placement="bottom" classNames={{ content: "flex max-w-xs min-w-56 flex-col items-start gap-2 px-0" }}>
                         <PopoverTrigger>
-                            <Button variant="bordered" className="text-default-500 w-36 justify-between" endContent={<HiChevronDown />}>{orderToString(selectedOrder).length > 10 ? orderToString(selectedOrder).slice(0, 10) + "..." : orderToString(selectedOrder)}</Button>
+                            <Button variant="bordered" className="text-default-500 w-36 justify-between" endContent={<HiChevronDown />}>{orderToString(selectedSortOrder).length > 10 ? orderToString(selectedSortOrder).slice(0, 10) + "..." : orderToString(selectedSortOrder)}</Button>
                         </PopoverTrigger>
                         <PopoverContent>
                             <Listbox
@@ -177,13 +203,16 @@ export default function ProductsFilters() {
                                 variant="flat"
                                 disallowEmptySelection
                                 selectionMode="single"
-                                onAction={(key) => setSelectedOrder(parseInt(key as string))}
+                                onAction={(key) => {
+                                    setSelectedSortOrder(parseInt(key as string));
+                                    handleFilter();
+                                }}
                             >
-                                <ListboxItem key={ProductOrder.Newest}>{orderToString(ProductOrder.Newest)}</ListboxItem>
-                                <ListboxItem key={ProductOrder.PriceLowestToHighest}>{orderToString(ProductOrder.PriceLowestToHighest)}</ListboxItem>
-                                <ListboxItem key={ProductOrder.PriceHighestToLowest}>{orderToString(ProductOrder.PriceHighestToLowest)}</ListboxItem>
-                                <ListboxItem key={ProductOrder.TopRated}>{orderToString(ProductOrder.TopRated)}</ListboxItem>
-                                <ListboxItem key={ProductOrder.MostPopular}>{orderToString(ProductOrder.MostPopular)}</ListboxItem>
+                                <ListboxItem key={ProductSortOrder.Newest}>{orderToString(ProductSortOrder.Newest)}</ListboxItem>
+                                <ListboxItem key={ProductSortOrder.PriceLowestToHighest}>{orderToString(ProductSortOrder.PriceLowestToHighest)}</ListboxItem>
+                                <ListboxItem key={ProductSortOrder.PriceHighestToLowest}>{orderToString(ProductSortOrder.PriceHighestToLowest)}</ListboxItem>
+                                <ListboxItem key={ProductSortOrder.TopRated}>{orderToString(ProductSortOrder.TopRated)}</ListboxItem>
+                                <ListboxItem key={ProductSortOrder.MostPopular}>{orderToString(ProductSortOrder.MostPopular)}</ListboxItem>
                             </Listbox>
                         </PopoverContent>
                     </Popover>
