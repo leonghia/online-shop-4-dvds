@@ -1,7 +1,7 @@
 import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
-import { ProductType } from "@/utils/product";
-import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio, CheckboxGroup } from "@nextui-org/react";
+import { ProductOrder, ProductType, orderToString } from "@/utils/product";
+import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio, CheckboxGroup, Listbox, ListboxItem } from "@nextui-org/react";
 import { MouseEvent, ReactElement, useEffect, useState } from "react";
 import { HiChevronDown, HiMiniFunnel } from "react-icons/hi2";
 import GenreCheckbox from "../genre-checkbox";
@@ -24,6 +24,7 @@ export default function ProductsFilters() {
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
     const [selectedGenresIds, setSelectedGenresIds] = useState<number[]>([]);
     const [selectedRating, setSelectedRating] = useState<number>(0);
+    const [selectedOrder, setSelectedOrder] = useState<ProductOrder>(ProductOrder.Newest);
 
     useEffect(() => {
         if (selectedProductType === ProductType.All) return;
@@ -164,6 +165,26 @@ export default function ProductsFilters() {
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedRating(0)}>Reset</Button>
                                 <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                             </div>
+                        </PopoverContent>
+                    </Popover>
+                    <Popover placement="bottom" classNames={{ content: "flex max-w-xs min-w-56 flex-col items-start gap-2 px-0" }}>
+                        <PopoverTrigger>
+                            <Button variant="bordered" className="text-default-500 w-36 justify-between" endContent={<HiChevronDown />}>{orderToString(selectedOrder).length > 10 ? orderToString(selectedOrder).slice(0, 10) + "..." : orderToString(selectedOrder)}</Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Listbox
+                                aria-label="Order by"
+                                variant="flat"
+                                disallowEmptySelection
+                                selectionMode="single"
+                                onAction={(key) => setSelectedOrder(parseInt(key as string))}
+                            >
+                                <ListboxItem key={ProductOrder.Newest}>{orderToString(ProductOrder.Newest)}</ListboxItem>
+                                <ListboxItem key={ProductOrder.PriceLowestToHighest}>{orderToString(ProductOrder.PriceLowestToHighest)}</ListboxItem>
+                                <ListboxItem key={ProductOrder.PriceHighestToLowest}>{orderToString(ProductOrder.PriceHighestToLowest)}</ListboxItem>
+                                <ListboxItem key={ProductOrder.TopRated}>{orderToString(ProductOrder.TopRated)}</ListboxItem>
+                                <ListboxItem key={ProductOrder.MostPopular}>{orderToString(ProductOrder.MostPopular)}</ListboxItem>
+                            </Listbox>
                         </PopoverContent>
                     </Popover>
                 </div>
