@@ -2,9 +2,10 @@ import { API_URL } from "@/config";
 import { Genre } from "@/models/genre";
 import { ProductType } from "@/utils/product";
 import { Button, Popover, PopoverTrigger, PopoverContent, Slider, Input, Divider, RadioGroup, Radio, CheckboxGroup } from "@nextui-org/react";
-import { ReactElement, useEffect, useState } from "react";
+import { MouseEvent, ReactElement, useEffect, useState } from "react";
 import { HiChevronDown, HiMiniFunnel } from "react-icons/hi2";
 import GenreCheckbox from "../genre-checkbox";
+import StarRatings from "../star-ratings";
 
 const defaultPriceRange: number[] = [0, 1000];
 
@@ -22,6 +23,7 @@ export default function ProductsFilters() {
     const [selectedPriceRange, setSelectedPriceRange] = useState<number[] | number>([0, 500]);
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
     const [selectedGenresIds, setSelectedGenresIds] = useState<number[]>([]);
+    const [selectedRating, setSelectedRating] = useState<number>(0);
 
     useEffect(() => {
         if (selectedProductType === ProductType.All) return;
@@ -77,14 +79,16 @@ export default function ProductsFilters() {
                                 Genres
                             </span>
                             <div className="w-full px-2">
-                                <CheckboxGroup
-                                    className="gap-1"
-                                    orientation="horizontal"
-                                    value={selectedGenresIds.map(id => id.toString())}
-                                    onChange={(value: string[]) => setSelectedGenresIds(value.map(v => parseInt(v)))}
-                                >
-                                    {genres?.map(g => <GenreCheckbox key={g.id} value={g.id.toString()}>{g.name}</GenreCheckbox>)}
-                                </CheckboxGroup>
+                                {selectedProductType === ProductType.All ? <EmptyGenres /> : (
+                                    <CheckboxGroup
+                                        className="gap-1"
+                                        orientation="horizontal"
+                                        value={selectedGenresIds.map(id => id.toString())}
+                                        onChange={(value: string[]) => setSelectedGenresIds(value.map(v => parseInt(v)))}
+                                    >
+                                        {genres?.map(g => <GenreCheckbox key={g.id} value={g.id.toString()}>{g.name}</GenreCheckbox>)}
+                                    </CheckboxGroup>
+                                )}
                             </div>
                             {selectedProductType !== ProductType.All && <><Divider className="mt-3 bg-default-100" />
                                 <div className="flex w-full justify-end gap-2 py-2">
@@ -131,6 +135,33 @@ export default function ProductsFilters() {
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedPriceRange(defaultPriceRange)}>Reset</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                    <Popover placement="bottom" classNames={{ content: "flex max-w-xs min-w-56 flex-col items-start gap-2 px-4 pt-4" }}>
+                        <PopoverTrigger>
+                            <Button variant="bordered" className="text-default-500" endContent={<HiChevronDown />}>Rating</Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <span className="mb-2 text-medium font-medium text-default-600">
+                                Rating
+                            </span>
+                            <div className="w-full px-2">
+                                <div className="flex items-center gap-3 w-72">
+                                    <div className="flex flex-wrap gap-2" onClick={(event: MouseEvent) => {
+                                        const svg = event.target.closest("svg") as SVGElement;
+                                        if (!svg) return;
+                                        setSelectedRating(parseInt(svg.dataset.rating!));
+                                    }}>
+                                        <StarRatings ratings={selectedRating} className="w-5 h-5 cursor-pointer" />
+                                    </div>
+                                    <p className="text-medium text-default-400">{selectedRating} stars &amp; up</p>
+                                </div>
+                            </div>
+                            <Divider className="mt-3 bg-default-100" />
+                            <div className="flex w-full justify-end gap-2 py-2">
+                                <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedRating(0)}>Reset</Button>
                                 <Button size="sm" variant="flat" color="primary" className="font-medium">Apply</Button>
                             </div>
                         </PopoverContent>
