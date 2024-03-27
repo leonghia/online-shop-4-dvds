@@ -1,6 +1,6 @@
 import { Skeleton } from "@nextui-org/react";
 
-export default function ProductCardVer2Skeleton() {
+export default function ProductCardV2Skeleton() {
     return (
         <div
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 p-4 rounded-none bg-transparent shadow-none w-full snap-start"

@@ -3,7 +3,7 @@ import { Product } from "@/models/product";
 import StarRatings from "../star-ratings";
 import AddToCartButton from "../buttons/add-to-cart-button";
 
-export default function ProductCardVer2({ product }: { product: Product }) {
+export default function ProductCardV2({ product }: { product: Product }) {
     return (
         <div
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 p-4 rounded-none bg-transparent shadow-none w-full snap-start"

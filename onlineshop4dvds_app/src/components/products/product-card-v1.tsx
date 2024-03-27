@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa6";
 import { Product } from "@/models/product";
 import StarRatings from "../star-ratings";
 
-export default function ProductCardVer1({ product }: { product: Product }) {
+export default function ProductCardV1({ product }: { product: Product }) {
     return (
         <div
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 p-4 rounded-none bg-transparent shadow-none w-full snap-start"

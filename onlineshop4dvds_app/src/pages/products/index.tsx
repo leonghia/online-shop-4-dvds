@@ -1,6 +1,6 @@
 import PageLayout from "@/components/layouts/page-layout";
-import ProductCardVer2 from "@/components/products/product-card-v2";
-import ProductCardVer2Skeleton from "@/components/products/product-card-v2-skeleton";
+import ProductCardV2 from "@/components/products/product-card-v2";
+import ProductCardV2Skeleton from "@/components/products/product-card-v2-skeleton";
 import ProductsFilters from "@/components/products/products-filters";
 import { Product } from "@/models/product";
 import { Breadcrumbs, BreadcrumbItem } from "@nextui-org/react";
@@ -25,7 +25,7 @@ export default function Page() {
                         <main className="mt-4 h-full w-full overflow-visible px-1">
                             <div className="block rounded-medium border-medium border-dashed border-divider">
                                 <div className="grid w-full gap-0 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
-                                    {isLoaded ? products.map(p => <ProductCardVer2 key={p.id} product={p} />) : placeholder.map((e, i) => <ProductCardVer2Skeleton key={i} />)}
+                                    {isLoaded ? products.map(p => <ProductCardV2 key={p.id} product={p} />) : placeholder.map((e, i) => <ProductCardV2Skeleton key={i} />)}
                                 </div>
                             </div>
                         </main>
