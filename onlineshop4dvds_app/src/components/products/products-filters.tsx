@@ -64,12 +64,12 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
         <header className="relative z-20 flex flex-col gap-2 rounded-medium bg-default-50 px-4 pb-3 pt-2 md:pt-3">
             <div className="flex items-center gap-1 md:hidden md:gap-2">
                 <h2 className="text-large font-medium">Total</h2>
-                <span className="text-small text-default-400">()</span>
+                <span className="text-small text-default-400">({total})</span>
             </div>
             <div className="flex items-center justify-between gap-2 ">
                 <div className="flex flex-row gap-2">
                     <div className="hidden items-center gap-2 md:flex">
-                        <h2 className="text-medium font-medium">Products</h2>
+                        <h2 className="text-medium font-medium">Total</h2>
                         <span className="text-small text-default-400">({total})</span>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedProductType(ProductType.All)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={(e => handleFilter())}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
@@ -120,7 +120,7 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
                             {selectedProductType !== ProductType.All && <><Divider className="mt-3 bg-default-100" />
                                 <div className="flex w-full justify-end gap-2 py-2">
                                     <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedGenresIds([])}>Reset</Button>
-                                    <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
+                                    <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={(e) => handleFilter()}>Apply</Button>
                                 </div></>}
                         </PopoverContent>
                     </Popover>
@@ -162,7 +162,7 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedPriceRange(defaultPriceRange)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={(e) => handleFilter()}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
@@ -189,7 +189,7 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
                             <Divider className="mt-3 bg-default-100" />
                             <div className="flex w-full justify-end gap-2 py-2">
                                 <Button size="sm" variant="flat" className="font-medium" onPress={() => setSelectedRating(0)}>Reset</Button>
-                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={handleFilter}>Apply</Button>
+                                <Button size="sm" variant="flat" color="primary" className="font-medium" onPress={(e) => handleFilter()}>Apply</Button>
                             </div>
                         </PopoverContent>
                     </Popover>
