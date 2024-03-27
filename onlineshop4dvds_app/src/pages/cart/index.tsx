@@ -5,9 +5,9 @@ export default function CartPage() {
 
     return (
         <PageLayout>
-            <div className="flex items-center justify-center p-4">
+            <section className="flex max-w-3xl w-full h-full gap-8 justify-center">
                 <ShoppingCart />
-            </div>
+            </section>
         </PageLayout>
     );
 }

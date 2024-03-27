@@ -1,11 +1,10 @@
 import { API_URL } from "@/config";
 import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { Cart, CartCreate, CartItemUpdate } from "@/models/cart";
-import { Button } from "@nextui-org/react";
-import { FaCartShopping } from "react-icons/fa6";
 import { useCookies } from "react-cookie";
+import { Children, ReactElement, ReactNode, cloneElement } from "react";
 
-export default function AddToCartButton({productId, variant = 1}: {productId: number, variant?: number}) {
+export default function AddToCart({productId, children}: {productId: number, children: ReactNode}) {
     const cart = useCart();
     const cartDispatch = useCartDispatch();
     const [cookies, setCookie] = useCookies(['cartId']);
@@ -42,11 +41,7 @@ export default function AddToCartButton({productId, variant = 1}: {productId: nu
         }
     }
 
-    if (variant === 1)
-        return (
-            <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5" />} size="lg" onPress={() => handleAddToCart(productId)}>Add to cart</Button>
-        );
-    else if (variant === 2)
-        return (<Button className="font-medium" color="primary" variant="flat" onPress={() => handleAddToCart(productId)}>Add to cart</Button>);
-    else throw new Error("invalid button version");
+    const child = Children.toArray(children)[0] as ReactElement;
+    if (child) return cloneElement(child, {onPress: () => handleAddToCart(productId)});
+    return null;
 }
