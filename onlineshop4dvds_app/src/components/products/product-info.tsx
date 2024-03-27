@@ -1,9 +1,9 @@
 import { Button, Chip, Divider } from "@nextui-org/react";
-import { FaRegCreditCard, FaTentArrowTurnLeft, FaRegHeart } from "react-icons/fa6";
+import { FaRegCreditCard, FaTentArrowTurnLeft, FaRegHeart, FaCartShopping } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 import ImagesGallery from "../images-gallery";
-import AddToCartButton from "../add-to-cart-button";
 import { ProductDetail } from "@/models/product-detail";
+import AddToCart from "../carts/add-to-cart";
 
 export default function ProductInfo({ productDetail }: { productDetail: ProductDetail }) {
     return (
@@ -77,7 +77,9 @@ export default function ProductInfo({ productDetail }: { productDetail: ProductD
                 </div>
 
                 <div className="mt-2 flex gap-2">
-                    <AddToCartButton productId={productDetail.id} />
+                    <AddToCart productId={productDetail.id}>
+                        <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5" />} size="lg">Add to cart</Button>
+                    </AddToCart>
                     <Button isIconOnly color="secondary" aria-label="Add to favorites" size="lg">
                         <FaRegHeart className="w-5 h-5 text-default-400" />
                     </Button>

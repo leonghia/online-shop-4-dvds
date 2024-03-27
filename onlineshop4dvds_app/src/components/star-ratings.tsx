@@ -1,63 +1,64 @@
+import { cn } from "@nextui-org/react";
 import { FaStar } from "react-icons/fa6";
 
-export default function StarRatings({ ratings }: { ratings: number | null | undefined }) {
+export default function StarRatings({ ratings, className }: { ratings: number | null | undefined, className?: string }) {
     if (!ratings || ratings < 1)
         return (
             <>
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
+                <FaStar data-rating="1" className={cn("text-default", className)} />
+                <FaStar data-rating="2" className={cn("text-default", className)} />
+                <FaStar data-rating="3" className={cn("text-default", className)} />
+                <FaStar data-rating="4" className={cn("text-default", className)} />
+                <FaStar data-rating="5" className={cn("text-default", className)} />
             </>
         );
     if (ratings < 2)
         return (
             <>
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
+                <FaStar data-rating="1" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="2" className={cn("text-default", className)} />
+                <FaStar data-rating="3" className={cn("text-default", className)} />
+                <FaStar data-rating="4" className={cn("text-default", className)} />
+                <FaStar data-rating="5" className={cn("text-default", className)} />
             </>
         );
     if (ratings < 3)
         return (
             <>
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
+                <FaStar data-rating="1" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="2" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="3" className={cn("text-default", className)} />
+                <FaStar data-rating="4" className={cn("text-default", className)} />
+                <FaStar data-rating="5" className={cn("text-default", className)} />
             </>
         );
     if (ratings < 4)
         return (
             <>
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-default" />
-                <FaStar className="text-default" />
+                <FaStar data-rating="1" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="2" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="3" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="4" className={cn("text-default", className)} />
+                <FaStar data-rating="5" className={cn("text-default", className)} />
             </>
         );
     if (ratings < 5)
         return (
             <>
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-yellow-500" />
-                <FaStar className="text-default" />
+                <FaStar data-rating="1" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="2" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="3" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="4" className={cn("text-yellow-500", className)} />
+                <FaStar data-rating="5" className={cn("text-default", className)} />
             </>
         );
     return (
         <>
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
-            <FaStar className="text-yellow-500" />
+            <FaStar data-rating="1" className={cn("text-yellow-500", className)} />
+            <FaStar data-rating="2" className={cn("text-yellow-500", className)} />
+            <FaStar data-rating="3" className={cn("text-yellow-500", className)} />
+            <FaStar data-rating="4" className={cn("text-yellow-500", className)} />
+            <FaStar data-rating="5" className={cn("text-yellow-500", className)} />
         </>
     );
 }

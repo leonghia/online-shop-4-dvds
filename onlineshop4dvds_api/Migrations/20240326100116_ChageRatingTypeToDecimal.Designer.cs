@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineShop4DVDS.Contexts;
@@ -11,9 +12,11 @@ using OnlineShop4DVDS.Contexts;
 namespace OnlineShop4DVDS.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240326100116_ChageRatingTypeToDecimal")]
+    partial class ChageRatingTypeToDecimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -865,7 +868,7 @@ namespace OnlineShop4DVDS.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShop4DVDS.Entities.Product", "Product")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -905,8 +908,6 @@ namespace OnlineShop4DVDS.Migrations
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Product", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("OrderProducts");
 
                     b.Navigation("Reviews");
                 });

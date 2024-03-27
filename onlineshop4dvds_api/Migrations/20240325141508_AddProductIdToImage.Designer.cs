@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OnlineShop4DVDS.Contexts;
@@ -11,9 +12,11 @@ using OnlineShop4DVDS.Contexts;
 namespace OnlineShop4DVDS.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20240325141508_AddProductIdToImage")]
+    partial class AddProductIdToImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -471,68 +474,6 @@ namespace OnlineShop4DVDS.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Images");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ProductId = 1,
-                            Url = "https://m.media-amazon.com/images/I/81AX0dnSu7L._SL1500_.jpg"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ProductId = 1,
-                            Url = "https://m.media-amazon.com/images/I/816hqp2ZgJL._SL1500_.jpg"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ProductId = 4,
-                            Url = "https://m.media-amazon.com/images/I/51P1vjcdBqL.jpg"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ProductId = 4,
-                            Url = "https://m.media-amazon.com/images/I/31UacIGbCqL.jpg"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ProductId = 5,
-                            Url = "https://m.media-amazon.com/images/M/MV5BMTgwNzg3MDkxM15BMl5BanBnXkFtZTcwMzA2MDAxMw@@._V1_FMjpg_UX2048_.jpg"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            ProductId = 5,
-                            Url = "https://m.media-amazon.com/images/M/MV5BMTc4NTA1OTE4Nl5BMl5BanBnXkFtZTcwODA2MDAxMw@@._V1_FMjpg_UX2048_.jpg"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            ProductId = 5,
-                            Url = "https://m.media-amazon.com/images/M/MV5BMTYxNDExMDI3NV5BMl5BanBnXkFtZTcwMDY2MDAxMw@@._V1_FMjpg_UX2048_.jpg"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            ProductId = 6,
-                            Url = "https://m.media-amazon.com/images/M/MV5BOTAxNzI0NDE1NF5BMl5BanBnXkFtZTcwNjczMTk2Mw@@._V1_FMjpg_UX2048_.jpg"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            ProductId = 6,
-                            Url = "https://m.media-amazon.com/images/M/MV5BMjE3NTU0NTQ5NF5BMl5BanBnXkFtZTcwNzczMTk2Mw@@._V1_FMjpg_UX2048_.jpg"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            ProductId = 6,
-                            Url = "https://m.media-amazon.com/images/M/MV5BMjA5ODU3NTI0Ml5BMl5BanBnXkFtZTcwODczMTk2Mw@@._V1_FMjpg_UX2048_.jpg"
-                        });
                 });
 
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Order", b =>
@@ -609,9 +550,6 @@ namespace OnlineShop4DVDS.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal?>("Rating")
                         .HasColumnType("numeric");
 
                     b.Property<int>("Stock")
@@ -865,7 +803,7 @@ namespace OnlineShop4DVDS.Migrations
                         .IsRequired();
 
                     b.HasOne("OnlineShop4DVDS.Entities.Product", "Product")
-                        .WithMany("OrderProducts")
+                        .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -905,8 +843,6 @@ namespace OnlineShop4DVDS.Migrations
             modelBuilder.Entity("OnlineShop4DVDS.Entities.Product", b =>
                 {
                     b.Navigation("Images");
-
-                    b.Navigation("OrderProducts");
 
                     b.Navigation("Reviews");
                 });

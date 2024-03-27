@@ -27,6 +27,7 @@ public class ShopContext : DbContext
 
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
+        modelBuilder.ApplyConfiguration(new ImageConfiguration());
         
         modelBuilder.Entity("GenreProduct").HasData(
             new { ProductsId = 1, GenresId = 1 },
@@ -66,4 +67,5 @@ public class ShopContext : DbContext
     public DbSet<CartProduct> CartProduct {get;set;}
     public DbSet<Order> Orders {get;set;}
     public DbSet<OrderProduct> OrderProduct {get;set;}
+    public DbSet<Image> Images {get;set;}
 }

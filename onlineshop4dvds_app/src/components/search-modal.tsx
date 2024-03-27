@@ -54,7 +54,7 @@ export default function SearchModal() {
     return (
         <>
             <Button onPress={onOpen} startContent={<HiMagnifyingGlass className="w-5 h-5" />} variant="flat" className="text-default-500" endContent={<Kbd keys={["ctrl"]}>K</Kbd>}>Quick search...</Button>
-            <Modal isOpen={isOpen} onOpenChange={onOpenChange} hideCloseButton classNames={{ body: "max-h-[32rem] min-h-80 overflow-auto" }}>
+            <Modal isOpen={isOpen} size="lg" onOpenChange={onOpenChange} onClose={() => setQuery("")} hideCloseButton classNames={{ body: "max-h-[32rem] min-h-80 overflow-auto" }}>
                 <ModalContent>
                     {(onClose) => (
                         <>

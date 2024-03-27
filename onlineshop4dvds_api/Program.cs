@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using LinqKit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,14 +37,66 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors(MyAllowSpecificOrigins);
 
-app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? genreType, [FromQuery(Name = "genreId")] int? genreId, [FromQuery(Name = "q")] string? query, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
+app.MapGet("/api/genre", async ([FromQuery(Name = "type")] GenreType? genreType, ShopContext context) =>
+{
+    var predicate = PredicateBuilder.New<Genre>(true);
+    if (genreType is not null)
+    {
+        predicate = predicate.And(g => g.GenreType == genreType);
+    }
+    var genres = await context.Genres
+                        .AsNoTracking()
+                        .Where(predicate)
+                        .ToListAsync();
+    var genresToReturn = genres.Select(g => new GenreDto
+    {
+        Name = g.Name,
+        Id = g.Id
+    });
+    return Results.Ok(genresToReturn);
+});
+
+app.MapGet("/api/product", async (HttpRequest request, [FromQuery(Name = "type")] GenreType? type, [FromQuery(Name = "genreId")] int? genreId, [FromQuery(Name = "q")] string? query, [FromQuery(Name = "price_from")] int? priceFrom, [FromQuery(Name = "price_to")] int? priceTo, [FromQuery(Name = "genres")] string? genres, [FromQuery(Name = "rating")] int? rating, [FromQuery(Name = "sort")] ProductSort? sort, ShopContext context, [FromQuery(Name = "pageSize")] int pageSize = 50, [FromQuery(Name = "pageNumber")] int pageNumber = 1) =>
 {
     IQueryable<Product> productQuery = context.Products;
     var predicate = PredicateBuilder.New<Product>(true);
-    if (genreType is not null) predicate = predicate.And(p => p.GenreType == genreType);
+    if (type is not null) predicate = predicate.And(p => p.GenreType == type);
     if (genreId is not null && genreId > 0) predicate = predicate.And(p => p.Genres!.Any(g => g.Id == genreId));
     if (query is not null && !string.IsNullOrWhiteSpace(query)) predicate = predicate.And(p => p.Title.ToUpper().Contains(query.ToUpper()));
-    var products = await productQuery
+    if (priceFrom is not null && priceFrom >= 0 && priceTo is not null && priceTo >= 0 && priceFrom < priceTo) predicate = predicate.And(p => p.Price >= priceFrom && p.Price <= priceTo);
+    if (genres is not null)
+    {
+        var genresIds = genres.Split(',').Select(g => int.Parse(g)).ToList();
+        predicate = predicate.And(p => genresIds.All(id => p.Genres.Select(g => g.Id).Contains(id)));
+    }
+    if (rating is not null && rating > 0) predicate = predicate.And(p => p.Rating >= rating);
+
+    Func<IQueryable<Product>, IOrderedQueryable<Product>> orderBy = productQuery => productQuery.OrderByDescending(p => p.Id);
+
+    if (sort is not null)
+    {
+        switch (sort)
+        {
+            case ProductSort.Newest:
+                break;
+            case ProductSort.MostPopular:
+                orderBy = productQuery => productQuery.OrderByDescending(p => p.OrderProducts.Sum(op => op.Quantity));
+                break;
+            case ProductSort.PriceHighestToLowest:
+                orderBy = productQuery => productQuery.OrderByDescending(p => p.Price);
+                break;
+            case ProductSort.PriceLowestToHighest:
+                orderBy = productQuery => productQuery.OrderBy(p => p.Price);
+                break;
+            case ProductSort.TopRated:
+                orderBy = productQuery => productQuery.OrderBy(p => p.Rating);
+                break;
+            default:
+                throw new SwitchExpressionException(nameof(sort));
+        }   
+    }
+
+    var products = await orderBy(productQuery)
                             .AsNoTracking()
                             .Where(predicate)
                             .Include(p => p.Genres)
@@ -55,28 +108,29 @@ app.MapGet("/api/product", async ([FromQuery(Name = "genreType")] GenreType? gen
                                 {
                                     Product = product,
                                     NumberOfReviews = reviews.Count(),
-                                    Ratings = reviews.Any() ? reviews.Select(r => (int)r.Ratings).Average() : 0
                                 })
                             .Select(x => new
                             {
                                 x.Product,
                                 x.NumberOfReviews,
-                                x.Ratings
                             })
                             .Skip(pageSize * (pageNumber - 1))
                             .Take(pageSize)
                             .ToListAsync();
+
+
+    var accept = request.Headers.Accept;
 
     var productsToReturn = products.Select(p => new ProductDto
     {
         Id = p.Product.Id,
         Title = p.Product.Title,
         ThumbnailUrl = p.Product.Thumbnail,
-        Ratings = Math.Round(p.Ratings, 2),
+        Ratings = p.Product.Rating,
         NumbersOfReviews = p.NumberOfReviews,
         Price = p.Product.Price,
         Genres = p.Product.Genres!.Select(g => g.Name).ToList(),
-        Description = p.Product.Description,
+        Description = accept == AcceptHeaders.ProductWithDescription ? p.Product.Description : null,
         Type = p.Product.GenreType.ToStringType()
     });
     return Results.Ok(productsToReturn);
@@ -88,14 +142,16 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
     var product = await query
                             .AsNoTracking()
                             .Include(p => p.Genres)
+                            .Include(p => p.Images)
                             .Select(p => new
                             {
                                 Product = p,
-                                NumberOfReviews = p.Reviews!.Count,
-                                Ratings = p.Reviews.Count > 0 ? p.Reviews.Select(r => (int)r.Ratings).Average() : 0
+                                NumberOfReviews = p.Reviews!.Count
                             })
                             .FirstOrDefaultAsync(p => p.Product.Id == id);
     if (product is null) return Results.NotFound();
+    var images = new List<string> { product.Product.Thumbnail };
+    images.AddRange(product.Product.Images.Select(i => i.Url));
     var productToReturn = new ProductDetailDto
     {
         Id = product.Product.Id,
@@ -103,10 +159,10 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
         Price = product.Product.Price,
         Description = product.Product.Description,
         Genres = product.Product.Genres!.Select(g => g.Name).ToList(),
-        Ratings = Math.Round(product.Ratings, 2),
+        Ratings = product.Product.Rating,
         NumbersOfReviews = product.NumberOfReviews,
         Stock = product.Product.Stock,
-        Images = new List<string> { product.Product.Thumbnail },
+        Images = images,
         Type = product.Product.GenreType.ToStringType()
     };
     return Results.Ok(productToReturn);
@@ -400,7 +456,7 @@ app.MapGet("/api/revenue", async ([FromQuery(Name = "month")] int month, [FromQu
 
     var revenue = orders
                         .GroupBy(o => o.CreatedAt.Date)
-                        .Select(g => new RevenueDto{Date = g.Key, Revenue = g.Sum(o => o.Subtotal + o.ShippingFee - o.Discount)})
+                        .Select(g => new RevenueDto { Date = g.Key, Revenue = g.Sum(o => o.Subtotal + o.ShippingFee - o.Discount) })
                         .OrderBy(rd => rd.Date)
                         .ToList();
 

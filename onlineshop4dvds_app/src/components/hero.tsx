@@ -1,4 +1,4 @@
-import { Button, Spacer } from "@nextui-org/react";
+import { Button, Link, Spacer } from "@nextui-org/react";
 import { Bungee } from "next/font/google";
 
 const bungee = Bungee({subsets: ["latin"], weight: "400"});
@@ -19,7 +19,7 @@ export default function Hero() {
                 />
                 <div className="flex w-full justify-center gap-2">
                     <Button variant="flat">About us</Button>
-                    <Button variant="shadow" color="primary" className="font-medium">Shop products</Button>
+                    <Button variant="shadow" color="primary" className="font-medium" as={Link} href="/products">Shop products</Button>
                 </div>
             </div>
         </section>
