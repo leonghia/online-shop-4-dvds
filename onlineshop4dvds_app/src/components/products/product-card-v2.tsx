@@ -1,6 +1,7 @@
 import { Button, Image, Link } from "@nextui-org/react";
 import { Product } from "@/models/product";
 import StarRatings from "../star-ratings";
+import AddToCartButton from "../buttons/add-to-cart-button";
 
 export default function ProductCardVer2({ product }: { product: Product }) {
     return (
@@ -36,7 +37,7 @@ export default function ProductCardVer2({ product }: { product: Product }) {
                     </div>
                     <p className="text-small text-default-400">{product.numbersOfReviews} reviews</p>
                 </div>
-                <Button className="font-medium" color="primary" variant="flat">Add to cart</Button>
+                <AddToCartButton productId={product.id} variant={2} />
             </div>
         </div>
 
