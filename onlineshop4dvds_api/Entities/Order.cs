@@ -23,8 +23,8 @@ public class Order
     public required int UserId {get;set;}
     public User? User {get;set;}
 
-    public ICollection<Product>? Products {get;set;}
-    public ICollection<OrderProduct>? OrderProducts {get;set;}
+    public ICollection<Product> Products {get;set;} = [];
+    public ICollection<OrderProduct> OrderProducts {get;set;} = [];
 
     public required PaymentMethod PaymentMethod {get;set;}
 }

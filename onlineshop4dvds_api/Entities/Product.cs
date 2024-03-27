@@ -18,6 +18,7 @@ public class Product
     public ICollection<Review> Reviews {get;set;} = [];
     public ICollection<Cart> Carts {get;set;} = [];
     public ICollection<Order> Orders {get;set;} = [];
+    public ICollection<OrderProduct> OrderProducts {get;set;} = [];
     public ICollection<Image> Images {get;set;} = [];
     public decimal? Rating {get;set;}
 }

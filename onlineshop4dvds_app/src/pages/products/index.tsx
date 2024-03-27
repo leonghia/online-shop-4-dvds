@@ -18,7 +18,7 @@ export default function Page() {
                 </Breadcrumbs>
                 <div className="flex gap-x-6">
                     <div className="w-full flex-1 flex-col">
-                        <ProductsFilters onApply={(data: Product[]) => setProducts(data)} />
+                        <ProductsFilters onApply={(data: Product[]) => setProducts(data)} total={products.length} />
                         <main className="mt-4 h-full w-full overflow-visible px-1">
                             <div className="block rounded-medium border-medium border-dashed border-divider">
                                 <div className="grid w-full gap-0 grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">

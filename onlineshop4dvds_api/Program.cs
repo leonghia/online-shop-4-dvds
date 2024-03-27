@@ -80,7 +80,7 @@ app.MapGet("/api/product", async (HttpRequest request, [FromQuery(Name = "type")
             case ProductSort.Newest:
                 break;
             case ProductSort.MostPopular:
-                orderBy = productQuery => productQuery.OrderByDescending(p => p.Orders.Select(o => o.OrderProducts!.Where(op => op.ProductId == p.Id).Sum(op => op.Quantity)));
+                orderBy = productQuery => productQuery.OrderByDescending(p => p.OrderProducts.Sum(op => op.Quantity));
                 break;
             case ProductSort.PriceHighestToLowest:
                 orderBy = productQuery => productQuery.OrderByDescending(p => p.Price);

@@ -20,7 +20,7 @@ const EmptyGenres = (): ReactElement => {
     );
 }
 
-export default function ProductsFilters({onApply}: {onApply: Function}) {
+export default function ProductsFilters({onApply, total}: {onApply: Function, total: number}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, 500]);
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
@@ -63,14 +63,14 @@ export default function ProductsFilters({onApply}: {onApply: Function}) {
     return (
         <header className="relative z-20 flex flex-col gap-2 rounded-medium bg-default-50 px-4 pb-3 pt-2 md:pt-3">
             <div className="flex items-center gap-1 md:hidden md:gap-2">
-                <h2 className="text-large font-medium">Shoes</h2>
-                <span className="text-small text-default-400">(1240)</span>
+                <h2 className="text-large font-medium">Total</h2>
+                <span className="text-small text-default-400">()</span>
             </div>
             <div className="flex items-center justify-between gap-2 ">
                 <div className="flex flex-row gap-2">
                     <div className="hidden items-center gap-2 md:flex">
                         <h2 className="text-medium font-medium">Products</h2>
-                        <span className="text-small text-default-400">(1240)</span>
+                        <span className="text-small text-default-400">({total})</span>
                     </div>
                 </div>
                 <div className="-ml-2 flex w-full flex-wrap items-center justify-start gap-2 md:ml-0 md:justify-end">
