@@ -1,44 +1,43 @@
-import { API_URL } from "@/config";
-import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartCreate, CartItemUpdate } from "@/models/cart";
+import { ClientCart, ClientCartItem } from "@/models/cart";
 import { useCookies } from "react-cookie";
 import { Children, ReactElement, ReactNode, cloneElement } from "react";
+import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
 
 export default function AddToCart({productId, children}: {productId: number, children: ReactNode}) {
-    const cart = useCart();
-    const cartDispatch = useCartDispatch();
+    const cart = useClientCart();
+    const cartDispatch = useClientCartDispatch();
     const [cookies, setCookie] = useCookies(['cartId']);
 
     const handleAddToCart = (productId: number) => {
-        if (!cookies.cartId) {
-            const payload: CartCreate = {productId};
-            fetch(`${API_URL}/cart`, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload),
-            })
-            .then(res => res.json())
-            .then((data: Cart) => {
-                cartDispatch && cartDispatch({payload: data});
-                setCookie("cartId", data.id, {path: "/", maxAge: 604800});
-            })
-            .catch(err => console.error(err));
+        // If there is no cart in local
+        if (!localStorage.getItem("cart")) {
+            const newCart: ClientCart = {
+                items: [{productId, quantity: 1}]
+            }
+            cartDispatch && cartDispatch({payload: newCart});
+            localStorage.setItem("cart", JSON.stringify(newCart));
         } else {
-            if (!cart) return;
-            const item = cart.items.find(cp => cp.productId === productId);
-            let quantity: number;
-            if (!item) quantity = 1;
-            else quantity = item.quantity + 1;
-            const payload: CartItemUpdate = {productId, quantity};
-            fetch(`${API_URL}/cart/${cart.id}/items`, {
-                method: "PUT",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(payload),
-            })
-            .then(res => res.json())
-            .then((data: Cart) => cartDispatch && cartDispatch({payload: data}))
-            .catch(err => console.error(err));
+        // If there is a cart
+        const clientCart: ClientCart = JSON.parse(localStorage.getItem("cart")!);
+        // If this product is not in the cart yet
+            const cartItem = clientCart.items.find(i => i.productId === productId);
+            if (!cartItem) {
+                const updatedItems: ClientCartItem[] = [...clientCart.items, {productId, quantity: 1}];
+                const updatedCart: ClientCart = {items: updatedItems};
+                cartDispatch && cartDispatch({payload: {items: updatedItems}});
+                localStorage.setItem("cart", JSON.stringify(updatedCart));
+                return;
+            }
+            // If this product is already in the cart
+            const updatedItems = clientCart.items.map(item => {
+                if (item.productId == productId) return {productId, quantity: cartItem.quantity + 1} as ClientCartItem;
+                else return item;
+            });
+            const updatedCart: ClientCart = {items: updatedItems};
+            cartDispatch && cartDispatch({payload: {items: updatedItems}});
+            localStorage.setItem("cart", JSON.stringify(updatedCart));
         }
+        
     }
 
     const child = Children.toArray(children)[0] as ReactElement;

@@ -1,48 +1,79 @@
 import { API_URL } from "@/config";
-import { useCart, useCartDispatch } from "@/contexts/cart-context";
-import { Cart, CartItemUpdate } from "@/models/cart";
+import { Cart, CartItem, ClientCart } from "@/models/cart";
 import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
+import { Product } from "@/models/product";
 
 export default function ShoppingCart() {
     const { user, error, isLoading } = useUser();
-    const initialCart = useCart();
-    const dispatch = useCartDispatch();
+    const clientCart = useClientCart();
+    const dispatch = useClientCartDispatch();
+    const [cart, setCart] = useState<Cart | null>(null);
 
-    const handleUpdate = (productId: number, quantity: number) => {
-        if (quantity < 1) return;
-
-        const payload: CartItemUpdate = {
-            productId,
-            quantity
-        };
-
-        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        })
+    useEffect(() => {
+        if (!clientCart) return;
+        fetch(`${API_URL}/product?id=${clientCart.items.map(i => i.productId).join(",")}`)
             .then(res => res.json())
-            .then((data: Cart) => dispatch && dispatch({ payload: data }))
+            .then((products: Product[]) => {
+                const map = new Map<number, Product>();
+                products.forEach(p => map.set(p.id, p));
+                const items: CartItem[] = clientCart.items.map(i => {
+                    const product = map.get(i.productId) as Product;
+                    return {
+                        title: product.title,
+                        price: product.price,
+                        quantity: i.quantity,
+                        thumbnailUrl: product.thumbnailUrl,
+                        type: product.type,
+                        stock: product.stock,
+                        productId: product.id
+                    };
+                });
+                setCart({ items, subtotal: items.reduce((acc, cur) => acc + cur.quantity * cur.price, 0) });
+            })
             .catch(err => console.error(err));
-    };
+    }, [clientCart]);
+
+    const handleIncrease = (productId: number) => {
+        // We can be sure the cart is present and the product already exists in the cart
+        if (!clientCart) return;
+        const updatedClientCart: ClientCart = {
+            items: clientCart.items.map(item => item.productId === productId ? ({ productId, quantity: item.quantity + 1 }) : item)
+        }
+        localStorage.setItem("cart", JSON.stringify(updatedClientCart));
+        dispatch && dispatch({ payload: updatedClientCart });
+    }
+
+    const handleDecrease = (productId: number) => {
+        // We can be sure the cart is present and the product already exists in the cart
+        if (!clientCart) return;
+        // We check if the current quantity = 1, if so, we return immediately since we want the user to explicitly press the drop button if he/she wishes to drop a product from the cart
+        const item = clientCart.items.find(item => item.productId == productId)!;
+        if (item.quantity === 1) return;
+        const updatedClientCart: ClientCart = {
+            items: clientCart.items.map(item => item.productId === productId ? ({ productId, quantity: item.quantity - 1 }) : item)
+        }
+        localStorage.setItem("cart", JSON.stringify(updatedClientCart));
+        dispatch && dispatch({ payload: updatedClientCart });
+    }
 
     const handleDrop = (productId: number) => {
-        const payload: CartItemUpdate = {
-            productId,
-            quantity: 0
+        if (!clientCart) return;
+        const updatedClientCart: ClientCart = {
+            items: clientCart.items.filter(item => item.productId !== productId),
         };
+        // We cart.items is empty, we clear the cart from client
+        if (updatedClientCart.items.length) {
+            localStorage.setItem("cart", JSON.stringify(updatedClientCart));
+            dispatch && dispatch({ payload: updatedClientCart });
+        } else {
+            localStorage.removeItem("cart");
+            dispatch && dispatch({payload: null});
+        }
 
-        fetch(`${API_URL}/cart/${initialCart?.id}/items`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-        })
-            .then(res => res.json())
-            .then((data: Cart) => dispatch && dispatch({ payload: data }))
-            .catch(err => console.error(err));
     };
 
     let checkoutButton: ReactNode;
@@ -65,7 +96,7 @@ export default function ShoppingCart() {
                     <div>
                         <h3 className="sr-only">Items in your cart</h3>
                         <ul>
-                            {initialCart?.items?.map(item => (
+                            {cart?.items?.map(item => (
                                 <li
                                     className="flex justify-between items-center border-divider py-4"
                                     key={item.productId}
@@ -99,11 +130,11 @@ export default function ShoppingCart() {
                                         </div>
                                     </div>
                                     <div className="flex">
-                                        <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity - 1)}>
+                                        <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleDecrease(item.productId)}>
                                             <FaMinus className="w-3 h-3" />
                                         </Button>
                                         <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
-                                        <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleUpdate(item.productId, item.quantity + 1)}>
+                                        <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.productId)}>
                                             <FaPlus className="w-3 h-3" />
                                         </Button>
                                     </div>
@@ -125,7 +156,7 @@ export default function ShoppingCart() {
                                         Subtotal
                                     </dt>
                                     <dd className="text-medium font-semibold text-pink-500">
-                                        ${initialCart?.subtotal.toFixed(2)}
+                                        ${cart?.subtotal.toFixed(2)}
                                     </dd>
                                 </div>
                             </dl>

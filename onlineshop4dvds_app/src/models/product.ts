@@ -8,5 +8,6 @@ export interface Product {
     ratings: number;
     numbersOfReviews: number;
     type: string;
+    stock: number;
 }
 
