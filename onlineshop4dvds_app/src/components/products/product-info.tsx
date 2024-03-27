@@ -2,8 +2,8 @@ import { Button, Chip, Divider } from "@nextui-org/react";
 import { FaRegCreditCard, FaTentArrowTurnLeft, FaRegHeart } from "react-icons/fa6";
 import StarRatings from "../star-ratings";
 import ImagesGallery from "../images-gallery";
-import AddToCartButton from "../add-to-cart-button";
 import { ProductDetail } from "@/models/product-detail";
+import AddToCartButton from "../buttons/add-to-cart-button";
 
 export default function ProductInfo({ productDetail }: { productDetail: ProductDetail }) {
     return (

@@ -20,7 +20,7 @@ const EmptyGenres = (): ReactElement => {
     );
 }
 
-export default function ProductsFilters({onApply, total}: {onApply: Function, total: number}) {
+export default function ProductsFilters({onApply, total, onLoaded}: {onApply: Function, total: number, onLoaded: Function}) {
     const [genres, setGenres] = useState<Genre[] | null>(null);
     const [selectedPriceRange, setSelectedPriceRange] = useState<number[]>([0, 500]);
     const [selectedProductType, setSelectedProductType] = useState<ProductType>(ProductType.All);
@@ -38,7 +38,11 @@ export default function ProductsFilters({onApply, total}: {onApply: Function, to
     }, [selectedProductType]);
 
     useEffect(() => {
-        fetch(url).then(res => res.json()).then((data: Product[]) => onApply(data)).catch(err => console.error(err));
+        onLoaded(false);
+        fetch(url).then(res => res.json()).then((data: Product[]) => {
+            onLoaded(true);
+            onApply(data);
+        }).catch(err => console.error(err));
     }, [url]);
 
     const handleFilter = (sortOrder?: ProductSortOrder) => {

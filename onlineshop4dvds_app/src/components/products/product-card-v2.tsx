@@ -1,5 +1,4 @@
 import { Button, Image, Link } from "@nextui-org/react";
-import { FaHeart } from "react-icons/fa6";
 import { Product } from "@/models/product";
 import StarRatings from "../star-ratings";
 
@@ -9,9 +8,6 @@ export default function ProductCardVer2({ product }: { product: Product }) {
             className="relative flex max-w-full flex-none scroll-ml-6 flex-col gap-3 p-4 rounded-none bg-transparent shadow-none w-full snap-start"
             color="black"
         >
-            <Button isIconOnly color="default" variant="flat" radius="full" aria-label="Save" className="absolute right-6 top-6 z-20" size="sm">
-                <FaHeart className="text-default-500" />
-            </Button>
             <div className="relative flex h-52 max-h-full w-full flex-col items-center justify-center overflow-visible rounded-medium bg-content2">
                 <Image src={product.thumbnailUrl} className="z-0 h-full max-h-[80%] w-full max-w-[80%] overflow-visible object-contain object-center hover:scale-110" removeWrapper />
             </div>
