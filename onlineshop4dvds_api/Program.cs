@@ -8,7 +8,6 @@ using OnlineShop4DVDS.Entities;
 using OnlineShop4DVDS.Utils;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-var DefaultQuantity = 1;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

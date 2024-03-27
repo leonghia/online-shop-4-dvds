@@ -1,38 +1,26 @@
 import { API_URL } from "@/config";
-import { Cart, CartItem, ClientCart } from "@/models/cart";
+import { CartItem, ClientCart } from "@/models/cart";
 import { Button, Input, Image, Link } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { ReactNode, useEffect, useState } from "react";
 import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
-import { Product } from "@/models/product";
+
+let isLoaded = false;
 
 export default function ShoppingCart() {
     const { user, error, isLoading } = useUser();
     const clientCart = useClientCart();
     const dispatch = useClientCartDispatch();
-    const [cart, setCart] = useState<Cart | null>(null);
+    const [items, setItems] = useState<CartItem[] | null>(null);
 
     useEffect(() => {
-        if (!clientCart) return;
-        fetch(`${API_URL}/product?id=${clientCart.items.map(i => i.productId).join(",")}`)
+        if (!clientCart || isLoaded) return;
+        fetch(`${API_URL}/cart-item?id=${clientCart!.items.map(i => i.productId).join(",")}`)
             .then(res => res.json())
-            .then((products: Product[]) => {
-                const map = new Map<number, Product>();
-                products.forEach(p => map.set(p.id, p));
-                const items: CartItem[] = clientCart.items.map(i => {
-                    const product = map.get(i.productId) as Product;
-                    return {
-                        title: product.title,
-                        price: product.price,
-                        quantity: i.quantity,
-                        thumbnailUrl: product.thumbnailUrl,
-                        type: product.type,
-                        stock: product.stock,
-                        productId: product.id
-                    };
-                });
-                setCart({ items, subtotal: items.reduce((acc, cur) => acc + cur.quantity * cur.price, 0) });
+            .then((items: CartItem[]) => {
+                setItems(items);
+                isLoaded = true;
             })
             .catch(err => console.error(err));
     }, [clientCart]);
@@ -96,10 +84,10 @@ export default function ShoppingCart() {
                     <div>
                         <h3 className="sr-only">Items in your cart</h3>
                         <ul>
-                            {cart?.items?.map(item => (
+                            {items?.map(item => (
                                 <li
                                     className="flex justify-between items-center border-divider py-4"
-                                    key={item.productId}
+                                    key={item.id}
                                 >
                                     <div className="flex gap-x-4 flex-1 max-w-sm">
                                         <Image src={item.thumbnailUrl} removeWrapper classNames={{ img: "w-24 h-24 object-contain" }} alt={item.title} />
@@ -125,20 +113,20 @@ export default function ShoppingCart() {
                                                 <span className="text-small font-semibold text-pink-500">
                                                     ${item.price}
                                                 </span>
-                                                <span className="text-small text-default-500">x {item.quantity}</span>
+                                                <span className="text-small text-default-500">x {clientCart?.items.find(i => i.productId == item.id)?.quantity}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="flex">
-                                        <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleDecrease(item.productId)}>
+                                        <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleDecrease(item.id)}>
                                             <FaMinus className="w-3 h-3" />
                                         </Button>
-                                        <Input type="number" isReadOnly variant="bordered" value={item.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
-                                        <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.productId)}>
+                                        <Input type="number" isReadOnly variant="bordered" value={clientCart?.items.find(i => i.productId == item.id)?.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
+                                        <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.id)}>
                                             <FaPlus className="w-3 h-3" />
                                         </Button>
                                     </div>
-                                    <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full" onPress={() => handleDrop(item.productId)}>
+                                    <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full" onPress={() => handleDrop(item.id)}>
                                         <FaXmark className="w-3 h-3 text-foreground" />
                                     </Button>
                                 </li>
@@ -156,7 +144,11 @@ export default function ShoppingCart() {
                                         Subtotal
                                     </dt>
                                     <dd className="text-medium font-semibold text-pink-500">
-                                        ${cart?.subtotal.toFixed(2)}
+                                        ${items?.reduce((acc, cur) => {
+                                            console.log(clientCart?.items);
+                                            console.log(cur);
+                                            return acc + cur.price * (clientCart?.items.find(i => i.productId == cur.id))!.quantity;
+                                        }, 0).toFixed(2)}
                                     </dd>
                                 </div>
                             </dl>
