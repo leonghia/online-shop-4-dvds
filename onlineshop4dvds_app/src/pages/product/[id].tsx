@@ -28,7 +28,7 @@ export default function ProductPage({ productDetail }: InferGetServerSidePropsTy
         <div className='space-y-4'>
           <Breadcrumbs className="py-2">
             <BreadcrumbItem href="/">Home</BreadcrumbItem>
-            <BreadcrumbItem href="/movies">Products</BreadcrumbItem>
+            <BreadcrumbItem href="/products">Products</BreadcrumbItem>
             <BreadcrumbItem href="#">{productDetail.title}</BreadcrumbItem>
           </Breadcrumbs>
           <ProductInfo productDetail={productDetail} />
