@@ -1,26 +1,32 @@
 import { API_URL } from "@/config";
 import { CartItem, ClientCart } from "@/models/cart";
-import { Button, Input, Image, Link } from "@nextui-org/react";
+import { Button, Input, Image, Link, Skeleton } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { ReactNode, useEffect, useState } from "react";
+import { ReactElement, ReactNode, useEffect, useState } from "react";
 import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
 
 let isLoaded = false;
+
+const temp = new Array(4).fill(0);
 
 export default function ShoppingCart() {
     const { user, error, isLoading } = useUser();
     const clientCart = useClientCart();
     const dispatch = useClientCartDispatch();
-    const [items, setItems] = useState<CartItem[] | null>(null);
+    const [itemsMap, setItemsMap] = useState<Map<number, CartItem> | null>(null);
 
     useEffect(() => {
         if (!clientCart || isLoaded) return;
         fetch(`${API_URL}/cart-item?id=${clientCart!.items.map(i => i.productId).join(",")}`)
             .then(res => res.json())
-            .then((items: CartItem[]) => {
-                setItems(items);
+            .then((cartItems: CartItem[]) => {
                 isLoaded = true;
+                const map = new Map();
+                for (const item of cartItems) {
+                    map.set(item.id, item);
+                }
+                setItemsMap(map);
             })
             .catch(err => console.error(err));
     }, [clientCart]);
@@ -59,7 +65,7 @@ export default function ShoppingCart() {
             dispatch && dispatch({ payload: updatedClientCart });
         } else {
             localStorage.removeItem("cart");
-            dispatch && dispatch({payload: null});
+            dispatch && dispatch({ payload: null });
         }
 
     };
@@ -73,6 +79,68 @@ export default function ShoppingCart() {
         checkoutButton = <a href={returnLink}><Button color="primary" className="font-medium mt-10" size="lg">Check out</Button></a>;
     }
 
+    let markup: ReactNode;
+
+    if (clientCart && itemsMap) {
+        markup = (
+            <ul>
+                {clientCart?.items?.map(cartItem => (
+                    <li
+                        className="flex justify-between items-center border-divider py-4"
+                        key={cartItem.productId}
+                    >
+                        <div className="flex gap-x-4 flex-1 max-w-md">
+                            <div className="relative flex h-24 max-h-full max-w-24 w-full flex-col items-center justify-center overflow-visible bg-transparent">
+                                <Image src={itemsMap?.get(cartItem.productId)?.thumbnailUrl} removeWrapper classNames={{ img: "max-w-24 w-full max-h-24 h-full object-contain" }} alt={itemsMap?.get(cartItem.productId)?.title} />
+                            </div>
+                            <div className="flex flex-col">
+                                <h4 className="text-medium font-semibold">
+                                    {itemsMap?.get(cartItem.productId)?.title}
+                                </h4>
+                                <div className="flex items-center gap-3">
+                                    <p>
+                                        <span className="text-small text-default-500">Type: </span>
+                                        <span className="text-small font-medium capitalize text-default-700">
+                                            {itemsMap?.get(cartItem.productId)?.type}
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <span className="text-small text-default-500">Stock: </span>
+                                        <span className="text-small font-medium text-default-700">
+                                            {itemsMap?.get(cartItem.productId)?.stock}
+                                        </span>
+                                    </p>
+                                </div>
+                                <div className="mt-2 flex items-center gap-2">
+                                    <span className="text-small font-semibold text-pink-500">
+                                        ${itemsMap?.get(cartItem.productId)?.price}
+                                    </span>
+                                    <span className="text-small text-default-500">x {cartItem.quantity}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex">
+                            <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleDecrease(cartItem.productId)}>
+                                <FaMinus className="w-3 h-3" />
+                            </Button>
+                            <Input type="number" isReadOnly variant="bordered" value={cartItem.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
+                            <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(cartItem.productId)}>
+                                <FaPlus className="w-3 h-3" />
+                            </Button>
+                        </div>
+                        <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full" onPress={() => handleDrop(cartItem.productId)}>
+                            <FaXmark className="w-3 h-3 text-foreground" />
+                        </Button>
+                    </li>
+                ))}
+            </ul>
+        );
+    } else if (!clientCart && !itemsMap) {
+        // display skeletons
+    } else if (!clientCart) {
+        // display empty state
+    }
+
     return (
         <div className="w-full flex-none py-4">
             <div className="flex h-full flex-1 flex-col p-4">
@@ -83,55 +151,8 @@ export default function ShoppingCart() {
                     <h1 className="text-2xl font-extrabold">Shopping cart</h1>
                     <div>
                         <h3 className="sr-only">Items in your cart</h3>
-                        <ul>
-                            {items?.map(item => (
-                                <li
-                                    className="flex justify-between items-center border-divider py-4"
-                                    key={item.id}
-                                >
-                                    <div className="flex gap-x-4 flex-1 max-w-sm">
-                                        <Image src={item.thumbnailUrl} removeWrapper classNames={{ img: "w-24 h-24 object-contain" }} alt={item.title} />
-                                        <div className="flex flex-col">
-                                            <h4 className="text-medium font-semibold">
-                                                {item.title}
-                                            </h4>
-                                            <div className="flex items-center gap-3">
-                                                <p>
-                                                    <span className="text-small text-default-500">Type: </span>
-                                                    <span className="text-small font-medium capitalize text-default-700">
-                                                        {item.type}
-                                                    </span>
-                                                </p>
-                                                <p>
-                                                    <span className="text-small text-default-500">Stock: </span>
-                                                    <span className="text-small font-medium text-default-700">
-                                                        {item.stock}
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <div className="mt-2 flex items-center gap-2">
-                                                <span className="text-small font-semibold text-pink-500">
-                                                    ${item.price}
-                                                </span>
-                                                <span className="text-small text-default-500">x {clientCart?.items.find(i => i.productId == item.id)?.quantity}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex">
-                                        <Button isIconOnly aria-label="Decrease quantity" variant="light" onPress={() => handleDecrease(item.id)}>
-                                            <FaMinus className="w-3 h-3" />
-                                        </Button>
-                                        <Input type="number" isReadOnly variant="bordered" value={clientCart?.items.find(i => i.productId == item.id)?.quantity.toString()} className="max-w-20" classNames={{ base: "bg-background" }} />
-                                        <Button isIconOnly aria-label="Increase quantity" variant="light" onPress={() => handleIncrease(item.id)}>
-                                            <FaPlus className="w-3 h-3" />
-                                        </Button>
-                                    </div>
-                                    <Button isIconOnly color="secondary" aria-label="Drop" size="sm" radius="full" onPress={() => handleDrop(item.id)}>
-                                        <FaXmark className="w-3 h-3 text-foreground" />
-                                    </Button>
-                                </li>
-                            ))}
-                        </ul>
+
+                        <Skeletons />
                         <div>
 
                             <dl className="flex flex-col gap-4 py-4">
@@ -144,11 +165,7 @@ export default function ShoppingCart() {
                                         Subtotal
                                     </dt>
                                     <dd className="text-medium font-semibold text-pink-500">
-                                        ${items?.reduce((acc, cur) => {
-                                            console.log(clientCart?.items);
-                                            console.log(cur);
-                                            return acc + cur.price * (clientCart?.items.find(i => i.productId == cur.id))!.quantity;
-                                        }, 0).toFixed(2)}
+                                        ${itemsMap && clientCart?.items.reduce((acc, cur) => acc + cur.quantity * itemsMap?.get(cur.productId)!.price, 0).toFixed(2)}
                                     </dd>
                                 </div>
                             </dl>
@@ -160,5 +177,21 @@ export default function ShoppingCart() {
                 </div>
             </div>
         </div>
+    );
+}
+
+const Skeletons = (): ReactElement => {
+    return (
+        <ul>
+            {temp.map((p, i) => (
+                <li key={i} className="flex justify-between items-center border-divider py-4">
+                    <div className="flex gap-x-4 flex-1 max-w-md">
+                        <div className="relative flex h-24 max-h-full max-w-24 w-full flex-col items-center justify-center overflow-visible bg-transparent">
+                            <Skeleton className="rounded-md w-full h-full" disableAnimation />
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
     );
 }
