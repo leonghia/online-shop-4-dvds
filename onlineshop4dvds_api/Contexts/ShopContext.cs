@@ -68,5 +68,5 @@ public class ShopContext : DbContext
     public DbSet<Order> Orders {get;set;}
     public DbSet<OrderProduct> OrderProduct {get;set;}
     public DbSet<Image> Images {get;set;}
-    public DbSet<Song> Songs {get;set;}
+    public DbSet<Album> Albums {get;set;}
 }
