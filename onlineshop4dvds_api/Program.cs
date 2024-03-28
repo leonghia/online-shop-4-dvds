@@ -319,6 +319,7 @@ app.MapGet("/api/order", async ([FromQuery(Name = "sub")] string sub, ShopContex
     if (user is null) return Results.NotFound();
     var orders = await context.Orders
                         .AsNoTracking()
+                        .OrderByDescending(o => o.CreatedAt)
                         .Include(o => o.OrderProducts!)
                         .ThenInclude(op => op.Product)
                         .Where(o => o.UserId == user.Id)
