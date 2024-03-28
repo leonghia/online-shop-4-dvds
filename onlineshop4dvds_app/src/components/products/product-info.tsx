@@ -80,9 +80,6 @@ export default function ProductInfo({ productDetail }: { productDetail: ProductD
                     <AddToCart productId={productDetail.id}>
                         <Button className="w-full font-medium" color="primary" startContent={<FaCartShopping className="h-5 w-5" />} size="lg">Add to cart</Button>
                     </AddToCart>
-                    <Button isIconOnly color="secondary" aria-label="Add to favorites" size="lg">
-                        <FaRegHeart className="w-5 h-5 text-default-400" />
-                    </Button>
                 </div>
             </div>
         </div>
