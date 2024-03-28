@@ -19,4 +19,6 @@ public class Song
     public required int Lengths {get;set;}
 
     public string? PreviewUrl {get;set;}
+
+    public required string CoverUrl {get;set;}
 }
