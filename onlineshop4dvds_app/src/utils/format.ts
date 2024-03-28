@@ -18,3 +18,13 @@ export const formatMovieLength = (minutes: number): string => {
     const formattedTime = hours.toString() + 'h ' + mins.toString() + 'm';
     return formattedTime;
 }
+
+export const randomLetters = (length: number) => {
+    const list = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+    var result = "";
+    for(let i = 0; i < length; i++) {
+        var rnd = Math.floor(Math.random() * list.length);
+        result = result + list.charAt(rnd);
+    }
+    return result;
+}
