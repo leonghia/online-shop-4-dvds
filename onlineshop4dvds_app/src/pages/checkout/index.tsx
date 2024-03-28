@@ -11,7 +11,7 @@ import { createHmac } from "crypto";
 import { OrderCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
 import { API_URL, APP_URL } from "@/config";
-import { useCookies } from "react-cookie";
+import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
     const googleMapsApiKey = process.env.GG_MAPS_API_KEY;
@@ -42,7 +42,8 @@ export default function CheckoutPage({
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
-    const [cookies, setCookie, removeCookie] = useCookies(["cartId"]);
+    const clientCart = useClientCart();
+    const dispatchClientCart = useClientCartDispatch();
 
     const handlePay = async ({ amount, cartId }: { amount: number, cartId: number }) => {
         // request to create order in backend server
@@ -64,8 +65,9 @@ export default function CheckoutPage({
 
             if (!res.ok) return;
 
-            // Clear cartId in browser cookie
-            removeCookie("cartId");
+            // Clear cart in localstorage
+            dispatchClientCart && dispatchClientCart({payload: null});
+            localStorage.removeItem("cart");
 
             // request to 3rd party payment services
             // if (paymentMethod === PaymentMethod.MoMo) {

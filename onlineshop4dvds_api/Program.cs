@@ -213,36 +213,30 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     {
         userId = user.Id;
     }
-    // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
-    var cart = await context.Carts
-                        .AsNoTracking()
-                        .Include(c => c.CartProducts)
-                        .ThenInclude(cp => cp.Product)
-                        .FirstOrDefaultAsync(c => c.Id == orderCreateDto.CartId);
-    if (cart is null) return Results.NotFound();
+
+    // Create the order for him and set orderStatus to awaiting payment
+    var productsIds = orderCreateDto.Items.Select(item => item.ProductId).ToList();
+    var productPrices = (await context.Products
+                            .AsNoTracking()
+                            .Where(p => productsIds.Contains(p.Id))
+                            .Select(p => new {Id = p.Id, Price = p.Price})
+                            .ToListAsync())
+                        .ToDictionary(e => e.Id, e => e.Price);
     var orderToCreate = new Order
     {
         OrderId = orderCreateDto.OrderId,
         Status = OrderStatus.AwaitingPayment,
-        Subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList()),
+        Subtotal = orderCreateDto.Items.Sum(item => item.Quantity * productPrices[item.ProductId]),
         ShippingFee = orderCreateDto.ShippingFee,
         UserId = userId,
-        PaymentMethod = orderCreateDto.PaymentMethod
+        PaymentMethod = orderCreateDto.PaymentMethod,
     };
+
     context.Orders.Add(orderToCreate);
     await context.SaveChangesAsync();
 
-    var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
-    {
-        Quantity = cp.Quantity,
-        ProductId = cp.ProductId,
-        OrderId = orderToCreate.Id
-    });
-    context.OrderProduct.AddRange(orderProductsToCreate);
-
-    // Delete the cart from database
-    context.Carts.Remove(cart);
-
+    var orderItemsToCreate = orderCreateDto.Items.Select(item => new OrderProduct{ProductId = item.ProductId, Quantity = item.Quantity, OrderId = orderToCreate.Id});
+    context.OrderProduct.AddRange(orderItemsToCreate);
     await context.SaveChangesAsync();
 
     // Return the orderDetailDto
