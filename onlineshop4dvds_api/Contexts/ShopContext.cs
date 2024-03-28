@@ -28,6 +28,7 @@ public class ShopContext : DbContext
         modelBuilder.ApplyConfiguration(new GenreConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
+        modelBuilder.ApplyConfiguration(new AlbumConfiguration());
         
         modelBuilder.Entity("GenreProduct").HasData(
             new { ProductsId = 1, GenresId = 1 },
