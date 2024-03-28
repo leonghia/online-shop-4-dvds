@@ -1,11 +1,11 @@
-import { API_URL } from "@/config";
-import { CartItem, ClientCart } from "@/models/cart";
+import { ClientCart } from "@/models/cart";
 import { Button, Input, Image, Link, Skeleton } from "@nextui-org/react";
 import { FaXmark, FaMinus, FaPlus } from "react-icons/fa6";
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
 import { HiMiniShoppingCart } from "react-icons/hi2";
+import useItems from "@/hooks/use-items";
 
 const temp = new Array(4).fill(0);
 
@@ -13,21 +13,7 @@ export default function ShoppingCart() {
     const { user, error, isLoading } = useUser();
     const clientCart = useClientCart();
     const dispatch = useClientCartDispatch();
-    const [itemsMap, setItemsMap] = useState<Map<number, CartItem> | null>(null);
-
-    useEffect(() => {
-        if (!clientCart || itemsMap) return;
-        fetch(`${API_URL}/cart-item?id=${clientCart!.items.map(i => i.productId).join(",")}`)
-            .then(res => res.json())
-            .then((cartItems: CartItem[]) => {
-                const map = new Map();
-                for (const item of cartItems) {
-                    map.set(item.id, item);
-                }
-                setItemsMap(map);
-            })
-            .catch(err => console.error(err));
-    }, [clientCart]);
+    const itemsMap = useItems();
 
     const handleIncrease = (productId: number) => {
         // We can be sure the cart is present and the product already exists in the cart

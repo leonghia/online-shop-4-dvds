@@ -1,28 +1,13 @@
-import { API_URL } from "@/config";
 import { useClientCart } from "@/contexts/client-cart-context";
-import { CartItem } from "@/models/cart";
-import { Button, Input, Image } from "@nextui-org/react";
-import { ReactElement, useEffect, useState } from "react";
+import useItems from "@/hooks/use-items";
+import { Button, Input, Image, Skeleton } from "@nextui-org/react";
+import { ReactElement, useState } from "react";
 
 export default function OrderSummary({ onPay }: { onPay: Function }) {
     const clientCart = useClientCart();
     const [discount, setDiscount] = useState(0);
-    const [itemsMap, setItemsMap] = useState<Map<number, CartItem> | null>(null);
     const [shippingFee, setShippingFee] = useState(0);
-
-    useEffect(() => {
-        if (!clientCart || itemsMap) return;
-        fetch(`${API_URL}/cart-item?id=${clientCart!.items.map(i => i.productId).join(",")}`)
-            .then(res => res.json())
-            .then((cartItems: CartItem[]) => {
-                const map = new Map();
-                for (const item of cartItems) {
-                    map.set(item.id, item);
-                }
-                setItemsMap(map);
-            })
-            .catch(err => console.error(err));
-    }, [clientCart]);
+    const itemsMap = useItems();
 
     let markup: ReactElement = <div></div>;
 
@@ -102,6 +87,29 @@ export default function OrderSummary({ onPay }: { onPay: Function }) {
                 <div className="mt-4">
                     <Button color="primary" className="font-medium" fullWidth onPress={(e) => onPay()}>Pay now</Button>
                 </div>
+            </div>
+        );
+    } else {
+        markup = (
+            <div>
+                <h2 className="font-medium text-default-500">Order Summary</h2>
+                <hr
+                    className="shrink-0 bg-divider border-none w-full h-divider mt-4"
+                    role="separator"
+                />
+                <h3 className="sr-only">Items in your cart</h3>
+                <ul>
+                    {new Array(4).fill(0).map((e, i) => (
+                        <li key={i} className="flex items-center gap-x-4 border-divider py-4">
+                            <Skeleton className="w-20 h-20 rounded-lg" disableAnimation />
+                            <div className="flex flex-1 flex-col gap-2">
+                                <Skeleton className="h-8 rounded-lg" disableAnimation />
+                                <Skeleton className="h-4 w-3/4 rounded-lg" disableAnimation />
+                                <Skeleton className="h-4 w-1/2 rounded-lg" disableAnimation />
+                            </div>
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     }
