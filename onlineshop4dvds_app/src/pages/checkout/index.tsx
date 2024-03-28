@@ -8,10 +8,12 @@ import { promises as fs } from 'fs';
 import { Country } from "@/utils/country";
 import { useState } from "react";
 import { createHmac } from "crypto";
-import { OrderCreate } from "@/models/order";
+import { OrderCreate, OrderItemCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
-import { API_URL, APP_URL } from "@/config";
-import { useCookies } from "react-cookie";
+import { API_URL, usdRate } from "@/config";
+import { useClientCartDispatch } from "@/contexts/client-cart-context";
+import { ClientCart } from "@/models/cart";
+import { randomLetters } from "@/utils/format";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
     const googleMapsApiKey = process.env.GG_MAPS_API_KEY;
@@ -29,7 +31,7 @@ const accessKey = 'F8BBA842ECF85';
 const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
 const orderInfo = 'OnlineShop4DVDS - Pay with MoMo';
 const partnerCode = 'MOMO';
-const orderId = partnerCode + new Date().getTime();
+const orderId = randomLetters(4) + new Date().getTime();
 const redirectUrl = 'http://localhost:3000/checkout/success';
 const ipnUrl = redirectUrl;
 const requestId = orderId;
@@ -42,17 +44,18 @@ export default function CheckoutPage({
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
-    const [cookies, setCookie, removeCookie] = useCookies(["cartId"]);
+    const dispatchClientCart = useClientCartDispatch();
 
-    const handlePay = async ({ amount, cartId }: { amount: number, cartId: number }) => {
+    const handlePay = async (total: number, clientCart: ClientCart) => {
         // request to create order in backend server
+        if (!clientCart) return;
         const orderCreate: OrderCreate = {
             userSub: user.sub,
             orderId,
-            cartId,
             shippingFee: 0,
             discount: 0,
-            paymentMethod: paymentMethod!
+            paymentMethod: paymentMethod!,
+            items: clientCart.items.map(item => ({productId: item.productId, quantity: item.quantity}) as OrderItemCreate)
         };
 
         try {
@@ -64,16 +67,14 @@ export default function CheckoutPage({
 
             if (!res.ok) return;
 
-            // Clear cartId in browser cookie
-            removeCookie("cartId");
+            // Clear cart in localstorage
+            dispatchClientCart && dispatchClientCart({payload: null});
+            localStorage.removeItem("cart");
 
             // request to 3rd party payment services
-            // if (paymentMethod === PaymentMethod.MoMo) {
-            //     await handleMomoPay(1000);
-            // }
-
-            window.location.replace(APP_URL);
-
+            if (paymentMethod === PaymentMethod.MoMo) {
+                await handleMomoPay(Math.ceil((total * usdRate)));
+            }
 
         } catch (err) {
             console.error(err);

@@ -4,10 +4,15 @@ import { PaymentMethod } from "@/utils/payment";
 export interface OrderCreate {
     userSub: string;
     orderId: string;
-    cartId: number;
     shippingFee: number;
     discount: number;
-    paymentMethod: PaymentMethod;
+    paymentMethod: PaymentMethod
+    items: OrderItemCreate[];
+}
+
+export interface OrderItemCreate {
+    productId: number;
+    quantity: number;
 }
 
 export interface Order {

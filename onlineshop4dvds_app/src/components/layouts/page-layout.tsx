@@ -6,7 +6,7 @@ import UserLayout from "./user-layout";
 export default function PageLayout({ children }: { children: ReactNode }) {
     return (
         <UserLayout>
-            <div className="bg-radial min-h-screen flex flex-col justify-between">
+            <div className="min-h-screen flex flex-col justify-between">
                 <div>
                     <div className="flex items-center justify-center">
                         <UserNavbar />

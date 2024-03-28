@@ -5,42 +5,40 @@ import {
     NavbarItem,
     Link,
     Button,
-    Badge,
-    Kbd
+    Badge
 } from "@nextui-org/react";
 import { Acme } from "../icons/brands";
 import { HiOutlineShoppingCart, HiOutlineBell, HiChevronRight } from "react-icons/hi2";
-import { useCart, useCartDispatch } from "@/contexts/cart-context";
 import { useCookies } from "react-cookie";
-import { API_URL } from "@/config";
-import { Cart } from "@/models/cart";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import AvatarDropdown from "../avatar-dropdown";
 import SearchModal from "../search-modal";
+import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
+import { ClientCart } from "@/models/cart";
 
 
 export default function UserNavbar() {
-    const [cookies, setCookie] = useCookies(["cartId"]);
     const { user, error, isLoading } = useUser();
     const router = useRouter();
 
     const isHomepage = router.pathname === "/";
 
-    const cart = useCart();
-    const dispatch = useCartDispatch();
+    const cart = useClientCart();
+    const dispatch = useClientCartDispatch();
 
     useEffect(() => {
         if (cart) return;
-        if (!cookies.cartId) {
-            dispatch && dispatch({ payload: null });
-            return;
+        if (localStorage.getItem("cart")) {
+            try {
+                dispatch && dispatch({payload: JSON.parse(localStorage.getItem("cart")!) as ClientCart});
+            } catch (err) {
+                dispatch && dispatch({payload: null});
+            }
+        } else {
+            dispatch && dispatch({payload: null});
         }
-        fetch(`${API_URL}/cart/${cookies.cartId}`)
-            .then(res => res.json())
-            .then((data: Cart) => dispatch && dispatch({ payload: data }))
-            .catch(err => console.error(err));
     }, []);
 
     return (
@@ -91,7 +89,7 @@ export default function UserNavbar() {
                     </>) : (
                     <>
                         <NavbarItem>
-                            <Button as={Link} color="primary" href="/api/auth/login" className="font-medium" endContent={<HiChevronRight />}>
+                            <Button as={Link} color="primary" variant="flat" href="/api/auth/login" className="font-medium" endContent={<HiChevronRight />}>
                                 Login
                             </Button>
                         </NavbarItem>

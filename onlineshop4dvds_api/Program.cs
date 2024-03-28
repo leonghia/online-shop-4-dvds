@@ -8,7 +8,6 @@ using OnlineShop4DVDS.Entities;
 using OnlineShop4DVDS.Utils;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-var DefaultQuantity = 1;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -136,6 +135,34 @@ app.MapGet("/api/product", async (HttpRequest request, [FromQuery(Name = "type")
     return Results.Ok(productsToReturn);
 });
 
+app.MapGet("/api/cart-item", async ([FromQuery(Name = "id")] string id, ShopContext context) => {
+    var ids = id.Split(',');
+    var parsedIds = new List<int>(ids.Length);
+    foreach (var i in ids)
+    {
+        if (int.TryParse(i, out int parsedId))
+        {
+            parsedIds.Add(parsedId);
+        }
+        else return Results.BadRequest();
+    }
+    var products = await context.Products
+                        .AsNoTracking()
+                        .Where(p => parsedIds.Contains(p.Id))
+                        .ToListAsync();
+
+    var itemsToReturn = products.Select(p => new CartItemDto
+    {
+        ThumbnailUrl = p.Thumbnail,
+        Type = p.GenreType.ToStringType(),
+        Title = p.Title,
+        Stock = p.Stock,
+        Price = p.Price,
+        Id = p.Id
+    });
+    return Results.Ok(itemsToReturn);
+});
+
 app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) =>
 {
     IQueryable<Product> query = context.Products;
@@ -168,126 +195,6 @@ app.MapGet("/api/product/{id}", async ([FromRoute] int id, ShopContext context) 
     return Results.Ok(productToReturn);
 });
 
-app.MapGet("/api/cart/{id}", async ([FromRoute] int id, ShopContext context) =>
-{
-    var cart = await context.Carts
-                        .AsNoTracking()
-                        .Include(c => c.CartProducts)
-                        .ThenInclude(cp => cp.Product)
-                        .FirstOrDefaultAsync(c => c.Id == id);
-    if (cart is null) return Results.NotFound();
-    var subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList());
-    var cartToReturn = new CartDto
-    {
-        Id = cart.Id,
-        Items = cart.CartProducts.Select(cp => new CartItemDto
-        {
-            Type = cp.Product!.GenreType.ToStringType(),
-            Title = cp.Product.Title,
-            ThumbnailUrl = cp.Product.Thumbnail,
-            Price = cp.Product.Price,
-            Stock = cp.Product.Stock,
-            Quantity = cp.Quantity,
-            ProductId = cp.ProductId
-        }).ToList(),
-        Subtotal = subtotal
-    };
-    return Results.Ok(cartToReturn);
-});
-
-app.MapPost("/api/cart", async ([FromBody] CartCreateDto cartCreateDto, ShopContext context) =>
-{
-    var product = await context.Products.FindAsync(cartCreateDto.ProductId);
-    if (product is null) return Results.NotFound();
-
-    var cartToCreate = new Cart();
-    context.Carts.Add(cartToCreate);
-    await context.SaveChangesAsync();
-    var cartProductToCreate = new CartProduct
-    {
-        CartId = cartToCreate.Id,
-        ProductId = cartCreateDto.ProductId,
-        Quantity = DefaultQuantity
-    };
-    context.CartProduct.Add(cartProductToCreate);
-    await context.SaveChangesAsync();
-
-    var subtotal = Calculator.CalculateSubtotal(new List<CartProduct> { cartProductToCreate });
-    var cartToReturn = new CartDto
-    {
-        Id = cartToCreate.Id,
-        Items = new List<CartItemDto>
-        {
-            new CartItemDto
-            {
-                Title = product.Title,
-                Price = product.Price,
-                Quantity = cartProductToCreate.Quantity,
-                ThumbnailUrl = product.Thumbnail,
-                Type = product.GenreType.ToStringType(),
-                Stock = product.Stock,
-                ProductId = product.Id
-            }
-        },
-        Subtotal = subtotal,
-    };
-    return Results.Created($"/cart/{cartToCreate.Id}", cartToReturn);
-});
-
-app.MapPut("/api/cart/{id}/items", async ([FromBody] CartItemUpdateDto cartItemUpdateDto, [FromRoute] int id, ShopContext context) =>
-{
-    var cart = await context.Carts.FindAsync(id);
-    if (cart is null) return Results.NotFound();
-    var product = await context.Products.FindAsync(cartItemUpdateDto.ProductId);
-    if (product is null) return Results.NotFound();
-
-    var cartItemsToUpdate = await context.CartProduct
-                                .AsNoTracking()
-                                .FirstOrDefaultAsync(cp => cp.CartId == id && cp.ProductId == cartItemUpdateDto.ProductId);
-
-    // If item is not in the cart, we create it with default quantity = 1
-    if (cartItemsToUpdate is null)
-    {
-        var cartItemToCreate = new CartProduct
-        {
-            CartId = cart.Id,
-            ProductId = product.Id,
-            Quantity = DefaultQuantity
-        };
-        context.CartProduct.Add(cartItemToCreate);
-    }
-    // Else we update its quantity according to the payload
-    else
-    {
-        cartItemsToUpdate.Quantity = cartItemUpdateDto.Quantity;
-        context.CartProduct.Update(cartItemsToUpdate);
-    }
-    await context.SaveChangesAsync();
-
-    cart = await context.Carts
-                        .AsNoTracking()
-                        .Include(c => c.CartProducts)
-                        .ThenInclude(cp => cp.Product)
-                        .FirstOrDefaultAsync(c => c.Id == id);
-    var subtotal = Calculator.CalculateSubtotal(cart!.CartProducts.ToList());
-    var cartToReturn = new CartDto
-    {
-        Id = cart.Id,
-        Items = cart.CartProducts.Select(cp => new CartItemDto
-        {
-            Type = cp.Product!.GenreType.ToStringType(),
-            Title = cp.Product.Title,
-            ThumbnailUrl = cp.Product.Thumbnail,
-            Price = cp.Product.Price,
-            Stock = cp.Product.Stock,
-            Quantity = cp.Quantity,
-            ProductId = cp.ProductId
-        }).ToList(),
-        Subtotal = subtotal
-    };
-    return Results.Ok(cartToReturn);
-});
-
 app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, ShopContext context) =>
 {
     // Create user if he does not exist based on UserSub
@@ -306,36 +213,30 @@ app.MapPost("/api/checkout", async ([FromBody] OrderCreateDto orderCreateDto, Sh
     {
         userId = user.Id;
     }
-    // Create the order for him (with orderProducts taken from the cart) and set orderStatus to processing or pending, etc
-    var cart = await context.Carts
-                        .AsNoTracking()
-                        .Include(c => c.CartProducts)
-                        .ThenInclude(cp => cp.Product)
-                        .FirstOrDefaultAsync(c => c.Id == orderCreateDto.CartId);
-    if (cart is null) return Results.NotFound();
+
+    // Create the order for him and set orderStatus to awaiting payment
+    var productsIds = orderCreateDto.Items.Select(item => item.ProductId).ToList();
+    var productPrices = (await context.Products
+                            .AsNoTracking()
+                            .Where(p => productsIds.Contains(p.Id))
+                            .Select(p => new {Id = p.Id, Price = p.Price})
+                            .ToListAsync())
+                        .ToDictionary(e => e.Id, e => e.Price);
     var orderToCreate = new Order
     {
         OrderId = orderCreateDto.OrderId,
         Status = OrderStatus.AwaitingPayment,
-        Subtotal = Calculator.CalculateSubtotal(cart.CartProducts.ToList()),
+        Subtotal = orderCreateDto.Items.Sum(item => item.Quantity * productPrices[item.ProductId]),
         ShippingFee = orderCreateDto.ShippingFee,
         UserId = userId,
-        PaymentMethod = orderCreateDto.PaymentMethod
+        PaymentMethod = orderCreateDto.PaymentMethod,
     };
+
     context.Orders.Add(orderToCreate);
     await context.SaveChangesAsync();
 
-    var orderProductsToCreate = cart.CartProducts.Select(cp => new OrderProduct
-    {
-        Quantity = cp.Quantity,
-        ProductId = cp.ProductId,
-        OrderId = orderToCreate.Id
-    });
-    context.OrderProduct.AddRange(orderProductsToCreate);
-
-    // Delete the cart from database
-    context.Carts.Remove(cart);
-
+    var orderItemsToCreate = orderCreateDto.Items.Select(item => new OrderProduct{ProductId = item.ProductId, Quantity = item.Quantity, OrderId = orderToCreate.Id});
+    context.OrderProduct.AddRange(orderItemsToCreate);
     await context.SaveChangesAsync();
 
     // Return the orderDetailDto
@@ -418,6 +319,7 @@ app.MapGet("/api/order", async ([FromQuery(Name = "sub")] string sub, ShopContex
     if (user is null) return Results.NotFound();
     var orders = await context.Orders
                         .AsNoTracking()
+                        .OrderByDescending(o => o.CreatedAt)
                         .Include(o => o.OrderProducts!)
                         .ThenInclude(op => op.Product)
                         .Where(o => o.UserId == user.Id)

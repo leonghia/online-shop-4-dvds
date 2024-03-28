@@ -1,17 +1,16 @@
 export interface Cart {
-    id: number;
     items: CartItem[];
     subtotal: number;
 }
 
 export interface CartItem {
+    id: number;
     title: string;
     price: number;
-    quantity: number;
     thumbnailUrl: string;
     type: string;
     stock: number;
-    productId: number;
+
 }
 
 export interface CartItemUpdate {
@@ -21,4 +20,13 @@ export interface CartItemUpdate {
 
 export interface CartCreate {
     productId: number;
+}
+
+export interface ClientCart {
+    items: ClientCartItem[];
+}
+
+export interface ClientCartItem {
+    productId: number;
+    quantity: number;
 }
