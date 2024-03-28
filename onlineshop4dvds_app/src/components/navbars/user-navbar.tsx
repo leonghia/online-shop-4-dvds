@@ -89,7 +89,7 @@ export default function UserNavbar() {
                     </>) : (
                     <>
                         <NavbarItem>
-                            <Button as={Link} color="primary" href="/api/auth/login" className="font-medium" endContent={<HiChevronRight />}>
+                            <Button as={Link} color="primary" variant="flat" href="/api/auth/login" className="font-medium" endContent={<HiChevronRight />}>
                                 Login
                             </Button>
                         </NavbarItem>
