@@ -1,6 +1,6 @@
 import { Spacer, cn } from "@nextui-org/react";
 import { HiOutlineFolder, HiOutlineDocumentText, HiOutlineCircleStack, HiOutlineUsers } from "react-icons/hi2";
-import { Acme } from "./icons/brands";
+import { Acme } from "../icons/brands";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 
 const iconClasses = "text-2xl text-default-500 pointer-events-none flex-shrink-0";
