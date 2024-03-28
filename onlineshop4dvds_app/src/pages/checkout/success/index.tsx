@@ -1,7 +1,7 @@
 // Extract the orderId from query params, then request to backend server to update the status of that order to be paid, get the order detail and pass into page props
 import PageLayout from "@/components/layouts/page-layout";
 import { HiCheckCircle } from "react-icons/hi2";
-import { Snippet, Button, Divider } from "@nextui-org/react";
+import { Snippet, Button, Divider, Link } from "@nextui-org/react";
 import GradientHeading from "@/components/gradient-heading";
 import { GetServerSideProps, GetServerSidePropsContext, InferGetServerSidePropsType } from "next";
 import { API_URL } from "@/config";
@@ -53,7 +53,7 @@ export default function CheckoutSuccessPage({ order }: InferGetServerSidePropsTy
                         
                     </dl>
                     <div className="flex justify-end mt-6">
-                        <Button className="font-medium" color="primary">View details</Button>
+                        <Button className="font-medium" color="primary" as={Link} href="/orders">View details</Button>
                     </div>
                 </section>
             </div>

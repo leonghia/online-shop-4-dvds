@@ -25,7 +25,7 @@ export default function OrderCard({order: o}: {order: Order}) {
                     </Popover>
                 </div>
             </CardHeader>
-            <Divider />
+            <Divider className="border-dashed" />
             <CardBody>
                 {o.items.map(i => (
                     <div key={i.productId} className="flex justify-between">
@@ -42,7 +42,7 @@ export default function OrderCard({order: o}: {order: Order}) {
                     </div>
                 ))}
             </CardBody>
-            <Divider />
+            
             <CardFooter className="flex justify-end">
                 <div className="flex gap-x-3 items-center">
                     <dt className="text-small font-semibold text-default-500">Total:</dt><dd className="text-lg font-semibold text-pink-500">${(o.subtotal + o.shippingFee - o.discount).toFixed(2)}</dd>

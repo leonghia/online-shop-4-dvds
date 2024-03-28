@@ -10,8 +10,9 @@ import { useState } from "react";
 import { createHmac } from "crypto";
 import { OrderCreate, OrderItemCreate } from "@/models/order";
 import { PaymentMethod } from "@/utils/payment";
-import { API_URL, APP_URL } from "@/config";
-import { useClientCart, useClientCartDispatch } from "@/contexts/client-cart-context";
+import { API_URL, usdRate } from "@/config";
+import { useClientCartDispatch } from "@/contexts/client-cart-context";
+import { ClientCart } from "@/models/cart";
 import { randomLetters } from "@/utils/format";
 
 export const getServerSideProps = (async (context: GetServerSidePropsContext) => {
@@ -43,10 +44,9 @@ export default function CheckoutPage({
     googleMapsApiKey
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | null>(null);
-    const clientCart = useClientCart();
     const dispatchClientCart = useClientCartDispatch();
 
-    const handlePay = async () => {
+    const handlePay = async (total: number, clientCart: ClientCart) => {
         // request to create order in backend server
         if (!clientCart) return;
         const orderCreate: OrderCreate = {
@@ -73,7 +73,7 @@ export default function CheckoutPage({
 
             // request to 3rd party payment services
             if (paymentMethod === PaymentMethod.MoMo) {
-                await handleMomoPay(1000);
+                await handleMomoPay(Math.ceil((total * usdRate)));
             }
 
         } catch (err) {

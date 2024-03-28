@@ -85,7 +85,7 @@ export default function OrderSummary({ onPay }: { onPay: Function }) {
                     </dl>
                 </div>
                 <div className="mt-4">
-                    <Button color="primary" className="font-medium" fullWidth onPress={(e) => onPay()}>Pay now</Button>
+                    <Button color="primary" className="font-medium" fullWidth onPress={(e) => onPay(subtotal + shippingFee - discount, clientCart)}>Pay now</Button>
                 </div>
             </div>
         );

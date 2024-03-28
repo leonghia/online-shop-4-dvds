@@ -142,7 +142,7 @@ export default function ShoppingCart() {
             </div>
 
         );
-    } else if ((!clientCart && !itemsMap) || (clientCart && !itemsMap)) {
+    } else if (clientCart && !itemsMap) {
         // display skeletons
         markup = (
             <div>
