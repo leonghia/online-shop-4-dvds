@@ -1,6 +1,7 @@
 import PageLayout from '@/components/layouts/page-layout';
 import ProductContent from '@/components/products/product-content';
 import ProductInfo from '@/components/products/product-info';
+import Tracks from '@/components/tracks';
 import { API_URL } from '@/config';
 import { ProductDetail } from '@/models/product-detail';
 import { BreadcrumbItem, Breadcrumbs } from '@nextui-org/react';
@@ -33,6 +34,9 @@ export default function ProductPage({ productDetail }: InferGetServerSidePropsTy
           </Breadcrumbs>
           <ProductInfo productDetail={productDetail} />
         </div>
+        {productDetail.type.toUpperCase() === "ALBUM" && (
+          <div className='w-2/3'><Tracks /></div>
+        )}
         <ProductContent productType={productDetail.type} />
       </div>
     </PageLayout>
